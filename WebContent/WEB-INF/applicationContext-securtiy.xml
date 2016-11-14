@@ -7,7 +7,7 @@
                http://www.springframework.org/schema/security
                http://www.springframework.org/schema/security/spring-security.xsd">
                
-    <global-method-security jsr250-annotations="enabled" />
+    <!-- <global-method-security jsr250-annotations="enabled" /> -->
 	
 	<http pattern="/login.html*" security="none"/>
     <http pattern="/**/*.css" security="none" />  
@@ -15,26 +15,36 @@
     <http pattern="/**/*.jpg" security="none" />  
     <http pattern="/**/*.png" security="none" />  
     <http pattern="/**/*.gif" security="none" />
-    <http pattern="/**/*.eot" security="none" />  
+    <!-- <http pattern="/**/*.eot" security="none" />  
     <http pattern="/**/*.svg" security="none" /> 
-    <http pattern="/**/*.ttf" security="none" /> 
+    <http pattern="/**/*.ttf" security="none" />  -->
 	
 	<http auto-config="true" use-expressions="false"> 
+	     <form-login login-page="/login.html" 
+                authentication-failure-url="/login.html?error=1" default-target-url="/index.html" 
+                always-use-default-target="true" />
+	     <intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
          <intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN" />
 	     <access-denied-handler error-page="/access_denied.html" /> 
          <logout logout-success-url="/login.html" />
-         <form-login login-page="/login.html" default-target-url="/" 
-                authentication-failure-url="/login.html?error=1" always-use-default-target="true" />
+         <csrf disabled="true" />
 	</http>
 	
-
-	<authentication-manager>
-	    <authentication-provider user-service-ref="myUserDetailsService">
-	       <password-encoder ref="bcryptEncoder" />
-	    </authentication-provider>
-	</authentication-manager>
-	
 	<b:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-	<b:bean id="myUserDetailsService" class="com.web.security.MyUserDetailsService" />
+	
+	<jdbc-user-service id="jdbcUserService"  data-source-ref="dataSource" 
+	    users-by-username-query = "SELECT name, password, true from tbl_user where flag=1 and name=?"
+	    authorities-by-username-query = "SELECT name, role from tbl_user where flag=1 and name=?" />
+	    
+    <authentication-manager>
+        <authentication-provider user-service-ref="jdbcUserService">
+        <!-- <authentication-provider user-service-ref="myUserDetailsService"> -->
+           <password-encoder ref="bcryptEncoder" />
+        <!-- <authentication-provider>
+            <user-service>
+                <user name="123" password="123" authorities="ROLE_USER" />
+            </user-service> -->
+        </authentication-provider>
+    </authentication-manager>
 	
 </b:beans>

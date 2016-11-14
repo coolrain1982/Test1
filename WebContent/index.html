@@ -7,6 +7,7 @@
     <meta name="author" content="Jerry Tech Co., Ltd">
     <meta name="keyword" content="Amazon meiya buy">
     <link rel="shortcut icon" href="img/favicon.png">
+    <base href="/MyWeb/" />
 
     <title>Meiya Buy</title>
 
@@ -35,6 +36,8 @@
 	<link href="css/jquery-ui-1.10.4.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css" />
 	<script src="angular/angular.js"></script>
+    <script src="angular/angular-ui-router.js"></script>
+    <script src="angular/mainpage/mainpage.module.js"></script>
 	
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
@@ -46,7 +49,7 @@
     
   </head>
 
-  <body>
+  <body ng-app="mainpageApp" ng-controller="mainpageCtrl">
   <!-- container section start -->
   <section id="container" class="">
      
@@ -57,11 +60,11 @@
             </div>
 
             <!--logo start-->
-            <a href="index.html" class="logo">My <span class="lite">bate</span></a>
+            <a href="index.html" class="logo">MeiYa <span class="lite">Buy</span></a>
             <!--logo end-->
 
-            <div class="nav search-row" id="top_menu">
-                <!--  search form start -->
+            <!-- <div class="nav search-row" id="top_menu">
+                 search form start
                 <ul class="nav top-menu">                    
                     <li>
                         <form class="navbar-form">
@@ -69,15 +72,15 @@
                         </form>
                     </li>                    
                 </ul>
-                <!--  search form end -->                
-            </div>
+                 search form end                
+            </div> -->
 
             <div class="top-nav notification-row">                
                 <!-- notificatoin dropdown start-->
                 <ul class="nav pull-right top-menu">
                     
                     <!-- task notificatoin start -->
-                    <li id="task_notificatoin_bar" class="dropdown">
+                    <!-- <li id="task_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="icon-task-l"></i>
                             <span class="badge bg-important">6</span>
@@ -160,8 +163,8 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- task notificatoin end -->
-                    <!-- inbox notificatoin start-->
+                    task notificatoin end
+                    inbox notificatoin start
                     <li id="mail_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <i class="icon-envelope-l"></i>
@@ -225,8 +228,8 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- inbox notificatoin end -->
-                    <!-- alert notification start-->
+                    inbox notificatoin end
+                    alert notification start
                     <li id="alert_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 
@@ -270,15 +273,15 @@
                                 <a href="#">See all notifications</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!-- alert notification end-->
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="profile-ava">
-                                <img alt="" src="img/avatar1_small.jpg">
+                                <img alt="" src="img/user1.jpg">
                             </span>
-                            <span class="username">Vendor</span>
+                            <span class="username" ng-bind="loginUserName"></span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">

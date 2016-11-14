@@ -15,7 +15,7 @@ public class User {
 	private String name;
 	private String password;
 	private String email;
-	private Integer role;
+	private String role;
 	private Integer flag;
 
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -52,10 +52,10 @@ public class User {
 	}
 	
 	@Column(name="role")
-	public Integer getRole() {
+	public String getRole() {
 		return role;
 	}
-	public void setRole(Integer role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 	
