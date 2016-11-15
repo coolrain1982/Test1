@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="mainpageApp" ng-controller="mainpageCtrl">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,9 +35,6 @@
 	<link href="css/xcharts.min.css" rel=" stylesheet">	
 	<link href="css/jquery-ui-1.10.4.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css" />
-	<script src="angular/angular.js"></script>
-    <script src="angular/angular-ui-router.js"></script>
-    <script src="angular/mainpage/mainpage.module.js"></script>
 	
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
@@ -49,7 +46,8 @@
     
   </head>
 
-  <body ng-app="mainpageApp" ng-controller="mainpageCtrl">
+  <body>
+  
   <!-- container section start -->
   <section id="container" class="">
      
@@ -287,26 +285,12 @@
                         <ul class="dropdown-menu extended logout">
                             <div class="log-arrow-up"></div>
                             <li class="eborder-top">
-                                <a href="#"><i class="icon_profile"></i> My Profile</a>
+                                <a href="#"><i class="icon_key_alt"></i>修改密码</a>
                             </li>
                             <li>
-                                <a href="#"><i class="icon_mail_alt"></i> My Inbox</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icon_clock_alt"></i> Timeline</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icon_chat_alt"></i> Chats</a>
-                            </li>
-                            <li>
-                                <a href="login.html"><i class="icon_key_alt"></i> Log Out</a>
-                            </li>
-                            <li>
-                                <a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a>
-                            </li>
-                            <li>
-                                <a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a>
-                            </li>
+                                <a href="logout"><img style="margin-right:2px" height="20" width=20" src="fonts/logout.svg">
+                                退出</a>
+                            </li>           
                         </ul>
                     </li>
                     <!-- user login dropdown end -->
@@ -318,34 +302,69 @@
 
       <!--sidebar start-->
       <aside>
-          <div id="sidebar"  class="nav-collapse ">
+          <div id="sidebar"  class="nav-collapse " >
               <!-- sidebar menu start-->
-              <ul class="sidebar-menu">                
+              <ul class="sidebar-menu" id="accordion">                
                   <li class="active">
-                      <a class="" href="index.html">
-                          <i class="icon_house_alt"></i>
-                          <span>Dashboard</span>
+                      <a ui-sref-active="active" ui-sref="notice">
+                          <i class="icon_volume-high_alt"></i>
+                          <!-- <span>Dashboard</span> -->
+                          <span>公告</span>
                       </a>
                   </li>
-				  <li class="sub-menu">
-                      <a href="./place_order.html" class="">
-                          <i class="icon_document_alt"></i>
-                          <span>Place Order</span>
+                   <li class="sub-menu">
+                      <a ui-sref-active="active" ui-sref="summary">
+                          <i class="icon_house_alt"></i>
+                          <!-- <span>Dashboard</span> -->
+                          <span>我的主页</span>
                       </a>
-                  </li> 				  
-				  <li class="sub-menu">
+                  </li>
+				  <li class="sub-menu" >
+                      <a data-toggle="collapse" href="#orderSub" data-parent="accordion">
+                          <i class="icon_document_alt"></i>
+                          <!-- <span>Place Order</span> -->
+                          <span>订单管理</span>
+                      </a>
+                  </li> 	
+                  <div class="collapse in" id="orderSub">
+                      <li>
+                          <a style="font-size:12px;padding-left:20px;">
+	                          <i class="icon_plus_alt"></i>
+	                          <span>新的订单</span>
+                          </a>
+                      </li>
+                      <li>
+                          <a style="font-size:12px;padding-left:20px;">
+                              <i class="icon_currency_alt"></i>
+                              <span>待支付订单</span>
+                          </a>
+                      </li>
+                      <li>
+                          <a style="font-size:12px;padding-left:20px;">
+                              <i class="icon_error-circle"></i>
+                              <span>进行中订单</span>
+                          </a>
+                      </li>
+                      <li>
+                          <a style="font-size:12px;padding-left:20px;">
+                              <i class="icon_clock"></i>
+                              <span>历史订单</span>
+                          </a>
+                      </li>
+                  </div> 			  
+				 <!--  <li class="sub-menu">
                       <a href="./vendor_history.html" class="">
                           <i class="icon_archive"></i>
                           <span>History</span>
                       </a>
-                  </li>       
-                  <li class="sub-menu">
+                  </li>     -->   
+                 <!--  <li class="sub-menu">
                       <a href="./vendor_customer_service.html" class="">
                           <i class="icon_chat"></i>
                           <span>Customer Service</span>
                       </a>
 
-                  </li>
+                  </li> -->
 
                   
               </ul>
@@ -355,168 +374,11 @@
       <!--sidebar end-->
       
       <!--main content start-->
-      <section id="main-content">
-          <section class="wrapper">            
-              <!--overview start-->
-			  <!--
-			  <div class="row">
-				<div class="col-lg-12">
-					<h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
-					<ol class="breadcrumb">
-						<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-						<li><i class="fa fa-laptop"></i>Dashboard</li>						  	
-					</ol>
-				</div>
-			</div>
-			-->
-              
-            <div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<div class="info-box blue-bg">
-						<i class="fa fa-tasks"></i>
-						<div class="count">67</div>
-						<div class="title">reviews</div>						
-					</div><!--/.info-box-->			
-				</div><!--/.col-->
-				
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<div class="info-box brown-bg">
-						<i class="fa fa-shopping-cart"></i>
-						<div class="count">10</div>
-						<div class="title">Orders</div>						
-					</div><!--/.info-box-->			
-				</div><!--/.col-->	
-				
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<div class="info-box dark-bg">
-						<i class="fa fa-thumbs-o-up"></i>
-						<div class="count">4.3</div>
-						<div class="title">Review Star</div>						
-					</div><!--/.info-box-->			
-				</div><!--/.col-->
-				
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<div class="info-box green-bg">
-						<i class="fa fa-clock-o"></i>
-						<div class="count">33</div>
-						<div class="title">Pending</div>						
-					</div><!--/.info-box-->			
-				</div><!--/.col-->
-				
-			</div><!--/.row-->
-		
-			
-     
-		  <!-- Today status end -->
-			
-              
-				
-			<div class="row">
-               	
-				<div class="col-lg-12 col-md-12">	
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h2><i class="fa fa-flag-o red"></i><strong>Incompleted orders</strong></h2>
-							<div class="panel-actions">
-								<a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
-								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
-								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
-							</div>
-						</div>
-						<div class="panel-body">
-							<table class="table bootstrap-datatable countries">
-								<thead>
-									<tr>
-										<th></th>
-										<th>Order date</th>
-										<th>Description</th>
-										<th>Keywords</th>
-										<th>Status</th>
-									</tr>
-								</thead>   
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>10/12/2016</td>
-										<td>Sony TV</td>
-										<td>tv</td>
-										<td>
-											<div class="progress thin">
-												<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-												8/10</div>
-												<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-											  	</div>
-												
-											</div>
-											<span class="sr-only">73%</span>   	
-										</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>10/18/2016</td>										
-										<td>iPhone 7</td>
-										<td>Cell phone</td>
-										<td>
-											<div class="progress thin">
-												<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%">
-												</div>
-												<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%">
-												3/10
-												</div>
-											</div>
-											<span class="sr-only">57%</span>   	
-										</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>10/31/2016</td>
-										<td>Huawei Mate 9</td>
-										<td>cell phone</td>
-										<td>
-											<div class="progress thin">
-												<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="93" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-												Wait payment
-												</div>
-												<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="7" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-											  	</div>
-											</div>
-											<span class="sr-only">93%</span>   	
-										</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>11/1/2016</td>
-										<td>My goods</td>
-										<td>goods</td>
-										<td>
-											<div class="progress thin">
-											  	<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-													0/10
-											  	</div>
-												<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-											  	</div>
-											</div>
-											<span class="sr-only">20%</span>   	
-										</td>
-									</tr>
-
-								</tbody>
-							</table>
-						</div>
-	
-					</div>	
-
-				</div><!--/col-->
-
-                    
-                   
-                <!-- statics end -->
-              
-            
-				
-
-          </section>
+      <section id="main-content" ui-view>
+          
       </section>
+      
+
       <!--main content end-->
   </section>
   <!-- container section start -->
@@ -561,6 +423,12 @@
 	<script src="js/sparklines.js"></script>	
 	<script src="js/charts.js"></script>
 	<script src="js/jquery.slimscroll.min.js"></script>
+	<script src="angular/angular.js"></script>
+    <script src="angular/angular-ui-router.js"></script>
+    <script src="angular/mainpage/mainpage.module.js"></script>
+    <script src="angular/Order/home.module.js"></script>
+    <script src="angular/Order/home.component.js"></script>
+
   <script>
 
       //knob

@@ -15,9 +15,9 @@
     <http pattern="/**/*.jpg" security="none" />  
     <http pattern="/**/*.png" security="none" />  
     <http pattern="/**/*.gif" security="none" />
-    <!-- <http pattern="/**/*.eot" security="none" />  
+    <http pattern="/**/*.eot" security="none" />  
     <http pattern="/**/*.svg" security="none" /> 
-    <http pattern="/**/*.ttf" security="none" />  -->
+    <http pattern="/**/*.ttf" security="none" /> 
 	
 	<http auto-config="true" use-expressions="false"> 
 	     <form-login login-page="/login.html" 

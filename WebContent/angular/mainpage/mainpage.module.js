@@ -2,12 +2,25 @@
 
 // Define the `loginApp` module
 var mainpageApp = angular.module('mainpageApp', [
-    'ui.router'
+    'ui.router', 'order-home'
 ]);
 
-mainpageApp.config(['$locationProvider', function($locationProvider){
-	$locationProvider.html5Mode(true);
-}]);
+mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
+//	$locationProvider.html5Mode(true);
+	$stateProvider
+	    .state('notice', {
+	    	url : '/notice',
+	    	templateUrl: 'notice.html'
+	    })
+	    .state('summary', {
+	    	url : '/summary',
+	    	templateUrl: 'summary.html'
+	    })
+	    .state('order.new', {
+	    	url : '/neworder',
+	    	templateUrl: 'neworder.html'
+	    });
+});
 
 mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams, $scope, $http) {
 	//取登陆用户
