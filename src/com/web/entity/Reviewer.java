@@ -12,27 +12,25 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tbl_user", schema="meiyabuy")
-public class User {
+@Table(name="tbl_reviewer", schema="meiyabuy")
+public class Reviewer {
 	
-	private Integer id;
+	private int id;
 	private String name;
 	private String password;
 	private String email;
 	private String role;
-	private Integer flag;
-	private int discount;
-	private Set<Order> orders;
+	private int flag;
+	private Set<OrderForReview> orders;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-	
 	
 	@Column(unique=true)
 	public String getName() {
@@ -74,19 +72,11 @@ public class User {
 		this.flag = flag;
 	}
 	
-	@Column
-	public int getDiscount() {
-		return discount;
-	}
-	public void setDiscount(int discount) {
-		this.discount = discount;
-	}
-	
-	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
-	public Set<Order> getOrders() {
+	@OneToMany(mappedBy="reviewer", fetch=FetchType.LAZY)
+	public Set<OrderForReview> getOrders() {
 		return orders;
 	}
-	public void setOrders(Set<Order> orders) {
+	public void setOrders(Set<OrderForReview> orders) {
 		this.orders = orders;
 	}
 }
