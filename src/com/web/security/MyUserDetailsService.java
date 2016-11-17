@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.web.entity.User;
-import com.web.login.LoginDao;
+import com.web.user.UserDao;
 
 @Service("myUserDetailsService")
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
 
 	@Resource
-	private LoginDao loginDao;
+	private UserDao loginDao;
 	
 	@Resource
 	private PasswordEncoder passwordEcoder;

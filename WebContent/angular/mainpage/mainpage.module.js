@@ -2,7 +2,7 @@
 
 // Define the `loginApp` module
 var mainpageApp = angular.module('mainpageApp', [
-    'ui.router', 'order-home'
+    'ui.router', 'order-home', 'image-upload'
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -16,7 +16,7 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    	url : '/summary',
 	    	templateUrl: 'summary.html'
 	    })
-	    .state('order.new', {
+	    .state('neworder', {
 	    	url : '/neworder',
 	    	templateUrl: 'neworder.html'
 	    });
@@ -26,11 +26,13 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 	//取登陆用户
 	$http.get('security/getLoginUserName.do')
 	.success(function(data) {
-		if (data == null) {
+		if (data == "") {
 			$scope.loginUserName = "未知用户";
 		} else {
-			$scope.loginUserName = data.name;
+			$scope.loginUserName = data.username;
 		}
 	})
-	.error(function(data){});
+	.error(function(data){
+		$scope.loginUserName = "未知用户";
+	});
 });

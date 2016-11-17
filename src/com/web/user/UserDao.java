@@ -1,8 +1,8 @@
-package com.web.login;
+package com.web.user;
 
 import com.web.entity.User;
 
-public interface LoginDao {
+public interface UserDao {
 	public void addUser(User user);
 	public void updateUser(User user);
 	public User getUser(String userName);

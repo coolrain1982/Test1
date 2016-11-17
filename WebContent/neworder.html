@@ -1,0 +1,129 @@
+<section class="wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<section class="panel">
+				<header class="panel-heading">新的订单</header>
+				<div class="panel-body">
+					<div class="form">
+						<form class="form-validate form-horizontal " id="register_form">
+						    <div class="form-group ">
+                                <label for="fullname" class="control-label col-lg-2">汇率
+                                    <span class="required">*</span>
+                                </label>
+                                <div>
+	                                <label class="checkbox-inline">
+	                                    <input id="american" name="exchangeRate"
+	                                        type="radio" value="1" checked />美元 7.018
+	                                </label>
+	                                <label class="checkbox-inline">
+                                        <input id="british" name="exchangeRate"
+                                            type="radio" value="2" />英镑 8.792
+                                    </label>
+                                </div>
+                            </div>
+						
+							<div class="form-group ">
+								<label for="fullname" class="control-label col-lg-2">产品描述
+									<span class="required">*</span>
+								</label>
+								<div class="col-lg-10">
+									<input class=" form-control" id="fullname" name="fullname"
+										type="text" value="iPhone 7" />
+								</div>
+							</div>
+							<div class="form-group " style="display:none">
+								<label for="address" class="control-label col-lg-2">Keywords
+									<span class="required">*</span>
+								</label>
+								<div class="col-lg-10">
+									<input name="tagsinput" id="tagsinput" class="tagsinput"
+										value="Cell phone" />
+								</div>
+							</div>
+							
+							<div class="form-group ">
+                                <label for="address" class="control-label col-lg-2">产品截图
+                                    <span class="required">*</span>
+                                </label>
+                                <image-upload></image-upload>
+                            </div>
+							
+							<div class="form-group ">
+								<label for="address" class="control-label col-lg-2"><a>产品链接</a>
+									<span class="required">*</span></label>
+								<div class="col-lg-10">
+									<input class=" form-control" id="address" name="address"
+										type="text"
+										value="https://www.amazon.com/dp/B00TSUGXKE/ref=s9_acsd_bw_wf_e_EHD1109A_cdl_0?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-8&pf_rd_r=0ZY8R8Q4VHZ389SFPNFP&pf_rd_t=101&pf_rd_p=ac625016-808d-4606-8bf1-718e9c1afc53&pf_rd_i=15450566011" />
+								</div>
+							</div>
+							
+                            <div class="form-group ">
+								<label for="agree" class="control-label col-lg-2 col-sm-3">产品数量<span
+									class="required">*</span></label>
+								<div class="col-lg-10 col-sm-9">
+									<input type="number" checked="" data-toggle="switch" value="10"
+										id="num" />
+								</div>
+							</div>
+
+							<div class="form-group ">
+								<label for="agree" class="control-label col-lg-2 col-sm-3">产品单价<span class="required">*</span>
+								</label>
+								<div class="col-lg-10 col-sm-9">
+									<input type="number" checked="" data-toggle="switch"
+										value="15.99" id="sp" />
+								</div>
+							</div>
+
+							<div class="form-group ">
+								<label for="agree" class="control-label col-lg-2 col-sm-3">运费单价<span
+									class="required">*</span></label>
+								<div class="col-lg-10 col-sm-9">
+									<input type="number" checked="" data-toggle="switch"
+										value="3.99" id="sf" />
+								</div>
+							</div>
+							
+							<div class="form-group ">
+                                <label for="agree" class="control-label col-lg-2 col-sm-3">手续费<span
+                                    class="required"></span></label>
+                                <div class="col-lg-10 col-sm-9">
+                                    <input type="number" checked="" data-toggle="switch"
+                                        value="3.99" id="sf" readonly />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group ">
+                                <label for="agree" class="control-label col-lg-2 col-sm-3">总价<span
+                                    class="required"></span></label>
+                                <div class="col-lg-10 col-sm-9">
+                                    <input type="number" checked="" data-toggle="switch"
+                                        value="3.99" id="sf"  readonly/>
+                                </div>
+                            </div>
+					</div>
+					<div class="form-group ">
+						<!-- <label for="agree" class="control-label col-lg-2 col-sm-3">Total
+							cost: $<span class="bg-red" style="color: red; style: bold"
+							id="total"></span>
+						</label> <strong> = </strong> (single_price + shipping_cost + extra_cost +
+						fee)*(1+ex_loss_rate)*number<br /> exchange_cost : $0.5,
+						exchange_loss_rate : 3.9%, fee : $4 -->
+
+
+
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-10">
+								<button class="btn btn-primary" type="button"
+									onclick="window.location='./index_admin.html'">Submit</button>
+								<button class="btn btn-default" type="button">Cancel</button>
+							</div>
+						</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</section>

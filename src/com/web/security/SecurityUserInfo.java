@@ -12,14 +12,9 @@ public class SecurityUserInfo {
 	
 	@RequestMapping("/getLoginUserName.do")
 	@ResponseBody
-	public String getUserName() {
+	public UserDetails getUserName() {
 		
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-		if (userDetails != null) {
-			return String.format("%s\"name\": \"%s\" %s", "{", userDetails.getUsername(), "}");
-		}
-		
-		return String.format("%s%s", "{", "}");
+		return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		return null;
 	}
 }

@@ -1,0 +1,18 @@
+<div class="col-lg-10 row-lg-4">
+    <div ng-repeat="item in $ctrl.thumb">
+        <label>
+            <img ng-src="{{item.imgSrc}}" width="200px" />
+        </label>
+        <span ng-if="item.imgSrc" ng-click="$ctrl.img_del(item)"></span>
+    </div>
+    
+    <div ng-repeat="item in $ctrl.thumb_default">
+        <a class="btn_addPic" href="javascript:void(0);">
+        <span><EM>+</EM></span>
+	        <label>
+	            <input class="filePrew" type="file" id="one-input" accept="image/*" ng-model="$ctrl.files"
+	                onchange="angular.element(this).scope().$ctrl.img_upload(this.files)" />
+	        </label>
+        </a>
+    </div>
+</div>

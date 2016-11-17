@@ -1,16 +1,16 @@
-package com.web.login;
+package com.web.user;
 
 import javax.annotation.Resource;
 
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.web.entity.User;
 
-@Transactional
-@Service
-public class LoginDaoImpl implements LoginDao {
+@Repository
+public class UserDaoImpl implements UserDao {
 	
 	@Resource
 	public SessionFactory sesssionFactory;

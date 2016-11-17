@@ -1,10 +1,10 @@
-package com.web.login;
+package com.web.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/login")
-public class LogInController {
-
+@RequestMapping("user")
+public class UserController {
+	
 }
