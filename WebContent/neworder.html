@@ -1,125 +1,160 @@
-<section class="wrapper">
+<section class="wrapper" ng-controller="newOrderController">
 	<div class="row">
 		<div class="col-lg-12">
 			<section class="panel">
 				<header class="panel-heading">新的订单</header>
 				<div class="panel-body">
 					<div class="form">
-						<form class="form-validate form-horizontal " id="register_form">
-						    <div class="form-group ">
-                                <label for="fullname" class="control-label col-lg-2">汇率
+						<form role="form" class="form-validate form-horizontal table" name="neworder_form" 
+						            ng-submit="neworder_submit(neworder_form.$valid)" novalidate>
+						    <div class="form-group">
+                                <label for="fullname" class="control-label col-lg-1">汇率
                                     <span class="required">*</span>
                                 </label>
                                 <div>
 	                                <label class="checkbox-inline">
 	                                    <input id="american" name="exchangeRate"
-	                                        type="radio" value="1" checked />美元 7.018
+	                                        type="radio" value="1" checked />美元 <span ng-bind="dollar"></span>
 	                                </label>
-	                                <label class="checkbox-inline">
+	                                <!-- <label class="checkbox-inline">
                                         <input id="british" name="exchangeRate"
-                                            type="radio" value="2" />英镑 8.792
-                                    </label>
+                                            type="radio" value="2" />英镑 <span ng-bind="pond"></span>
+                                    </label> -->
                                 </div>
                             </div>
 						
-							<div class="form-group ">
-								<label for="fullname" class="control-label col-lg-2">产品描述
+							<div class="form-group has-feedback" >
+								<label for="fullname" class="control-label col-lg-1">产品描述
 									<span class="required">*</span>
 								</label>
-								<div class="col-lg-10">
-									<input class=" form-control" id="fullname" name="fullname"
-										type="text" value="iPhone 7" />
+								<div class="col-lg-8">
+								    <div style="float:left;padding-left:0px;" class="col-lg-6">
+									<textarea class="form-control" rows="4" required 
+									     id="neworder_desp" name="neworder_desp" ng-model="neworder.descript" />
+									</div>
+									<div style="float:left;">
+									<span class="glyphicon glyphicon-ok for-control-feedback"
+									    ng-show="neworder_form.neworder_desp.$dirty && neworder_form.neworder_desp.$valid"></span>
+									</div>
 								</div>
 							</div>
 							<div class="form-group " style="display:none">
 								<label for="address" class="control-label col-lg-2">Keywords
 									<span class="required">*</span>
 								</label>
-								<div class="col-lg-10">
+								<div class="col-lg-8">
 									<input name="tagsinput" id="tagsinput" class="tagsinput"
 										value="Cell phone" />
 								</div>
 							</div>
 							
 							<div class="form-group ">
-                                <label for="address" class="control-label col-lg-2">产品截图
+                                <label for="address" class="control-label col-lg-1">产品截图
                                     <span class="required">*</span>
                                 </label>
                                 <image-upload></image-upload>
                             </div>
 							
-							<div class="form-group ">
-								<label for="address" class="control-label col-lg-2"><a>产品链接</a>
+							<div class="form-group has-feedback">
+								<label for="address" class="control-label col-lg-1"><a>产品链接</a>
 									<span class="required">*</span></label>
-								<div class="col-lg-10">
-									<input class=" form-control" id="address" name="address"
-										type="text"
-										value="https://www.amazon.com/dp/B00TSUGXKE/ref=s9_acsd_bw_wf_e_EHD1109A_cdl_0?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-8&pf_rd_r=0ZY8R8Q4VHZ389SFPNFP&pf_rd_t=101&pf_rd_p=ac625016-808d-4606-8bf1-718e9c1afc53&pf_rd_i=15450566011" />
+								<div class="col-lg-8">
+									<input class=" form-control" id="neworder_link" name="neworder_link"
+										type="url" required
+										value="" ng-model="neworder.link"/>
+									<span class="glyphicon glyphicon-ok form-control-feedback"
+                                        ng-show="neworder_form.neworder_link.$dirty && neworder_form.neworder_link.$valid"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback"
+                                        ng-show="neworder_form.neworder_link.$dirty && neworder_form.neworder_link.$invalid"></span>
 								</div>
 							</div>
 							
-                            <div class="form-group ">
-								<label for="agree" class="control-label col-lg-2 col-sm-3">产品数量<span
+                            <div class="form-group has-feedback">
+								<label for="agree" class="control-label col-lg-1 col-sm-1">产品数量<span
 									class="required">*</span></label>
 								<div class="col-lg-10 col-sm-9">
-									<input type="number" checked="" data-toggle="switch" value="10"
-										id="num" />
+									<input type="number" required data-toggle="switch" value="1"
+										id="neworder_quantity" name="neworder_quantity"   ng-model="neworder.quantity"  />
+										
+									<span class="glyphicon glyphicon-ok for-control-feedback"
+                                        ng-show="neworder_form.neworder_quantity.$dirty && neworder_form.neworder_quantity.$valid && neworder.quantity>0"></span>
+                                    <span class="glyphicon glyphicon-remove for-control-feedback"
+                                        ng-show="neworder_form.neworder_quantity.$dirty && neworder.quantity<1"></span>
 								</div>
 							</div>
 
-							<div class="form-group ">
-								<label for="agree" class="control-label col-lg-2 col-sm-3">产品单价<span class="required">*</span>
+							<div class="form-group has-feedback">
+								<label for="agree" class="control-label col-lg-1 col-sm-1">产品单价<span class="required">*</span>
 								</label>
 								<div class="col-lg-10 col-sm-9">
-									<input type="number" checked="" data-toggle="switch"
-										value="15.99" id="sp" />
+									<input type="number" checked="" data-toggle="switch" 
+										value="0.00" id="neworder_unit_price" name="neworder_unit_price" 
+										 ng-model="neworder.unit_price" />
+									<span class="glyphicon glyphicon-ok for-control-feedback"
+                                        ng-show="neworder_form.neworder_unit_price.$dirty && neworder_form.neworder_unit_price.$valid && neworder.unit_price>0"></span>
+                                    <span class="glyphicon glyphicon-remove for-control-feedback"
+                                        ng-show="neworder_form.neworder_unit_price.$dirty && neworder.unit_price<=0"></span>
 								</div>
 							</div>
 
-							<div class="form-group ">
-								<label for="agree" class="control-label col-lg-2 col-sm-3">运费单价<span
+							<div class="form-group has-feedback">
+								<label for="agree" class="control-label col-lg-1 col-sm-1">运费单价<span
 									class="required">*</span></label>
 								<div class="col-lg-10 col-sm-9">
 									<input type="number" checked="" data-toggle="switch"
-										value="3.99" id="sf" />
+										value="0.00" id="neworder_unit_freight" name="neworder_unit_freight" 
+										ng-model="neworder.unit_freight"/>
+									<span class="glyphicon glyphicon-ok for-control-feedback"
+                                        ng-show="neworder_form.neworder_unit_freight.$dirty && neworder_form.neworder_unit_freight.$valid && neworder.unit_freight>0"></span>
+								    <span class="glyphicon glyphicon-remove for-control-feedback"
+                                        ng-show="neworder_form.neworder_unit_freight.$dirty && neworder.unit_freight<=0"></span>
 								</div>
 							</div>
 							
 							<div class="form-group ">
-                                <label for="agree" class="control-label col-lg-2 col-sm-3">手续费<span
+                                <label for="agree" class="control-label col-lg-1 col-sm-1">手续费单价<span
                                     class="required"></span></label>
                                 <div class="col-lg-10 col-sm-9">
-                                    <input type="number" checked="" data-toggle="switch"
-                                        value="3.99" id="sf" readonly />
+                                    <input  type="number" 
+                                        value="4" ng-model="neworder.unit_commision" readonly />
                                 </div>
                             </div>
                             
-                            <div class="form-group ">
-                                <label for="agree" class="control-label col-lg-2 col-sm-3">总价<span
-                                    class="required"></span></label>
-                                <div class="col-lg-10 col-sm-9">
-                                    <input type="number" checked="" data-toggle="switch"
-                                        value="3.99" id="sf"  readonly/>
+                            <div class="form-group" align="left">
+                                <div = row style="color:red;">
+                                    <label for="agree" class="control-label col-lg-1">总价</label>
+	                                <div class="col-lg-11 col-sm-11" ng-show="neworder.unit_price>0 && neworder.quantity>0">
+	                                    <label>{{calc_product_price().toFixed(2)}} = {{neworder.unit_price}} x {{neworder.quantity}} </label>
+	                                </div>
+	                                <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.unit_freight>0 && neworder.quantity>0">
+	                                    <label>{{calc_product_freight().toFixed(2)}} = {{neworder.unit_freight}} x {{neworder.quantity}} </label>
+	                                </div>
+	                                <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.unit_commision>0 && neworder.quantity>0">
+	                                    <label>{{calc_commison().toFixed(2)}} = {{neworder.unit_commision}} x {{neworder.quantity}} x {{neworder.fee_discount}}% (折扣 {{neworder.fee_discount}}%)</label>
+	                                </div>
+	                                <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.quantity>0">
+	                                    <label>-----------------------------------------------</label>
+	                                </div>
+	                                <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.quantity>0">
+	                                    <label class="col-lg-1">美金：{{calc_sum()}}</label><label>人民币：{{calc_sum_rmb()}}</label>
+	                                    <label>（价格仅供参考，实际价格以系统计算最终金额为准！）</label>
+	                                </div>
                                 </div>
                             </div>
-					</div>
-					<div class="form-group ">
-						<!-- <label for="agree" class="control-label col-lg-2 col-sm-3">Total
-							cost: $<span class="bg-red" style="color: red; style: bold"
-							id="total"></span>
-						</label> <strong> = </strong> (single_price + shipping_cost + extra_cost +
-						fee)*(1+ex_loss_rate)*number<br /> exchange_cost : $0.5,
-						exchange_loss_rate : 3.9%, fee : $4 -->
-
-
-
-						<div class="form-group">
-							<div class="col-lg-offset-2 col-lg-10">
-								<button class="btn btn-primary" type="button"
-									onclick="window.location='./index_admin.html'">Submit</button>
-								<button class="btn btn-default" type="button">Cancel</button>
+							<div class="form-group ">
+								<div class="col-lg-offset-1 col-lg-10" style="color:red;padding-bottom:10px;" ng-show="neworder_error != ''">
+	                                提交失败：{{neworder_error}}        
+	                            </div>
+								<div class="col-lg-offset-1 col-lg-10">
+									<input class="btn btn-primary" type="submit"
+										style="width: 120px;" ng-disabled="neworder_form.$invalid || neworder.quantity<1 || neworder.unit_price<=0 
+										  || neworder.unit_freight<=0" value="提交">
+									</button>
+									<input class="btn btn-default" type="button"
+										style="width: 120px;" ng-click="neworder_reset()" value="重置">
+									</button>
+								</div>
 							</div>
-						</div>
 						</form>
 					</div>
 				</div>

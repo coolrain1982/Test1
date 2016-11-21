@@ -22,8 +22,8 @@ public class Order {
 	
 	private long order_id;
 	private int status, discount;
-	private String link, key_word, product_descript, product_photo_url, audit_name;
-	private double product_unit_price, product_unit_freight, product_total_price, product_unit_commission;
+	private String link, key_word, product_descript, product_photo_url, audit_name, audit_remark;
+	private double product_unit_price, product_unit_freight, product_total_price, product_unit_commission, exchange_rate;                                               ;
 	private int product_quantity;
 	private Calendar create_date, pay_date, audit_date, finish_date;
 	private User user;
@@ -182,5 +182,21 @@ public class Order {
 	
 	public void setOrdersForReview(Set<OrderForReview> ordersForReview) {
 		this.ordersForReview = ordersForReview;
+	}
+	
+	@Column
+	public String getAudit_remark() {
+		return audit_remark;
+	}
+	public void setAudit_remark(String audit_remark) {
+		this.audit_remark = audit_remark;
+	}
+	
+	@Column
+	public double getExchange_rate() {
+		return exchange_rate;
+	}
+	public void setExchange_rate(double exchange_rate) {
+		this.exchange_rate = exchange_rate;
 	}
 }

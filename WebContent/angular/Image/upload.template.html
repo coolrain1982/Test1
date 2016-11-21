@@ -1,18 +1,23 @@
-<div class="col-lg-10 row-lg-4">
-    <div ng-repeat="item in $ctrl.thumb">
+<div class="col-lg-10 row-lg-4" style="position:relative;">
+    <div ng-repeat="item in $ctrl.thumb" style="display:inline-block;float:left;">
         <label>
-            <img ng-src="{{item.imgSrc}}" width="200px" />
+            <img ng-src="{{item.imgSrc}}" width="120px" height="120px" style="border:2px solid #EBEBEB; margin-right:8px;" />
         </label>
-        <span ng-if="item.imgSrc" ng-click="$ctrl.img_del(item)"></span>
+        <span class="delteImg" ng-if="item.imgSrc" ng-click="$ctrl.img_del(item)" style="left:{{item.left}}px">
+            <i class="icon_close_alt" />
+        </span>
     </div>
     
-    <div ng-repeat="item in $ctrl.thumb_default">
+    <div ng-repeat="item in $ctrl.thumb_default" style="display:inline-block;float:left" ng-if="$ctrl.index < 3" >
         <a class="btn_addPic" href="javascript:void(0);">
-        <span><EM>+</EM></span>
 	        <label>
 	            <input class="filePrew" type="file" id="one-input" accept="image/*" ng-model="$ctrl.files"
 	                onchange="angular.element(this).scope().$ctrl.img_upload(this.files)" />
 	        </label>
         </a>
+    </div>
+    
+    <div class="input-group" ng-if="$ctrl.fileError" style="float:none;clear:both">
+                <span style="color:Red">{{$ctrl.fileError}}</span>
     </div>
 </div>

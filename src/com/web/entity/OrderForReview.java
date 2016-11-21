@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 public class OrderForReview {
 	private long id;
     private int status;
-	private String a_No, audit_name;
+	private String a_No, audit_name, review_remark, audit_remark;
 	private Calendar submit_date, audit_date, finish_date;
 	private Reviewer reviewer;
 	private Order order;
@@ -97,6 +97,22 @@ public class OrderForReview {
 	}
 	public void setAudit_name(String audit_name) {
 		this.audit_name = audit_name;
+	}
+	
+	@Column
+	public String getReview_remark() {
+		return review_remark;
+	}
+	public void setReview_remark(String review_remark) {
+		this.review_remark = review_remark;
+	}
+	
+	@Column
+	public String getAudit_remark() {
+		return audit_remark;
+	}
+	public void setAudit_remark(String audit_remark) {
+		this.audit_remark = audit_remark;
 	}
 
 }

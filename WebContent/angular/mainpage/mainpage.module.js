@@ -2,7 +2,7 @@
 
 // Define the `loginApp` module
 var mainpageApp = angular.module('mainpageApp', [
-    'ui.router', 'order-home', 'image-upload'
+    'ui.router', 'order-home', 'new-order', 'image-upload'
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
