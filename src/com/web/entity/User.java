@@ -21,7 +21,7 @@ public class User {
 	private String email;
 	private String role;
 	private Integer flag;
-	private int discount;
+	private Integer discount;
 	private Set<Order> orders;
 
 	@Id
@@ -75,7 +75,7 @@ public class User {
 	}
 	
 	@Column
-	public int getDiscount() {
+	public Integer getDiscount() {
 		return discount;
 	}
 	public void setDiscount(int discount) {

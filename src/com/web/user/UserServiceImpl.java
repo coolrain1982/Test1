@@ -3,6 +3,7 @@ package com.web.user;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.web.entity.User;
 
@@ -19,9 +20,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User getUser(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return userDao.getUser(name);
 	}
 
 	@Override

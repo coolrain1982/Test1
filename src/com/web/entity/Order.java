@@ -21,9 +21,11 @@ import javax.persistence.TemporalType;
 public class Order {
 	
 	private long order_id;
-	private int status, discount;
+	//status:0-无效；1-初始值；2-待支付；3-审核未通过；4-客户已支付；10-已经付中介；20-已全部完成review；21-部分完成并退款关闭
+	private int status, discount; 
 	private String link, key_word, product_descript, product_photo_url, audit_name, audit_remark;
-	private double product_unit_price, product_unit_freight, product_total_price, product_unit_commission, exchange_rate;                                               ;
+	private double product_unit_price, product_unit_freight, product_total_price, product_unit_commission;
+	private double exchange_rate, refunds;                                               
 	private int product_quantity;
 	private Calendar create_date, pay_date, audit_date, finish_date;
 	private User user;
@@ -198,5 +200,13 @@ public class Order {
 	}
 	public void setExchange_rate(double exchange_rate) {
 		this.exchange_rate = exchange_rate;
+	}
+	
+	@Column
+	public double getRefunds() {
+		return refunds;
+	}
+	public void setRefunds(double refunds) {
+		this.refunds = refunds;
 	}
 }

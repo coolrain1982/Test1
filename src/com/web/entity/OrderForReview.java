@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 @Table(name="tbl_order_review", schema="meiyabuy")
 public class OrderForReview {
 	private long id;
+	//status:0-无效；1-初始值；2-待审核；3-审核不通过；4-完成review；5-已付款给review
     private int status;
 	private String a_No, audit_name, review_remark, audit_remark;
 	private Calendar submit_date, audit_date, finish_date;

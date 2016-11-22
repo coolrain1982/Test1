@@ -46,7 +46,7 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
        <tx:attributes>
            <tx:method name="create*" propagation="REQUIRED"/>
            <tx:method name="save*" propagation="REQUIRED"/>
@@ -57,8 +57,13 @@
            <tx:method name="import*" propagation="REQUIRED"/>
            <tx:method name="*" propagation="NOT_SUPPORTED" read-only="true"/>
        </tx:attributes>
-    </tx:advice>
+    </tx:advice>     -->
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    <context:component-scan base-package="com.web">
+       <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+       <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
     
 </beans>

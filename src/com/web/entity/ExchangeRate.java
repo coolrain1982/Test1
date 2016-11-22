@@ -18,7 +18,12 @@ public class ExchangeRate {
 	private int type; //1-美元
 	private int id;
 	private double rate;
-	private Calendar data;
+	private Calendar date;
+	
+	public ExchangeRate(int type , double rate) {
+		this.type = type;
+		this.rate = rate;
+	}
 	
 	@Column
 	public int getType() {
@@ -46,10 +51,10 @@ public class ExchangeRate {
 	}
 	
 	@Temporal(TemporalType.DATE)
-	public Calendar getData() {
-		return data;
+	public Calendar getDate() {
+		return date;
 	}
-	public void setData(Calendar data) {
-		this.data = data;
+	public void setDate(Calendar date) {
+		this.date = date;
 	}
 }

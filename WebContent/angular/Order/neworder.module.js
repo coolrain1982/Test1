@@ -7,18 +7,44 @@ angular.module('new-order').
     	    function($state, $stateParams, $scope, $http) {
     	
     	$scope.neworder_error = "";
-    	$scope.dollar = "7.100";
-    	$scope.pond = "8.800";
+    	$scope.dollar = 7.100;
+    	$scope.pond = 8.800;
     	
     	$scope.neworder = {
-    		"descript":"",
-    	    "link" : "",
-    	    "quantity" : 0,
-    	    "unit_price": 0,
-    	    "unit_freight": 0,
-    	    "unit_commision": 4.00,
-    	    "fee_discount": 100,
-    	};
+        		"descript":"",
+        	    "link" : "",
+        	    "quantity" : 0,
+        	    "unit_price": 0,
+        	    "unit_freight": 0,
+        	    "unit_commision": 5.00,
+        	    "fee_discount": 100,
+        	};
+    	
+    	$scope.paypal_fee = 0.3;
+    	$scope.paypal_fee_rate = 3.9;
+    	
+    	//查询当前汇率
+    	$http.get('basedata/neworder.do')
+    	.success(function(data) {
+    		if (data != "") {
+    			if (data.exchange != null) {
+    				$scope.dollar = data.exchange;
+    			}
+    			if (data.commision != null) {
+    				$scope.neworder.unit_commision = data.commision;
+    			}
+    			if (data.paypal_fee != null) {
+    				$scope.paypal_fee = data.paypal_fee;
+    			}
+    			if (data.paypal_fee_rate != null) {
+    				$scope.paypal_fee_rate = data.paypal_fee_rate;
+    			}
+    		}
+    	})
+    	.error(function(data){
+    		//跳转到出错页面
+//    		return;
+    	});
     	
     	$scope.$on("thumb_change", function(event,data) {
     		$scope.thumb = data;

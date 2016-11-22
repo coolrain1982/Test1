@@ -12,18 +12,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="tbl_commision", schema="meiyabuy")
-public class Commision {
+@Table(name="tbl_paypal", schema="meiyabuy")
+public class PaypalFee {
 	
 	private int type; //1-美元
 	private int id;
 	private double fee;
+	private double fee_rate;
 	private Calendar date;
 	
-	public Commision(int type, double fee, Calendar date) {
+	public PaypalFee(int type, double fee, double fee_rate) {
 		this.type = type;
 		this.fee = fee;
-		this.date = date;
+		this.fee_rate = fee_rate;
 	}
 	
 	@Column
@@ -57,5 +58,11 @@ public class Commision {
 	}
 	public void setDate(Calendar data) {
 		this.date = data;
+	}
+	public double getFee_rate() {
+		return fee_rate;
+	}
+	public void setFee_rate(double fee_rate) {
+		this.fee_rate = fee_rate;
 	}
 }
