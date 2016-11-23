@@ -18,6 +18,7 @@ angular.module('new-order').
         	    "unit_freight": 0,
         	    "unit_commision": 5.00,
         	    "fee_discount": 100,
+        	    "exchange" : 1,
         	};
     	
     	$scope.paypal_fee = 0.3;
@@ -50,6 +51,18 @@ angular.module('new-order').
     		$scope.thumb = data;
     	});
     	
+    	//查询当前用户佣金折扣率
+    	$http.get('user/getDiscount.do')
+    	.success(function(data) {
+    		if (data != "" && data.discount != null) {
+    			$scope.neworder.fee_discount = data.discount;
+    		}
+    	})
+    	.error(function(data){
+    		//跳转到出错页面
+//    		return;
+    	});
+    	
     	$scope.calc_product_price = function() {
     		if ($scope.neworder.unit_price > 0 && $scope.neworder.quantity > 0) {
     		    return $scope.neworder.unit_price * $scope.neworder.quantity;
@@ -66,18 +79,6 @@ angular.module('new-order').
     		}
     	};
     	
-    	//查询当前用户佣金折扣率
-    	$http.get('user/getDiscount.do')
-    	.success(function(data) {
-    		if (data != "" && data.discount != null) {
-    			$scope.neworder.fee_discount = data.discount;
-    		}
-    	})
-    	.error(function(data){
-    		//跳转到出错页面
-//    		return;
-    	});
-    	
     	$scope.calc_commison = function() {
     		if ($scope.neworder.quantity > 0) {
     		    return $scope.neworder.unit_commision * $scope.neworder.quantity * $scope.neworder.fee_discount / 100;
@@ -86,14 +87,25 @@ angular.module('new-order').
     		}
     	};
     	
+    	$scope.calc_product_sum = function() {
+    		return $scope.calc_product_price()  + $scope.calc_product_freight() + $scope.calc_commison();
+    	};
+    	
     	$scope.calc_sum = function() {
-    		var temp = $scope.calc_product_price()  + $scope.calc_product_freight() + $scope.calc_commison();
-    		return parseFloat(temp).toFixed(2);
+    		return $scope.calc_product_sum() * 1.039 + 0.3;
     	};
     	
     	$scope.calc_sum_rmb = function() {
-    		return (($scope.calc_product_price()  + $scope.calc_product_freight()
-    				 + $scope.calc_commison())*$scope.dollar).toFixed(2);
+    		return $scope.calc_sum()* $scope.dollar;
+    	};
+    	
+    	$scope.calc_alipay = function() {
+    		var temp = $scope.calc_sum_rmb()* 0.001;
+    		if (temp < 0.1) {
+    			temp = 0.1
+    		}
+    		
+    		return temp;
     	};
     	
     	$scope.neworder_submit=function(valid) {
@@ -115,6 +127,7 @@ angular.module('new-order').
     			fd.append("quantity", $scope.neworder.quantity);
     			fd.append("unit_price", $scope.neworder.unit_price);
     			fd.append("unit_freight", $scope.neworder.unit_freight);
+    			fd.append("exchange", $scope.neworder.exchange);
     			for(var item in $scope.thumb) {
     				fd.append("files", $scope.thumb[item].file);
     			}
@@ -126,9 +139,14 @@ angular.module('new-order').
     				headers: {"content-type":undefined},
     				transformRequest: angular.identity
     			}).success(function(data) {
-    				alert("success!");
+    				if(data.status == 1) {
+    					$state.go("neworder_success", {orderid:data.orderid});
+    				} else {
+    					$scope.neworder_error = "保存订单失败：" + data.error; 
+    				}
     			}).error(function(data){
-    				alert("发生错误，请刷新页面后重试！");
+    				alert("发生错误，请重新登录！");
+    				window.location.href = "logout";
     			});
     		} else {
     			$scope.neworder_error = "请确保表单数据填写正确！";

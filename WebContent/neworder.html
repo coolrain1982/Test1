@@ -68,20 +68,6 @@
                                         ng-show="neworder_form.neworder_link.$dirty && neworder_form.neworder_link.$invalid"></span>
 								</div>
 							</div>
-							
-                            <div class="form-group has-feedback">
-								<label for="agree" class="control-label col-lg-1 col-sm-1">产品数量<span
-									class="required">*</span></label>
-								<div class="col-lg-10 col-sm-9">
-									<input type="number" required data-toggle="switch" value="1"
-										id="neworder_quantity" name="neworder_quantity"   ng-model="neworder.quantity"  />
-										
-									<span class="glyphicon glyphicon-ok for-control-feedback"
-                                        ng-show="neworder_form.neworder_quantity.$dirty && neworder_form.neworder_quantity.$valid && neworder.quantity>0"></span>
-                                    <span class="glyphicon glyphicon-remove for-control-feedback"
-                                        ng-show="neworder_form.neworder_quantity.$dirty && neworder.quantity<1"></span>
-								</div>
-							</div>
 
 							<div class="form-group has-feedback">
 								<label for="agree" class="control-label col-lg-1 col-sm-1">产品单价<span class="required">*</span>
@@ -111,6 +97,20 @@
 								</div>
 							</div>
 							
+							<div class="form-group has-feedback">
+                                <label for="agree" class="control-label col-lg-1 col-sm-1">产品数量<span
+                                    class="required">*</span></label>
+                                <div class="col-lg-10 col-sm-9">
+                                    <input type="number" required data-toggle="switch" value="1"
+                                        id="neworder_quantity" name="neworder_quantity"   ng-model="neworder.quantity"  />
+                                        
+                                    <span class="glyphicon glyphicon-ok for-control-feedback"
+                                        ng-show="neworder_form.neworder_quantity.$dirty && neworder_form.neworder_quantity.$valid && neworder.quantity>0"></span>
+                                    <span class="glyphicon glyphicon-remove for-control-feedback"
+                                        ng-show="neworder_form.neworder_quantity.$dirty && neworder.quantity<1"></span>
+                                </div>
+                            </div>
+							
 							<div class="form-group ">
                                 <label for="agree" class="control-label col-lg-1 col-sm-1">手续费单价<span
                                     class="required"></span></label>
@@ -124,21 +124,35 @@
                                 <div = row style="color:red;">
                                     <label for="agree" class="control-label col-lg-1">总价</label>
 	                                <div class="col-lg-11 col-sm-11" ng-show="neworder.unit_price>0 && neworder.quantity>0">
-	                                    <label>{{calc_product_price().toFixed(2)}} = {{neworder.unit_price}} x {{neworder.quantity}} </label>
+	                                    <label>商品价格： {{calc_product_price().toFixed(2)}} = {{neworder.unit_price}} x {{neworder.quantity}} </label>
 	                                </div>
 	                                <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.unit_freight>0 && neworder.quantity>0">
-	                                    <label>{{calc_product_freight().toFixed(2)}} = {{neworder.unit_freight}} x {{neworder.quantity}} </label>
+	                                    <label>运费： {{calc_product_freight().toFixed(2)}} = {{neworder.unit_freight}} x {{neworder.quantity}} </label>
 	                                </div>
 	                                <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.unit_commision>0 && neworder.quantity>0">
-	                                    <label>{{calc_commison().toFixed(2)}} = {{neworder.unit_commision}} x {{neworder.quantity}} x {{neworder.fee_discount}}% (折扣 {{neworder.fee_discount}}%)</label>
+	                                    <label>佣金： {{calc_commison().toFixed(2)}} = {{neworder.unit_commision}} x {{neworder.quantity}} x {{neworder.fee_discount}}% (折扣 {{neworder.fee_discount}}%)</label>
 	                                </div>
 	                                <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.quantity>0">
 	                                    <label>-----------------------------------------------</label>
 	                                </div>
 	                                <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.quantity>0">
-	                                    <label class="col-lg-1">美金：{{calc_sum()}}</label><label>人民币：{{calc_sum_rmb()}}</label>
-	                                    <label>（价格仅供参考，实际价格以系统计算最终金额为准！）</label>
+                                        <label>小计： {{calc_product_sum().toFixed(2)}}</label>
+                                    </div>
+                                     <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.unit_commision>0 && neworder.quantity>0">
+                                        <label>手续费： {{(calc_product_sum()*0.039+0.3).toFixed(2)}} = {{calc_product_sum().toFixed(2)}} x 3.9% + 0.3 (收费标准：每笔金额的3.9% + 0.3)</label>
+                                    </div>
+                                    <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.quantity>0">
+                                        <label>-----------------------------------------------</label>
+                                    </div>
+	                                <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.quantity>0">
+	                                    <label>共计
+		                                    <span style="margin-left:10px;">美元：{{calc_sum().toFixed(2)}}</span>
+		                                    <span style="margin-left:15px;">合人民币：{{calc_sum_rmb().toFixed(2)}}</span>
+	                                    </label>
 	                                </div>
+	                                 <div style="float:top" class="col-lg-offset-1 col-lg-12 col-sm-12" ng-show="neworder.quantity>0">
+                                        <label>（价格仅供参考，实际价格以系统计算最终金额为准！如您使用支付宝，将加收上述总价的0.1%提现手续费， 约 {{calc_alipay().toFixed(2)}} 元）</label>
+                                    </div>
                                 </div>
                             </div>
 							<div class="form-group ">

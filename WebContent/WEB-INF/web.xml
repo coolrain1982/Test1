@@ -17,6 +17,18 @@
       </listener-class>
   </listener>
   
+  <!-- 监听网站根目录 -->
+  <context-param>
+      <param-name>webAppRootKey</param-name>
+      <param-value>meiyabuy.root</param-value>
+  </context-param>
+  
+  <listener>
+    <listener-class>
+        org.springframework.web.util.WebAppRootListener
+    </listener-class>
+  </listener>
+  
   <!-- 字符集 -->
   <filter>
       <filter-name>encodingFilter</filter-name>

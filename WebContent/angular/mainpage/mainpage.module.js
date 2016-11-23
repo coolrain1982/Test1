@@ -19,6 +19,11 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    .state('neworder', {
 	    	url : '/neworder',
 	    	templateUrl: 'neworder.html'
+	    })
+	    .state('neworder_success', {
+	    	params:{},
+	    	url : '/neworder_success',
+	    	templateUrl: 'neworder_success.html'
 	    });
 });
 

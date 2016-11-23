@@ -24,8 +24,8 @@ public class Order {
 	//status:0-无效；1-初始值；2-待支付；3-审核未通过；4-客户已支付；10-已经付中介；20-已全部完成review；21-部分完成并退款关闭
 	private int status, discount; 
 	private String link, key_word, product_descript, product_photo_url, audit_name, audit_remark;
-	private double product_unit_price, product_unit_freight, product_total_price, product_unit_commission;
-	private double exchange_rate, refunds;                                               
+	private Double product_unit_price, product_unit_freight, product_total_price, product_unit_commission;
+	private Double exchange_rate, refunds, paypal_fee, paypal_rate;                                               
 	private int product_quantity;
 	private Calendar create_date, pay_date, audit_date, finish_date;
 	private User user;
@@ -57,7 +57,7 @@ public class Order {
 	}
 	
 	@Column
-	public double getProduct_unit_price() {
+	public Double getProduct_unit_price() {
 		return product_unit_price;
 	}
 	public void setProduct_unit_price(double product_unit_price) {
@@ -98,7 +98,7 @@ public class Order {
 	}
 	
 	@Column
-	public double getProduct_total_price() {
+	public Double getProduct_total_price() {
 		return product_total_price;
 	}
 	public void setProduct_total_price(double product_total_price) {
@@ -106,7 +106,7 @@ public class Order {
 	}
 	
 	@Column
-	public double getProduct_unit_freight() {
+	public Double getProduct_unit_freight() {
 		return product_unit_freight;
 	}
 	public void setProduct_unit_freight(double product_unit_freight) {
@@ -114,7 +114,7 @@ public class Order {
 	}
 	
 	@Column
-	public double getProduct_unit_commission() {
+	public Double getProduct_unit_commission() {
 		return product_unit_commission;
 	}
 	public void setProduct_unit_commission(double product_unit_commission) {
@@ -195,7 +195,7 @@ public class Order {
 	}
 	
 	@Column
-	public double getExchange_rate() {
+	public Double getExchange_rate() {
 		return exchange_rate;
 	}
 	public void setExchange_rate(double exchange_rate) {
@@ -203,10 +203,26 @@ public class Order {
 	}
 	
 	@Column
-	public double getRefunds() {
+	public Double getRefunds() {
 		return refunds;
 	}
 	public void setRefunds(double refunds) {
 		this.refunds = refunds;
+	}
+	
+	@Column
+	public Double getPaypal_fee() {
+		return paypal_fee;
+	}
+	public void setPaypal_fee(Double paypal_fee) {
+		this.paypal_fee = paypal_fee;
+	}
+	
+	@Column
+	public Double getPaypal_rate() {
+		return paypal_rate;
+	}
+	public void setPaypal_rate(Double paypal_rate) {
+		this.paypal_rate = paypal_rate;
 	}
 }
