@@ -1,0 +1,68 @@
+<section class="wrapper" ng-controller="newOrderController">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>
+                        <i class="{{$ctrl.icon}}"></i>{{$ctrl.title}}
+                    </h2>
+                </div>
+                <div class="widget-content padded clearfix" ng-if="$ctrl.recordSize==null || $ctrl.recordSize==0">
+                    未查询到符合条件的订单数据！
+                </div>
+                <div class="widget-container fluid-height clearfix" ng-if="$ctrl.recordSize>0">
+                    <div class="widget-content padded clearfix">
+                        <table class="table table-hover">
+                            <thead>
+                                <th width="100">订单号</th>
+                                <th>产品描述</th>
+                                <th width="120">产品链接</th>
+                                <th width="100">数量</th>  
+                                <th class="hidden-xs" width="200">创建时间</th>
+                                <th class="hidden-xs" width="120">状态</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in $ctrl.orderList" ng-click="$ctrl.showDetail(item)" style="cursor:pointer">
+                                    <td>{{foo(item.orderId)}}</td>
+                                    <td>{{item.orderDescript}}</td>
+                                    <td><a href="{{item.orderLink}}" target="_blank">点击查看</a></td>
+                                    <td>{{item.orderQuantity}}</td>
+                                    <td class="hidden-xs">
+                                        {{$ctrl.getDate($ctrl.formatDate(item.createDate))}}&nbsp;&nbsp;&nbsp;&nbsp;
+                                        {{$ctrl.getTime($ctrl.formatDate(item.createDate))}}
+                                    </td>
+                                    <td class="hidden-xs"><label style="display:inline-block;line-height:2;width:60px;" 
+                                        class="label {{$ctrl.getStatusClass(item.status)}}">
+                                        {{$ctrl.getStatus(item.status)}}</label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal fade" id="myModal">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
+                        <h4 class="modal-title">
+                          Bootstrap对话框
+                        </h4>
+                      </div>
+                      <div class="modal-body">
+                        <h1>注意</h1>
+                        <p>模态框经过了优化，更加灵活，以弹出对话框的形式出现，具有最小和最实用的功能集。</p>
+                        <h4>不支持模态框重叠</h4>
+                        <p>千万不要在一个模态框上重叠另一个模态框。要想同时支持多个模态框，需要自己写额外的代码来实现。</p>
+
+                      </div>
+                      <div class="modal-footer">
+                        <button class="btn btn-primary" type="button">保存修改</button><button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

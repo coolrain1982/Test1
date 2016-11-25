@@ -2,12 +2,12 @@ package com.web.order.service;
 
 import java.io.File;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
@@ -26,11 +26,14 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 	public UserService userService;
 	@Resource
 	public BaseDataService baseDataSrv;
+	@Resource
 	public OrderDao orderDao;
+	@Value("${upload.base}")
+	private String uploadBase;
 
 	@Transactional(rollbackFor=Exception.class)
 	@Override
-	public long saveNewOrder(String userName, MultiValueMap<String, Object> reqParams, MultipartFile[] files)
+	public Order saveNewOrder(String userName, MultiValueMap<String, Object> reqParams, MultipartFile[] files)
 			throws Exception {
 		
 		Map<String, List<Object>> params = reqParams;
@@ -113,8 +116,9 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		}
 
 		String productDescript = "";
-		if (params.containsKey("descript") && !params.get("descript").toString().trim().equals("")) {
-			productDescript = params.get("descript").toString().trim();
+		if (params.containsKey("descript") && params.get("descript").size() > 0 &&
+				!params.get("descript").get(0).toString().trim().equals("")) {
+			productDescript = params.get("descript").get(0).toString().trim();
 		} else {
 			throw new Exception("产品描述输入不正确！");
 		}
@@ -122,7 +126,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		int quantity = 0;
 		if (params.containsKey("quantity")) {
 			try {
-				quantity = Integer.parseInt(params.get("quantity").toString().trim());
+				quantity = Integer.parseInt(params.get("quantity").get(0).toString().trim());
 			} catch (Exception e) {
 				throw new Exception("产品数量输入不正确：" + e.getMessage());
 			}
@@ -133,7 +137,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		double unitFreight = 0.00;
 		if (params.containsKey("unit_freight")) {
 			try {
-				unitFreight = Double.parseDouble(params.get("unit_freight").toString().trim());
+				unitFreight = Double.parseDouble(params.get("unit_freight").get(0).toString().trim());
 			} catch (Exception e) {
 				throw new Exception("运费单价输入不正确：" + e.getMessage());
 			}
@@ -144,7 +148,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		double unitPrice = 0.00;
 		if (params.containsKey("unit_price")) {
 			try {
-				unitPrice = Double.parseDouble(params.get("unit_price").toString().trim());
+				unitPrice = Double.parseDouble(params.get("unit_price").get(0).toString().trim());
 			} catch (Exception e) {
 				throw new Exception("产品单价输入不正确：" + e.getMessage());
 			}
@@ -155,7 +159,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		String productPhotoUrl = "";
 		if (files != null && files.length > 0) {
 			try {
-				productPhotoUrl = saveUploadImg(files, user, System.getProperty("meiyabuy.root"));
+				productPhotoUrl = saveUploadImg(files, user);
 			} catch (Exception e) {
 				throw new Exception("保存产品截图失败：" + e.getMessage());
 			}
@@ -177,12 +181,15 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		newOrder.setPaypal_fee(paypalFee);
 		newOrder.setPaypal_rate(paypalRate);
 		newOrder.setUser(user);
+		newOrder.setDiscount(user.getDiscount()==null || user.getDiscount()<= 0?100:user.getDiscount());
 		
 		orderDao.newOrder(newOrder);
 		
-		throw new Exception("保存订单失败！"); 
+		Order rtnOrder = new Order();
+		rtnOrder.setOrder_id(newOrder.getOrder_id());
+		rtnOrder.setCreate_date(newOrder.getCreate_date());
 
-//		return newOrder.getOrder_id();
+		return rtnOrder;
 	}
 
 	/**
@@ -193,35 +200,35 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 	 * @return
 	 * @throws Exception
 	 */
-	private String saveUploadImg(MultipartFile[] files, User user, String webroot) throws Exception {
+	private String saveUploadImg(MultipartFile[] files, User user) throws Exception {
 		
 		Calendar c = Calendar.getInstance();
-		String fileSavePath = String.format("userupload%s%s%s%s%s%s%s",File.separatorChar, user.getName(), 
+		String fileSavePath = String.format("%s%s%s%s%s%s", user.getName(), 
 				File.separatorChar, c.get(Calendar.YEAR), File.separatorChar, c.get(Calendar.MONTH) + 1, File.separatorChar) ;
 		
 		StringBuffer sb = new StringBuffer();
 		
-		File baseDir = new File(String.format("%s%s%s", webroot, File.separatorChar, fileSavePath));
+		File baseDir = new File(String.format("%s%s%s", uploadBase, File.separatorChar, fileSavePath));
 		if (!baseDir.exists()) {
 			baseDir.mkdirs();
 		}
 		
 		for(int i = 0; i < files.length && i < 3; i ++) {
 			MultipartFile mfile = files[i];
-			String origName = mfile.getOriginalFilename();
+			String origName = mfile.getOriginalFilename().substring(mfile.getOriginalFilename().lastIndexOf("."));
 			long mill = Calendar.getInstance().getTimeInMillis(); 
 
-			File imgFile = new File(String.format("%s%s%s_%s", baseDir, File.separatorChar, mill, origName));
+			File imgFile = new File(String.format("%s%s%s_%s%s", baseDir, File.separatorChar, mill, i, origName));
 			
 			try {
 				mfile.transferTo(imgFile);
-				sb.append(String.format("@@%s%s_%s", fileSavePath, mill, origName));
+				sb.append(String.format("@@%s%s_%s%s", fileSavePath, mill,i, origName));
 			} catch (Exception e) {
 				throw new Exception(String.format("file[%s], error[%s]", origName, e.getMessage()));
 			}
 		}
 		
-		return "";
+		return sb.toString();
 	}
 
 }

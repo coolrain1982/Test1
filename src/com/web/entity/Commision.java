@@ -26,6 +26,8 @@ public class Commision {
 		this.date = date;
 	}
 	
+	public Commision() {}
+	
 	@Column
 	public int getType() {
 		return type;
@@ -51,7 +53,7 @@ public class Commision {
 		this.fee = fee;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Calendar getDate() {
 		return date;
 	}

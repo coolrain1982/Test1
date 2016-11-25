@@ -27,6 +27,8 @@ public class PaypalFee {
 		this.fee_rate = fee_rate;
 	}
 	
+	public PaypalFee() {}
+	
 	@Column
 	public int getType() {
 		return type;
@@ -52,7 +54,7 @@ public class PaypalFee {
 		this.fee = fee;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Calendar getDate() {
 		return date;
 	}

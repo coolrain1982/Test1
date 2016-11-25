@@ -1,0 +1,327 @@
+<section class="wrapper" ng-controller="newOrderController">
+	<div class="row" ng-if="!isSuccess">
+		<div class="col-lg-12">
+			<section class="panel">
+				<header class="panel-heading">新的订单</header>
+				<div class="panel-body">
+					<div class="form">
+						<form role="form" class="form-validate form-horizontal table"
+							name="neworder_form"
+							ng-submit="neworder_submit(neworder_form.$valid)" novalidate>
+							<div class="form-group">
+								<label for="fullname" class="control-label col-lg-1 col-md-2">汇率
+									<span class="required">*</span>
+								</label>
+								<div>
+									<label class="checkbox-inline"> <input id="american"
+										name="exchangeRate" style="margin-right: 10px;" type="radio"
+										value="1" checked />美元 <span ng-bind="dollar"></span>
+									</label>
+									<!-- <label class="checkbox-inline">
+                                        <input id="british" name="exchangeRate"
+                                            type="radio" value="2" />英镑 <span ng-bind="pond"></span>
+                                    </label> -->
+								</div>
+							</div>
+
+							<div class="form-group has-feedback">
+								<label for="fullname" class="control-label col-lg-1 col-md-2">产品描述
+									<span class="required">*</span>
+								</label>
+								<div class="col-lg-8">
+									<div style="float: left; padding-left: 0px;" class="col-lg-6">
+										<textarea class="form-control" rows="4" required
+											id="neworder_desp" name="neworder_desp"
+											ng-model="neworder.descript" />
+									</div>
+									<div style="float: left;">
+										<span class="glyphicon glyphicon-ok for-control-feedback"
+											ng-show="neworder_form.neworder_desp.$dirty && neworder_form.neworder_desp.$valid"></span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group " style="display: none">
+								<label for="address" class="control-label col-lg-2">Keywords
+									<span class="required">*</span>
+								</label>
+								<div class="col-lg-8">
+									<input name="tagsinput" id="tagsinput" class="tagsinput"
+										value="Cell phone" />
+								</div>
+							</div>
+
+							<div class="form-group ">
+								<label for="address" class="control-label col-lg-1 col-md-2">产品截图
+									<span class="required">*</span>
+								</label>
+								<image-upload></image-upload>
+							</div>
+
+							<div class="form-group has-feedback">
+								<label for="address" class="control-label col-lg-1 col-md-2">
+									<a href="javascript:void(0);" target="_blank"
+									ng-click="getLink()">产品链接</a> <span class="required">*</span>
+								</label>
+								<div class="col-lg-8">
+									<div style="float: left; padding-left: 0px;" class="col-lg-7">
+										<input class=" form-control" id="neworder_link"
+											name="neworder_link" type="url" required value=""
+											ng-model="neworder.link" />
+									</div>
+									<div style="float: left;">
+										<span class="glyphicon glyphicon-ok form-control-feedback"
+											ng-show="neworder_form.neworder_link.$dirty && neworder_form.neworder_link.$valid"></span>
+										<span class="glyphicon glyphicon-remove form-control-feedback"
+											ng-show="neworder_form.neworder_link.$dirty && neworder_form.neworder_link.$invalid"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group has-feedback">
+								<label for="agree"
+									class="control-label col-lg-1 col-sm-1 col-md-2">产品单价<span
+									class="required">*</span>
+								</label>
+								<div class="col-lg-10 col-sm-9">
+									<input type="number" checked="" data-toggle="switch"
+										value="0.00" id="neworder_unit_price"
+										name="neworder_unit_price" ng-model="neworder.unit_price" />
+									<span class="glyphicon glyphicon-ok for-control-feedback"
+										ng-show="neworder_form.neworder_unit_price.$dirty && neworder_form.neworder_unit_price.$valid && neworder.unit_price>0"></span>
+									<span class="glyphicon glyphicon-remove for-control-feedback"
+										ng-show="neworder_form.neworder_unit_price.$dirty && neworder.unit_price<=0"></span>
+								</div>
+							</div>
+
+							<div class="form-group has-feedback">
+								<label for="agree"
+									class="control-label col-lg-1 col-sm-1 col-md-2">运费单价<span
+									class="required">*</span></label>
+								<div class="col-lg-10 col-sm-9">
+									<input type="number" checked="" data-toggle="switch"
+										value="0.00" id="neworder_unit_freight"
+										name="neworder_unit_freight" ng-model="neworder.unit_freight" />
+									<span class="glyphicon glyphicon-ok for-control-feedback"
+										ng-show="neworder_form.neworder_unit_freight.$dirty && neworder_form.neworder_unit_freight.$valid && neworder.unit_freight>0"></span>
+									<span class="glyphicon glyphicon-remove for-control-feedback"
+										ng-show="neworder_form.neworder_unit_freight.$dirty && neworder.unit_freight<=0"></span>
+								</div>
+							</div>
+
+							<div class="form-group has-feedback">
+								<label for="agree"
+									class="control-label col-lg-1 col-sm-1 col-md-2">产品数量<span
+									class="required">*</span></label>
+								<div class="col-lg-10 col-sm-9">
+									<input type="number" required data-toggle="switch" value="1"
+										id="neworder_quantity" name="neworder_quantity"
+										ng-model="neworder.quantity" /> <span
+										class="glyphicon glyphicon-ok for-control-feedback"
+										ng-show="neworder_form.neworder_quantity.$dirty && neworder_form.neworder_quantity.$valid && neworder.quantity>0"></span>
+									<span class="glyphicon glyphicon-remove for-control-feedback"
+										ng-show="neworder_form.neworder_quantity.$dirty && neworder.quantity<1"></span>
+								</div>
+							</div>
+
+							<div class="form-group ">
+								<label for="agree"
+									class="control-label col-lg-1 col-sm-1 col-md-2">手续费单价<span
+									class="required"></span></label>
+								<div class="col-lg-10 col-sm-9">
+									<p class="form-control-static"
+										ng-model="neworder.unit_commision">5.00</p>
+								</div>
+							</div>
+
+							<div class="form-group" align="left">
+								<div = row style="">
+									<label for="agree" class="control-label col-lg-1 col-md-2">总价</label>
+									<div class="col-lg-11 col-sm-11"
+										ng-show="neworder.unit_price>0 && neworder.quantity>0">
+										<label>商品价格： {{calc_product_price().toFixed(2)}} =
+											{{neworder.unit_price}} x {{neworder.quantity}} </label>
+									</div>
+									<div style="float: top"
+										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										ng-show="neworder.unit_freight>0 && neworder.quantity>0">
+										<label>运费： {{calc_product_freight().toFixed(2)}} =
+											{{neworder.unit_freight}} x {{neworder.quantity}} </label>
+									</div>
+									<div style="float: top"
+										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										ng-show="neworder.unit_commision>0 && neworder.quantity>0">
+										<label>服务费： {{calc_commison().toFixed(2)}} =
+											{{neworder.unit_commision}} x {{neworder.quantity}} x
+											{{neworder.fee_discount}}% (折扣 {{neworder.fee_discount}}%)</label>
+									</div>
+									<div style="float: top"
+										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										ng-show="neworder.quantity>0">
+										<label>-----------------------------------------------</label>
+									</div>
+									<div style="float: top"
+										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										ng-show="neworder.quantity>0">
+										<label>小计： {{calc_product_sum().toFixed(2)}}</label>
+									</div>
+									<div style="float: top"
+										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										ng-show="neworder.unit_commision>0 && neworder.quantity>0">
+										<label>手续费：
+											{{(calc_product_sum()*0.039+0.3).toFixed(2)}} =
+											{{calc_product_sum().toFixed(2)}} x 3.9% + 0.3
+											(收费标准：每笔金额的3.9% + 0.3)</label>
+									</div>
+									<div style="float: top"
+										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										ng-show="neworder.quantity>0">
+										<label>-----------------------------------------------</label>
+									</div>
+									<div style="float: top"
+										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										ng-show="neworder.quantity>0">
+										<label>共计 <span
+											style="margin-left: 10px; color: red; font-weight: bold">${{calc_sum().toFixed(2)}}</span>
+											<span
+											style="margin-left: 15px; color: red; font-weight: bold">合人民币：￥{{calc_sum_rmb().toFixed(2)}}</span>
+										</label>
+									</div>
+									<div style="float: top"
+										class="col-lg-offset-1 col-offset-2 col-lg-12 col-sm-12"
+										ng-show="neworder.quantity>0">
+										<label>（价格仅供参考，实际价格以系统最终计算金额为准！如您使用支付宝，将加收提现手续费 约
+											{{calc_alipay().toFixed(2)}} 元）</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group ">
+								<div class="col-lg-offset-1 col-offset-2  col-lg-10"
+									style="color: red; padding-bottom: 10px;"
+									ng-show="neworder_error != ''">提交失败：{{neworder_error}}</div>
+								<div class="col-lg-offset-1 col-offset-2 col-lg-2">
+									<a class="btn btn-danger btn-lg"
+										ng-click="neworder_submit(neworder_form.$valid)"
+										ng-disabled="neworder_form.$invalid || neworder.quantity<1 || neworder.unit_price<=0 
+										  || neworder.unit_freight<=0">提&nbsp&nbsp&nbsp交
+									</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+    <div ng-if="isSuccess">
+		<div class="row" >
+			<div class="col-lg-12">
+				<h4 class="page-header">
+					<i class="fa fa fa-check"></i> <strong>您的订单已经提交成功！请耐心等待我们的反馈，谢谢！</strong>
+				</h4>
+			</div>
+		</div>
+		<div class="row" >
+	        <div class="col-lg-12" style="line-height:25px">
+	            <p>订单遍号：{{foo(orderid)}}
+	            <br>提交时间：{{getDate(createdate)}}&nbsp;&nbsp;&nbsp;&nbsp;{{getTime(createdate)}}
+	            <br>产品链接：<a href="javascript:void(0);" target="_blank"
+                                    ng-click="getLink()">请点击查看</a>
+	            </p>
+	        </div>
+	    </div>
+	    <div class="row">
+            <div class="col-lg-12">
+              <div class="widget-container fluid-height">
+                <div class="widget-content padded clearfix">
+                  <table class="table table-striped invoice-table">
+                    <thead>
+                      <tr><th width="50"></th>
+                      <th>
+                      </th>
+                      <th width="70">
+                        数量
+                      </th>
+                      <th width="180">
+                        单位价格
+                      </th>
+                      <th width="180">
+                        总价
+                      </th>
+                    </tr></thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          #1
+                        </td>
+                        <td ng-bind="neworder.descript"> 
+                        </td>
+                        <td ng-bind="neworder.quantity">
+                        </td>
+                        <td ng-bind="'$' + neworder.unit_price">
+                        </td>
+                        <td ng-bind="'$' + calc_product_price().toFixed(2)" >
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          #2
+                        </td>
+                        <td>
+                          运费
+                        </td>
+                        <td ng-bind="neworder.quantity">
+                        </td>
+                        <td ng-bind="'$' + neworder.unit_freight">
+                        </td>
+                        <td ng-bind="'$' + calc_product_freight().toFixed(2)">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          #3
+                        </td>
+                        <td>
+                          服务费
+                        </td>
+                        <td ng-bind="neworder.quantity">
+                        </td>
+                        <td ng-bind="'$' + neworder.unit_commision">
+                        </td>
+                        <td ng-bind="'$' + calc_commison().toFixed(2) +'（折扣' + neworder.fee_discount + '%）'">
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td class="text-right" colspan="4">
+                          <strong>小计</strong>
+                        </td>
+                        <td ng-bind="'$' + calc_product_sum().toFixed(2)"> 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-right" colspan="4">
+                          <strong>手续费</strong>
+                        </td>
+                        <td ng-bind="'$' + (calc_product_sum()*0.039+0.3).toFixed(2)">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-right" colspan="4">
+                          <strong>
+                            总计
+                          </strong>
+                        </td>
+                        <td class="text-danger" ng-bind="'$' + calc_sum().toFixed(2) + '    (￥' + calc_sum_rmb().toFixed(2) + ')'">
+                           
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+	</div>
+</section>

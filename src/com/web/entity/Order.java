@@ -25,7 +25,7 @@ public class Order {
 	private int status, discount; 
 	private String link, key_word, product_descript, product_photo_url, audit_name, audit_remark;
 	private Double product_unit_price, product_unit_freight, product_total_price, product_unit_commission;
-	private Double exchange_rate, refunds, paypal_fee, paypal_rate;                                               
+	private Double exchange_rate, refunds, paypal_fee, paypal_rate, total;                                               
 	private int product_quantity;
 	private Calendar create_date, pay_date, audit_date, finish_date;
 	private User user;
@@ -137,7 +137,7 @@ public class Order {
 		this.discount = discount;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Calendar getCreate_date() {
 		return create_date;
 	}
@@ -145,7 +145,7 @@ public class Order {
 		this.create_date = create_date;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Calendar getPay_date() {
 		return pay_date;
 	}
@@ -153,7 +153,7 @@ public class Order {
 		this.pay_date = pay_date;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Calendar getFinish_date() {
 		return finish_date;
 	}
@@ -161,7 +161,7 @@ public class Order {
 		this.finish_date = finish_date;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Calendar getAudit_date() {
 		return audit_date;
 	}
@@ -224,5 +224,13 @@ public class Order {
 	}
 	public void setPaypal_rate(Double paypal_rate) {
 		this.paypal_rate = paypal_rate;
+	}
+	
+	@Column
+	public Double getTotal() {
+		return total;
+	}
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 }

@@ -12,6 +12,7 @@
     <title>Meiya Buy</title>
 
     <!-- Bootstrap CSS -->    
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- bootstrap theme -->
     <link href="css/bootstrap-theme.css" rel="stylesheet">
@@ -34,7 +35,6 @@
     <link href="css/style-responsive.css" rel="stylesheet" />
 	<link href="css/xcharts.min.css" rel=" stylesheet">	
 	<link href="css/jquery-ui-1.10.4.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css" />
 	<link href="css/upload.css" rel="stylesheet">
 	
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
@@ -286,10 +286,10 @@
                         <ul class="dropdown-menu extended logout">
                             <div class="log-arrow-up"></div>
                             <li class="eborder-top">
-                                <a href="#"><i class="icon_key_alt"></i>修改密码</a>
+                                <a href="#"><i class="fa fa-key"></i>修改密码</a>
                             </li>
                             <li>
-                                <a href="logout"><img style="margin-right:2px" height="20" width=20" src="fonts/logout.svg">
+                                <a href="logout"><i class="fa fa-sign-out"></i>
                                 退出</a>
                             </li>           
                         </ul>
@@ -329,9 +329,15 @@
                   </li> 	
                   <div class="collapse in" id="orderSub">
                       <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="neworder">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="newOrder" ui-sref-opts="{reload:'newOrder'}">
 	                          <i class="icon_plus_alt"></i>
 	                          <span>新的订单</span>
+                          </a>
+                      </li>
+                      <li>
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="unconfirmOrder" ui-sref-opts="{reload:'unconfirmOrder'}">
+                              <i class="icon_question_alt"></i>
+                              <span>待确认订单</span>
                           </a>
                       </li>
                       <li>
@@ -426,6 +432,8 @@
 	<script src="js/jquery.slimscroll.min.js"></script>
 	<script src="angular/angular.min.js"></script>
     <script src="angular/angular-ui-router.js"></script>
+    <script src="angular/Order/table.module.js"></script>
+    <script src="angular/Order/table.component.js"></script>
     <script src="angular/Order/home.module.js"></script>
     <script src="angular/Order/home.component.js"></script>
     <script src="angular/Order/neworder.module.js"></script>
@@ -479,8 +487,6 @@
 	    }
 	  });
 	});
-
-
 
   </script>
 

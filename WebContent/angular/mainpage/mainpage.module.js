@@ -2,7 +2,7 @@
 
 // Define the `loginApp` module
 var mainpageApp = angular.module('mainpageApp', [
-    'ui.router', 'order-home', 'new-order', 'image-upload'
+    'ui.router', 'order-home', 'new-order', 'image-upload', 'order-table',
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -16,14 +16,13 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    	url : '/summary',
 	    	templateUrl: 'summary.html'
 	    })
-	    .state('neworder', {
-	    	url : '/neworder',
-	    	templateUrl: 'neworder.html'
+	    .state('newOrder', {
+	    	url : '/newOrder',
+	    	templateUrl: 'newOrder.html'
 	    })
-	    .state('neworder_success', {
-	    	params:{},
-	    	url : '/neworder_success',
-	    	templateUrl: 'neworder_success.html'
+	    .state('unconfirmOrder', {
+	    	url : '/unconfirmOrder',
+	    	templateUrl: 'unconfirmOrder.html'
 	    });
 });
 
@@ -40,4 +39,25 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 	.error(function(data){
 		$scope.loginUserName = "未知用户";
 	});
+	
+	$scope.getDate = function(str) {
+		return str.substring(0, 10);
+	}
+	
+	$scope.getTime = function(str) {
+		return str.substring(11);
+	}
+});
+
+mainpageApp.directive('tooltip', function(){
+	return {
+		restrict: 'A',
+		link: function(scope, element, attrs) {
+			$(element).hover(function() {
+				    $(element).tooltip('show');
+				}, function() {
+					$(element).tooltip('hide');
+				});
+		}
+	};
 });

@@ -50,7 +50,7 @@ public class OrderForReview {
 		this.a_No = a_No;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Calendar getSubmit_date() {
 		return submit_date;
 	}
@@ -66,7 +66,7 @@ public class OrderForReview {
 		this.audit_date = audit_date;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Calendar getFinish_date() {
 		return finish_date;
 	}

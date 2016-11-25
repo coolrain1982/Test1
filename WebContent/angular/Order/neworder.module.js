@@ -6,9 +6,17 @@ angular.module('new-order').
     controller("newOrderController", ['$state', '$stateParams', '$scope', '$http', 
     	    function($state, $stateParams, $scope, $http) {
     	
+    	$scope.orderid = -1;
+    	$scope.createdate = "2016-12-01 00:00:00";
+    	$scope.isSuccess = false;
     	$scope.neworder_error = "";
-    	$scope.dollar = 7.100;
+//    	$scope.dollar = 7.100;
     	$scope.pond = 8.800;
+    	
+    	$scope.foo = function(str) {
+    		str = '00000000' + str;
+    		return str.substring(str.length-8, str.length);
+    	}
     	
     	$scope.neworder = {
         		"descript":"",
@@ -23,6 +31,19 @@ angular.module('new-order').
     	
     	$scope.paypal_fee = 0.3;
     	$scope.paypal_fee_rate = 3.9;
+    	
+    	$scope.getLink = function() {
+    		if ($scope.neworder.link == null) {
+    			return false;
+    		} else {
+    			window.open($scope.neworder.link);
+    		}
+    	}
+    	
+    	$scope.neworder_reset = function() {
+    		$scope.isSuccess = !$scope.isSuccess;
+    		$scope.orderid = 1;
+    	}
     	
     	//查询当前汇率
     	$http.get('basedata/neworder.do')
@@ -108,6 +129,14 @@ angular.module('new-order').
     		return temp;
     	};
     	
+    	$scope.$watch('neworder.descript', function(newVal, oldVal) {
+    	    if (newVal && newVal!=oldVal) {
+    	    	if (newVal.length >= 140) {
+    	    		$scope.neworder.descript = newVal.substr(0, 140);
+    	    	}
+    	    }	
+    	});
+    	
     	$scope.neworder_submit=function(valid) {
     		$scope.neworder_error = "";
     		if (valid) {
@@ -140,9 +169,14 @@ angular.module('new-order').
     				transformRequest: angular.identity
     			}).success(function(data) {
     				if(data.status == 1) {
-    					$state.go("neworder_success", {orderid:data.orderid});
-    				} else {
+//    					$state.go("neworder_success", {orderid:data.orderid});
+    					$scope.isSuccess = true;
+    					$scope.orderid = data.orderid;
+    					$scope.createdate = data.createdate;
+    				} else if(data.status == 0) {
     					$scope.neworder_error = "保存订单失败：" + data.error; 
+    				} else {
+    					window.location.href = data;
     				}
     			}).error(function(data){
     				alert("发生错误，请重新登录！");

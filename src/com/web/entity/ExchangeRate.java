@@ -25,6 +25,8 @@ public class ExchangeRate {
 		this.rate = rate;
 	}
 	
+	public ExchangeRate() {}
+	
 	@Column
 	public int getType() {
 		return type;
@@ -50,7 +52,7 @@ public class ExchangeRate {
 		this.rate = rate;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Calendar getDate() {
 		return date;
 	}
