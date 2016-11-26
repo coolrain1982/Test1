@@ -1,7 +1,7 @@
 'use strict';
 
 // Define the `loginApp` module
-var mainpageApp = angular.module('mainpageApp', [
+var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap',
     'ui.router', 'order-home', 'new-order', 'image-upload', 'order-table',
 ]);
 
@@ -40,13 +40,27 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 		$scope.loginUserName = "未知用户";
 	});
 	
+	$scope.formatDate = function(temp) {
+		var temp = new Date(temp*1000);
+		return temp.getFullYear() + "-" + this.foo((temp.getMonth() + 1), 2) + "-" +
+		    this.foo(temp.getDate(), 2) + " " + this.foo(temp.getHours(),2) + ":" +
+		       this.foo(temp.getMinutes(), 2)+ ":" + this.foo(temp.getSeconds(), 2);
+	};
+	
+	$scope.foo = function(str,len) {
+		for(var i = 0; i < len; i++) {
+			str = '0' + str;
+		}
+		return str.substring(str.length-len, str.length);
+	};
+	
 	$scope.getDate = function(str) {
 		return str.substring(0, 10);
-	}
+	};
 	
 	$scope.getTime = function(str) {
 		return str.substring(11);
-	}
+	};
 });
 
 mainpageApp.directive('tooltip', function(){

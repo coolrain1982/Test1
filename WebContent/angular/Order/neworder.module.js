@@ -11,12 +11,6 @@ angular.module('new-order').
     	$scope.isSuccess = false;
     	$scope.neworder_error = "";
 //    	$scope.dollar = 7.100;
-    	$scope.pond = 8.800;
-    	
-    	$scope.foo = function(str) {
-    		str = '00000000' + str;
-    		return str.substring(str.length-8, str.length);
-    	}
     	
     	$scope.neworder = {
         		"descript":"",

@@ -1,0 +1,100 @@
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" style="left: 0; padding-top: 5%">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="$hide()">&times;</button>
+				<h4 class="modal-title">订单详细信息</h4>
+			</div>
+			<div class="modal-body">
+
+				<div class="row">
+					<div class="col-lg-12" style="line-height: 25px">
+						<p>
+							订单遍号：{{$ctrl.foo(selectItem.order_id, 8)}} <br>
+							<!-- 提交时间：{{getDate(selectItem.createdate)}}&nbsp;&nbsp;&nbsp;&nbsp;{{getTime(selectItem.createdate)}} -->
+							提交时间：{{$ctrl.formatDate(selectItem.create_date)}}
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="widget-container fluid-height">
+							<div class="widget-content padded clearfix">
+								<table class="table table-striped invoice-table">
+									<thead>
+										<tr>
+											<th width="50"></th>
+											<th></th>
+											<th width="70">数量</th>
+											<th width="100">单位价格</th>
+											<th width="180">总价</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>#1</td>
+											<td>产品</td>
+											<td ng-bind="selectItem.product_quantity"></td>
+											<td ng-bind="'$' + selectItem.product_unit_price"></td>
+											<td ng-bind="'$' + (selectItem.product_unit_price*selectItem.product_quantity).toFixed(2)"></td>
+										</tr>
+										<tr>
+											<td>#2</td>
+											<td>运费</td>
+											<td ng-bind="selectItem.product_quantity"></td>
+											<td ng-bind="'$' + selectItem.product_unit_freight"></td>
+											<td ng-bind="'$' + (selectItem.product_unit_freight*selectItem.product_quantity).toFixed(2)"></td>
+										</tr>
+										<tr>
+											<td>#3</td>
+											<td>服务费</td>
+											<td ng-bind="selectItem.product_quantity"></td>
+											<td ng-bind="'$' + selectItem.product_unit_commission"></td>
+											<td
+												ng-bind="'$' + (selectItem.product_unit_commission*selectItem.product_quantity*selectItem.discount/100).toFixed(2) +'（折扣' + selectItem.discount + '%）'">
+											</td>
+										</tr>
+										<tr>
+                                            <td>#4</td>
+                                            <td>汇率</td>
+                                            <td>-</td>
+                                            <td ng-bind="selectItem.exchange_rate"></td>
+                                            <td></td>
+                                        </tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td class="text-right" colspan="4"><strong>小计</strong></td>
+											<td ng-bind="'$' + $ctrl.calcProductSum(selectItem).toFixed(2)"></td>
+										</tr>
+										<tr>
+											<td class="text-right" colspan="4"><strong>手续费</strong>
+											</td>
+											<td ng-bind="'$' + ($ctrl.calcProductSum(selectItem)*selectItem.paypal_rate/100+selectItem.paypal_fee).toFixed(2)">
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right" colspan="4"><strong> 总计
+											</strong></td>
+											<td class="text-danger"
+												ng-bind="'$' + $ctrl.calcSum(selectItem).toFixed(2) + 
+												    '    (￥' + ($ctrl.calcSum(selectItem)*selectItem.exchange_rate).toFixed(2) + ')'">
+
+											</td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="$hide()">Save changes</button>
+                </div> -->
+	</div>
+</div>
+</div>

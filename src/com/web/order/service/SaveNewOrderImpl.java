@@ -182,6 +182,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		newOrder.setPaypal_rate(paypalRate);
 		newOrder.setUser(user);
 		newOrder.setDiscount(user.getDiscount()==null || user.getDiscount()<= 0?100:user.getDiscount());
+		newOrder.setStatus(1);
 		
 		orderDao.newOrder(newOrder);
 		

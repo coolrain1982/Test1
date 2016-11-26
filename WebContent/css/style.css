@@ -5532,3 +5532,12 @@ span.customSelect.changed {
 .table-actions {
 	margin: 0 6px 0 6px;
 }
+
+.comment_inner {
+	width: 200px;
+	word-break: break-all;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+}
