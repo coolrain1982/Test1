@@ -18,9 +18,9 @@ angular.
     	
     	this.img_upload = function(files) {
     		this.fileError = "";
-    		if (files[0].size > 50 * 1024) {
+    		if (files[0].size > 300 * 1024) {
     			$scope.$apply(function() {
-    				$scope.$ctrl.fileError = "上传的图片大小不能超过50k！";
+    				$scope.$ctrl.fileError = "上传的图片大小不能超过300k！";
     			});
     			
     			return;

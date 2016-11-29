@@ -21,8 +21,9 @@ import javax.persistence.TemporalType;
 public class Order {
 	
 	private long order_id;
-	//status:0-无效；1-初始值；2-待支付；3-审核未通过；4-客户已支付；10-已经付中介；20-已全部完成review；21-部分完成并退款关闭
-	private int status, discount; 
+	//status:0-无效；1-初始值；2-待支付；3-审核未通过；4-客户已支付；10-已经付中介；20-已完成
+	//type:1-仅购买；2-购买+review；3-购买+review+feedback
+	private int status, discount, type; 
 	private String link, key_word, product_descript, product_photo_url, audit_name, audit_remark;
 	private Double product_unit_price, product_unit_freight, product_total_price, product_unit_commission;
 	private Double exchange_rate, refunds, paypal_fee, paypal_rate, total;                                               
@@ -30,6 +31,34 @@ public class Order {
 	private Calendar create_date, pay_date, audit_date, finish_date;
 	private User user;
 	private Set<OrderForReview> ordersForReview;
+	
+	public Order() {
+		
+	}
+	
+	public Order(long id, int discount, String product_descript,
+			     String link, String product_photo_url, String audit_remark, 
+			     Double product_unit_price, Double product_unit_freight,
+			     Double product_unit_commission, Double exchange_rate, Double paypal_fee,
+			     Double paypal_rate, int product_quantity, Calendar create_date, int status, 
+			     int type) {
+		setOrder_id(id);
+		setDiscount(discount);
+		setProduct_descript(product_descript);
+		setLink(link);
+		setProduct_photo_url(product_photo_url);
+		setAudit_remark(audit_remark);
+		setProduct_unit_price(product_unit_price);
+		setProduct_unit_freight(product_unit_freight);
+		setProduct_unit_commission(product_unit_commission);
+		setExchange_rate(exchange_rate);
+		setPaypal_fee(paypal_fee);
+		setPaypal_rate(paypal_rate);
+		setProduct_quantity(product_quantity);
+		setCreate_date(create_date);
+		setStatus(status);
+		setType(type);
+	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -232,5 +261,14 @@ public class Order {
 	}
 	public void setTotal(Double total) {
 		this.total = total;
+	}
+
+	@Column
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }

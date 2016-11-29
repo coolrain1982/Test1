@@ -23,6 +23,26 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    .state('unconfirmOrder', {
 	    	url : '/unconfirmOrder',
 	    	templateUrl: 'unconfirmOrder.html'
+	    })
+	    .state('unpayOrder', {
+	    	url : '/unpayOrder',
+	    	templateUrl: 'unpayOrder.html'
+	    })
+	    .state('doingOrder', {
+	    	url : '/doingOrder',
+	    	templateUrl: 'doingOrder.html'
+	    })
+	    .state('rejectOrder', {
+	    	url : '/rejectOrder',
+	    	templateUrl: 'rejectOrder.html'
+	    })
+	    .state('historyOrder', {
+	    	url : '/historyOrder',
+	    	templateUrl: 'historyOrder.html'
+	    })
+	    .state('allOrder', {
+	    	url : '/allOrder',
+	    	templateUrl: 'allOrder.html'
 	    });
 });
 

@@ -3,16 +3,16 @@
 // Register `phoneList` component, along with its associated controller and
 // template
 angular.module('order-table').component('orderTable',{
-	templateUrl : 'angular/Order/table.template.html',controller : ['$state','$scope','$modal','$http',
-	function TableController($state, $scope, $modal,
-			$http) {
+	templateUrl : 'angular/Order/table.template.html',controller : ['$state','$scope','$modal','$http','cfpLoadingBar','$timeout',
+	function TableController($state, $scope, $modal,$http, cfpLoadingBar, $timeout) {
 
 		this.title = "";
 		this.icon = "";
 		this.queryStatus = -1;
-		this.recordSize = 2;
+//		this.recordSize = 0;
 
 		this.orderList = [];
+		this.init = false;
 
 		// this.orderList = [
 		// {
@@ -62,7 +62,7 @@ angular.module('order-table').component('orderTable',{
 			var rtnArray = [];
 			for ( var i in urlArray) {
 				if (urlArray[i] != "") {
-					rtnArray.push("/upload/img/"
+					rtnArray.push("/MyWeb/upload/image/"
 							+ urlArray[i]);
 				}
 			}
@@ -81,7 +81,7 @@ angular.module('order-table').component('orderTable',{
 					* item.discount / 100)
 					* item.product_quantity;
 			return (temp
-					* (1 + parseFloat(item.paypal_rate) / 100) + item.paypal_fee)
+					* (1 + parseFloat(item.paypal_rate) / 100) + item.paypal_fee).toFixed(2)
 					* item.exchange_rate;
 		};
 
@@ -150,6 +150,19 @@ angular.module('order-table').component('orderTable',{
 				return "无效";
 			}
 		}
+		
+		this.getSrvType = function(item) {
+			switch (item.type) {
+			case 1:
+				return "只购买商品";
+			case 2:
+				return "购买商品+review";
+			case 3:
+				return "购买商品+review+feedback";
+			default:
+				return "无效";
+			}
+		}
 
 		this.getDate = function(str) {
 			return str.substring(0, 10);
@@ -160,7 +173,7 @@ angular.module('order-table').component('orderTable',{
 		};
 
 		this.formatDate = function(temp) {
-			var temp = new Date(temp * 1000);
+			var temp = new Date(temp);
 			return temp.getFullYear()
 					+ "-"
 					+ this
@@ -184,7 +197,7 @@ angular.module('order-table').component('orderTable',{
 
 		// 分页////////////////////////////////////////////////////
 		this.count = 0;
-		this.p_pernum = 10;
+		this.p_pernum = 6;
 
 		this.p_current = 1;
 		this.p_all_page = 0;
@@ -226,47 +239,93 @@ angular.module('order-table').component('orderTable',{
 	          this.pages=this.calculateIndexes(this.p_current,this.p_all_page,8);  
 	    };  
 	    
-	    this._get = function(page, size, callback) {
-//			$http.get("userorder/getOrder.do", {params:{status:this.queryStatus}})
-//			.success(function(res) {
-//				if (res && res.status == 1) {
-//					this.recordSize = res.count;
-//					this.list = res.list;
-//					this.p_current = page;
-//					this.p_all_page = Math.ceil(this.count/ this.p_pernum);
-//					reloadPno();
-//					callback();
-//				} else if (res && res.status == 0) {
-//					this.pageError = res.error;
-//				} else {
-//					window.location.href = data;
-//				}
-//			}).error(function() {
-//				alert("发生错误，请重新登录！");
-//    			window.location.href = "logout";
-//			});
-			this.recordSize = 105;
-			this.p_current = page;
-			this.p_all_page = Math.ceil(this.recordSize/ this.p_pernum);
-			this.reloadPno();
-			callback();
-		}
+	    this.start = function() {
+	    	this.timeout = $timeout(function() {
+		    	$scope.$ctrl.tableShow = false;
+				cfpLoadingBar.start();}
+			, 2000);
+		};
 		
-		this._get(this.p_current, this.p_pernum, function(){});
+		this.complete = function () {
+			if (this.timeout) {
+				$timeout.cancel(this.timeout);
+			}
+			cfpLoadingBar.complete();
+			this.tableShow = true;
+		};
+	    
+	    this._get = function(page, size, callback) {
+	    	if (this.init && this.p_current == page) {
+	    		return;
+	    	}
+	    	
+	    	this.init = true;
+	    	this.start();
+			$http.get("userorder/getOrder.do", 
+					{ params:{
+				        status:this.queryStatus,
+				        page: page,
+				        size: size,
+				    }
+			}).success(function(res) {
+				if (res && res.status == 1) {
+					$scope.$ctrl.recordSize = res.count;
+					$scope.$ctrl.orderList = res.list;
+					$scope.$ctrl.p_current = page;
+					$scope.$ctrl.p_all_page = Math.ceil($scope.$ctrl.recordSize/ $scope.$ctrl.p_pernum);
+					$scope.$ctrl.reloadPno();
+					callback();
+				} else if (res && res.status == 0) {
+					$scope.$ctrl.pageError = res.error;
+					$scope.$ctrl.recordSize = res.count;
+				} else {
+					window.location.href = res;
+				}
+				$scope.$ctrl.complete();
+			}).error(function() {
+				$scope.$ctrl.complete();
+				alert("发生错误，请重新登录！");
+    			window.location.href = "logout";
+			});
+		}
  
 	    this.load_page = function(page){  
 	        this._get(page,this.p_pernum,function(){ });  
 	    };  
-  
-
-
 		// //////////////////////////////////////////////////////
-
-		if ($state.current = "unconfirmOrder") {
-			this.title = "待确认订单";
-			this.icon = "icon_question_alt";
-			this.queryStatus = 1;
-		}
-		;
+	    switch ($state.current.name) {
+	        case "unpayOrder":
+	        	this.title = "待支付订单";
+			    this.icon = "icon_currency_alt";
+			    this.queryStatus = 2;
+	        	break;
+	        case "doingOrder":
+	        	this.title = "进行中订单";
+			    this.icon = "arrow_carrot-2right_alt";
+			    this.queryStatus = 4;
+	        	break;
+	        case "rejectOrder":
+	        	this.title = "待关闭订单";
+			    this.icon = "icon_error-circle";
+			    this.queryStatus = 3;
+	        	break;
+	        case "historyOrder":
+	        	this.title = "已完成";
+			    this.icon = "icon_check_alt";
+			    this.queryStatus = 20;
+	        	break;
+	        case "allOrder":
+	        	this.title = "全部订单";
+			    this.icon = "icon_menu-circle_alt";
+			    this.queryStatus = 99;
+	        	break;
+			default:
+				this.title = "待确认订单";
+			    this.icon = "icon_question_alt";
+			    this.queryStatus = 1;
+			    break;
+	    }
+		
+		this._get(this.p_current, this.p_pernum, function(){});
 	} ]
 });

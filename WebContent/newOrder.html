@@ -1,5 +1,5 @@
-<section class="wrapper" ng-controller="newOrderController">
-	<div class="row" ng-if="!isSuccess">
+<section class="wrapper" ng-controller="newOrderController" ng-show="new_order_show">
+	<div class="row" ng-if="!isSuccess" name="new_order_row" >
 		<div class="col-lg-12">
 			<section class="panel">
 				<header class="panel-heading">新的订单</header>
@@ -13,9 +13,10 @@
 									<span class="required">*</span>
 								</label>
 								<div>
-									<label class="checkbox-inline"> <input id="american"
-										name="exchangeRate" style="margin-right: 10px;" type="radio"
-										value="1" checked />美元 <span ng-bind="dollar"></span>
+									<label class="checkbox-inline"> 
+									<input name="exchangeRate" style="margin-right: 10px;" type="radio"
+										ng-value="1" ng-checked="true" ng-model="neworder.exchange"/>
+										美元 <span ng-bind="dollar"></span>
 									</label>
 									<!-- <label class="checkbox-inline">
                                         <input id="british" name="exchangeRate"
@@ -23,9 +24,32 @@
                                     </label> -->
 								</div>
 							</div>
+							
+							<div class="form-group">
+                                <label for="fullname" class="control-label col-lg-1 col-md-2">服务类型
+                                    <span class="required">*</span>
+                                </label>
+                                <div>
+                                    <label class="checkbox-inline"> <input
+                                        name="srvtype" style="margin-right: 10px;" type="radio"
+                                        ng-value="1" ng-model="neworder.srvtype" ng-checked="true" /> 
+                                        只购买商品
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input name="srvtype" style="margin-right: 10px;" type="radio"
+                                        ng-value="2" ng-model="neworder.srvtype" />
+                                            购买商品+review
+                                    </label>
+                                    <label class="checkbox-inline"> <input
+                                        name="srvtype" style="margin-right: 10px;" type="radio"
+                                        ng-value="3" ng-model="neworder.srvtype" />
+                                        购买商品+review+feedback
+                                    </label>
+                                </div>
+                            </div>
 
 							<div class="form-group has-feedback">
-								<label for="fullname" class="control-label col-lg-1 col-md-2">产品描述
+								<label for="fullname" class="control-label col-lg-1 col-md-2">商品描述
 									<span class="required">*</span>
 								</label>
 								<div class="col-lg-8">
@@ -51,7 +75,7 @@
 							</div>
 
 							<div class="form-group ">
-								<label for="address" class="control-label col-lg-1 col-md-2">产品截图
+								<label for="address" class="control-label col-lg-1 col-md-2">商品截图
 									<span class="required">*</span>
 								</label>
 								<image-upload></image-upload>
@@ -60,7 +84,7 @@
 							<div class="form-group has-feedback">
 								<label for="address" class="control-label col-lg-1 col-md-2">
 									<a href="javascript:void(0);" target="_blank"
-									ng-click="getLink()">产品链接</a> <span class="required">*</span>
+									ng-click="getLink()">商品链接</a> <span class="required">*</span>
 								</label>
 								<div class="col-lg-8">
 									<div style="float: left; padding-left: 0px;" class="col-lg-7">
@@ -79,7 +103,7 @@
 
 							<div class="form-group has-feedback">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-2">产品单价<span
+									class="control-label col-lg-1 col-sm-1 col-md-2">商品单价($)<span
 									class="required">*</span>
 								</label>
 								<div class="col-lg-10 col-sm-9">
@@ -95,7 +119,7 @@
 
 							<div class="form-group has-feedback">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-2">运费单价<span
+									class="control-label col-lg-1 col-sm-1 col-md-2">运费单价($)<span
 									class="required">*</span></label>
 								<div class="col-lg-10 col-sm-9">
 									<input type="number" checked="" data-toggle="switch"
@@ -110,7 +134,7 @@
 
 							<div class="form-group has-feedback">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-2">产品数量<span
+									class="control-label col-lg-1 col-sm-1 col-md-2">商品数量<span
 									class="required">*</span></label>
 								<div class="col-lg-10 col-sm-9">
 									<input type="number" required data-toggle="switch" value="1"
@@ -125,11 +149,11 @@
 
 							<div class="form-group ">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-2">手续费单价<span
+									class="control-label col-lg-1 col-sm-1 col-md-2">手续费单价($)<span
 									class="required"></span></label>
 								<div class="col-lg-10 col-sm-9">
 									<p class="form-control-static"
-										ng-model="neworder.unit_commision">5.00</p>
+										ng-bind="getCommision()">5.00</p>
 								</div>
 							</div>
 
@@ -138,19 +162,19 @@
 									<label for="agree" class="control-label col-lg-1 col-md-2">总价</label>
 									<div class="col-lg-11 col-sm-11"
 										ng-show="neworder.unit_price>0 && neworder.quantity>0">
-										<label>商品价格： {{calc_product_price().toFixed(2)}} =
+										<label>商品： ${{calc_product_price().toFixed(2)}} =
 											{{neworder.unit_price}} x {{neworder.quantity}} </label>
 									</div>
 									<div style="float: top"
 										class="col-lg-offset-1 col-lg-12 col-sm-12"
 										ng-show="neworder.unit_freight>0 && neworder.quantity>0">
-										<label>运费： {{calc_product_freight().toFixed(2)}} =
+										<label>运费： ${{calc_product_freight().toFixed(2)}} =
 											{{neworder.unit_freight}} x {{neworder.quantity}} </label>
 									</div>
 									<div style="float: top"
 										class="col-lg-offset-1 col-lg-12 col-sm-12"
 										ng-show="neworder.unit_commision>0 && neworder.quantity>0">
-										<label>服务费： {{calc_commison().toFixed(2)}} =
+										<label>服务费： ${{calc_commison().toFixed(2)}} =
 											{{neworder.unit_commision}} x {{neworder.quantity}} x
 											{{neworder.fee_discount}}% (折扣 {{neworder.fee_discount}}%)</label>
 									</div>
@@ -162,13 +186,13 @@
 									<div style="float: top"
 										class="col-lg-offset-1 col-lg-12 col-sm-12"
 										ng-show="neworder.quantity>0">
-										<label>小计： {{calc_product_sum().toFixed(2)}}</label>
+										<label>小计： ${{calc_product_sum().toFixed(2)}}</label>
 									</div>
 									<div style="float: top"
 										class="col-lg-offset-1 col-lg-12 col-sm-12"
 										ng-show="neworder.unit_commision>0 && neworder.quantity>0">
 										<label>手续费：
-											{{(calc_product_sum()*0.039+0.3).toFixed(2)}} =
+											${{(calc_product_sum()*0.039+0.3).toFixed(2)}} =
 											{{calc_product_sum().toFixed(2)}} x 3.9% + 0.3
 											(收费标准：每笔金额的3.9% + 0.3)</label>
 									</div>
@@ -190,19 +214,21 @@
 										class="col-lg-offset-1 col-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.quantity>0">
 										<label>（价格仅供参考，实际价格以系统最终计算金额为准！如您使用支付宝，将加收提现手续费 约
-											{{calc_alipay().toFixed(2)}} 元）</label>
+											￥{{calc_alipay().toFixed(2)}} 元）</label>
 									</div>
 								</div>
 							</div>
 							<div class="form-group ">
 								<div class="col-lg-offset-1 col-offset-2  col-lg-10"
-									style="color: red; padding-bottom: 10px;"
+									style="color: red; padding-bottom: 10px;" 
 									ng-show="neworder_error != ''">提交失败：{{neworder_error}}</div>
 								<div class="col-lg-offset-1 col-offset-2 col-lg-2">
-									<a class="btn btn-danger btn-lg"
+									<a class="btn btn-danger btn-lg btn-block" id="new_order_submit" 
+									   style="background-color:#f40;width:182px;height:39px;vertical-align:middle;
+									     font-size:14px; font-weight:700;border-radius:0;color:white"
 										ng-click="neworder_submit(neworder_form.$valid)"
 										ng-disabled="neworder_form.$invalid || neworder.quantity<1 || neworder.unit_price<=0 
-										  || neworder.unit_freight<=0">提&nbsp&nbsp&nbsp交
+										  || neworder.unit_freight<=0">提交订单
 									</a>
 								</div>
 							</div>
@@ -225,7 +251,7 @@
 	        <div class="col-lg-12" style="line-height:25px">
 	            <p>订单遍号：{{foo(orderid, 8)}}
 	            <br>提交时间：{{getDate(createdate)}}&nbsp;&nbsp;&nbsp;&nbsp;{{getTime(createdate)}}
-	            <br>产品链接：<a href="javascript:void(0);" target="_blank"
+	            <br>商品链接：<a href="javascript:void(0);" target="_blank"
                                     ng-click="getLink()">请点击查看</a>
 	            </p>
 	        </div>
@@ -291,7 +317,19 @@
                         <td ng-bind="'$' + calc_commison().toFixed(2) +'（折扣' + neworder.fee_discount + '%）'">
                         </td>
                       </tr>
-                    </tbody>
+					<tr>
+						<td>#4</td>
+						<td>汇率</td>
+						<td>-</td>
+						<td ng-bind="dollar"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>#5</td>
+						<td>服务类型</td>
+						<td colspan="3" ng-bind="getSrvType(neworder.srvtype)"></td>
+					</tr>
+							</tbody>
                     <tfoot>
                       <tr>
                         <td class="text-right" colspan="4">

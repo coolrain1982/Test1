@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.web.basedata.BaseDataService;
+import com.web.entity.Commision;
 import com.web.entity.Order;
 import com.web.entity.User;
 import com.web.order.dao.OrderDao;
@@ -30,6 +31,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 	public OrderDao orderDao;
 	@Value("${upload.base}")
 	private String uploadBase;
+
 
 	@Transactional(rollbackFor=Exception.class)
 	@Override
@@ -49,7 +51,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 
 		// 取当前汇率、佣金、paypal手续费（固定部分+比例）
 		double exchangeRate = 0.00, commision = 0.00;
-		int exchangeType = 0;
+		int exchangeType = 0, srvtype = 1;
 		double paypalFee = 0.3, paypalRate = 3.9;
 
 		if (params.containsKey("exchange") && params.get("exchange").size() > 0) {
@@ -74,12 +76,36 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 			throw new Exception("系统缺少汇率数据，请尽快联系客户处理！");
 		}
 
-		if (bsDataMap.containsKey("commision")) {
-
+		
+		if (params.containsKey("srvtype") && params.get("srvtype").size() > 0) {
 			try {
-				commision = Double.parseDouble(bsDataMap.get("commision").toString().trim());
+				srvtype = Integer.parseInt(params.get("srvtype").get(0).toString().trim());
+			} catch (Exception e) {
+				throw new Exception("请选择正确的服务类型！");
+			}
+		} else {
+			throw new Exception("请选择正确的服务类型！");
+		}
+		
+		if (bsDataMap.containsKey("commision")) {
+			List<Commision> comList = null;
+			boolean comExist = false;
+			try {
+				Object o = bsDataMap.get("commision");
+				comList = (List<Commision>) o;
 			} catch (Exception e) {
 				throw new Exception("系统缺少佣金数据，请尽快联系客服处理！");
+			}
+			
+			for (Commision com : comList) {
+				if (com.getSrv_type() == srvtype) {
+					commision = com.getFee();
+					comExist = true;
+				}
+			}
+			
+			if (!comExist) {
+				throw new Exception(String.format("系统缺少佣金数据[%s]，请尽快联系客服处理！", srvtype));
 			}
 		} else {
 			throw new Exception("系统缺少佣金数据，请尽快联系客服处理！");
@@ -112,7 +138,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 				!params.get("link").get(0).toString().trim().equals("")) {
 			link = params.get("link").get(0).toString().trim();
 		} else {
-			throw new Exception("产品链接输入不正确！");
+			throw new Exception("商品链接输入不正确！");
 		}
 
 		String productDescript = "";
@@ -120,7 +146,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 				!params.get("descript").get(0).toString().trim().equals("")) {
 			productDescript = params.get("descript").get(0).toString().trim();
 		} else {
-			throw new Exception("产品描述输入不正确！");
+			throw new Exception("商品描述输入不正确！");
 		}
 
 		int quantity = 0;
@@ -128,10 +154,10 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 			try {
 				quantity = Integer.parseInt(params.get("quantity").get(0).toString().trim());
 			} catch (Exception e) {
-				throw new Exception("产品数量输入不正确：" + e.getMessage());
+				throw new Exception("商品数量输入不正确：" + e.getMessage());
 			}
 		} else {
-			throw new Exception("产品数量输入不正确！");
+			throw new Exception("商品数量输入不正确！");
 		}
 
 		double unitFreight = 0.00;
@@ -150,10 +176,10 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 			try {
 				unitPrice = Double.parseDouble(params.get("unit_price").get(0).toString().trim());
 			} catch (Exception e) {
-				throw new Exception("产品单价输入不正确：" + e.getMessage());
+				throw new Exception("商品单价输入不正确：" + e.getMessage());
 			}
 		} else {
-			throw new Exception("产品单价输入不正确！");
+			throw new Exception("商品单价输入不正确！");
 		}
 		
 		String productPhotoUrl = "";
@@ -161,10 +187,10 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 			try {
 				productPhotoUrl = saveUploadImg(files, user);
 			} catch (Exception e) {
-				throw new Exception("保存产品截图失败：" + e.getMessage());
+				throw new Exception("保存商品截图失败：" + e.getMessage());
 			}
 		} else {
-			throw new Exception("请上传至少一张产品截图");
+			throw new Exception("请上传至少一张商品截图");
 		}
 
 		Order newOrder = new Order();
@@ -183,6 +209,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		newOrder.setUser(user);
 		newOrder.setDiscount(user.getDiscount()==null || user.getDiscount()<= 0?100:user.getDiscount());
 		newOrder.setStatus(1);
+		newOrder.setType(srvtype);
 		
 		orderDao.newOrder(newOrder);
 		
@@ -216,6 +243,11 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		
 		for(int i = 0; i < files.length && i < 3; i ++) {
 			MultipartFile mfile = files[i];
+			
+			if (mfile.getSize() > 300 * 1024) {
+				throw new Exception(String.format("上传图片大小不能超过300k！"));
+			}
+			
 			String origName = mfile.getOriginalFilename().substring(mfile.getOriginalFilename().lastIndexOf("."));
 			long mill = Calendar.getInstance().getTimeInMillis(); 
 

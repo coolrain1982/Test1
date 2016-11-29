@@ -33,7 +33,7 @@
 									<tbody>
 										<tr>
 											<td>#1</td>
-											<td>产品</td>
+											<td>商品</td>
 											<td ng-bind="selectItem.product_quantity"></td>
 											<td ng-bind="'$' + selectItem.product_unit_price"></td>
 											<td ng-bind="'$' + (selectItem.product_unit_price*selectItem.product_quantity).toFixed(2)"></td>
@@ -61,6 +61,11 @@
                                             <td ng-bind="selectItem.exchange_rate"></td>
                                             <td></td>
                                         </tr>
+                                        <tr>
+                                            <td>#5</td>
+                                            <td>服务类型</td>
+                                            <td colspan="3" ng-bind="$ctrl.getSrvType(selectItem)"></td> 
+                                        </tr>
 									</tbody>
 									<tfoot>
 										<tr>
@@ -78,7 +83,7 @@
 											</strong></td>
 											<td class="text-danger"
 												ng-bind="'$' + $ctrl.calcSum(selectItem).toFixed(2) + 
-												    '    (￥' + ($ctrl.calcSum(selectItem)*selectItem.exchange_rate).toFixed(2) + ')'">
+												    '    (￥' + ($ctrl.calcSum(selectItem).toFixed(2)*selectItem.exchange_rate).toFixed(2) + ')'">
 
 											</td>
 										</tr>

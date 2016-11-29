@@ -1,9 +1,11 @@
 package com.web.basedata;
 
 import java.util.Calendar;
+import java.util.List;
+import com.web.entity.Commision;
 
 public interface CommisionDao {
-	public Double getCommision(int type);
-	public Double getCommision(Calendar date);
-	public void addCommision(int type, double rate);
+	public List<Commision> getCommision(int type);
+	public List<Commision> getCommision(Calendar date);
+	public void addCommision(int type, List<Commision> commision);
 }

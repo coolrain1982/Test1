@@ -18,27 +18,30 @@ public class CommisionDaoImpl implements CommisionDao {
 	public SessionFactory sesssionFactory;
 
 	@Override
-	public Double getCommision(int type) {
-		String hql = "select new com.web.entity.Commision(e.type, e.fee, e.date) from Commision e where e.type = :type order by e.date desc";
+	public List<Commision> getCommision(int type) {
+		String hql = "select new com.web.entity.Commision(e.type, e.srv_type, e.fee, e.date) from Commision "
+				+ "e where e.type = :type and e.date = (select max(date) from Commision f where e.type = f.type)";
+		@SuppressWarnings("rawtypes")
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setParameter("type", type);
 		
+		@SuppressWarnings("unchecked")
 		List<Commision> resultList = q.getResultList();
 		if (resultList.size() == 0) {
 			return null;
 		}
 		
-		return resultList.get(0).getFee();
+		return resultList;
 	}
 
 	@Override
-	public Double getCommision(Calendar date) {
+	public List<Commision> getCommision(Calendar date) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void addCommision(int type, double rate) {
+	public void addCommision(int type,  List<Commision> commList) {
 		// TODO Auto-generated method stub
 
 	}

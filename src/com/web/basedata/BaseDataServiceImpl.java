@@ -1,6 +1,7 @@
 package com.web.basedata;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -8,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.web.entity.Commision;
 import com.web.entity.PaypalFee;
 
 @Service
@@ -28,7 +30,7 @@ public class BaseDataServiceImpl  implements BaseDataService {
 		rtnMap.put("paypal_fee", null);
 		rtnMap.put("paypal_rate", null);
 		
-		Double commision = comDao.getCommision(type);
+		List<Commision> commision = comDao.getCommision(type);
 		Double exchange = exDao.getExchange(type);
 		PaypalFee ppFee = ppDao.getPaypal(type);
 		if (ppFee != null) {

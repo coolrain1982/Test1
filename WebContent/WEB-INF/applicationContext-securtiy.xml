@@ -11,20 +11,19 @@
 	
 	<http pattern="/login.html*" security="none"/>
     <http pattern="/**/*.css" security="none" />  
-    <http pattern="/**/*.js" security="none" />
-    <http pattern="/**/*.jpg" security="none" />  
-    <http pattern="/**/*.png" security="none" />  
-    <http pattern="/**/*.gif" security="none" />
+    <http pattern="/**/**.js" security="none" />
+    <http pattern="/img/**" security="none" />   
     <http pattern="/**/*.eot" security="none" />  
     <http pattern="/**/*.svg" security="none" /> 
-    <http pattern="/**/*.ttf" security="none" /> 
+    <http pattern="/**/*.ttf" security="none" />
 	
 	<http auto-config="true" use-expressions="false"> 
 	     <form-login login-page="/login.html" 
-                authentication-failure-url="/login.html?error=1" default-target-url="/index.html" 
+                authentication-failure-url="/login.html?error=1" default-target-url="/index.do" 
                 always-use-default-target="true" />
+         <intercept-url pattern="/cs/**" access="ROLE_ADMIN,ROLE_CS" />
 	     <intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
-         <intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN" />
+         <intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN, ROLE_CS" />
 	     <access-denied-handler error-page="/access_denied.html" /> 
          <logout logout-success-url="/login.html" />
          <csrf disabled="true" />
