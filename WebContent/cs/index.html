@@ -330,41 +330,23 @@
                           <span>订单管理</span>
                       </a>
                   </li> 	
-                  <div class="collapse in" id="orderSub">
+                  <div class="collapse" id="orderSub">
                       <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="unconfirmOrder" ui-sref-opts="{reload:'unconfirmOrder'}">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="csOrder" ui-sref-opts="{reload:'csOrder'}">
                               <i class="icon_question_alt"></i>
-                              <span>待确认订单</span>
+                              <span>待审核订单</span>
                           </a>
                       </li>
-                      <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="rejectOrder" ui-sref-opts="{reload:'rejectOrder'}">
+                     <li>
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="csRejectOrder" ui-sref-opts="{reload:'csRejectOrder'}">
                               <i class="icon_error-circle"></i>
                               <span>待关闭订单</span>
                           </a>
                       </li>
                       <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="unpayOrder" ui-sref-opts="{reload:'unpayOrder'}">
-                              <i class="icon_currency_alt"></i>
-                              <span>待支付订单</span>
-                          </a>
-                      </li>
-                      <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="doingOrder" ui-sref-opts="{reload:'doingOrder'}">
-                              <i class="arrow_carrot-2right_alt"></i>
-                              <span>进行中订单</span>
-                          </a>
-                      </li>
-                      <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="historyOrder" ui-sref-opts="{reload:'historyOrder'}">
-                              <i class="icon_check_alt"></i>
-                              <span>已完成订单</span>
-                          </a>
-                      </li>
-                      <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="allOrder" ui-sref-opts="{reload:'allOrder'}">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="allCsOrder" ui-sref-opts="{reload:'allCsOrder'}">
                               <i class="icon_menu-circle_alt"></i>
-                              <span>全部订单</span>
+                              <span>我处理的所有订单</span>
                           </a>
                       </li>
                   </div> 			  

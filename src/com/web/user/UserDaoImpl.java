@@ -32,6 +32,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
+	@SuppressWarnings({ "rawtypes" })
 	public User getUser(String userName) {
 		String hql = "from User u where u.name = :name";
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -49,6 +50,22 @@ public class UserDaoImpl implements UserDao {
 	public User getUser(int id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<User> getUser(int flag, String role) {
+		String hql = "from User u where u.flag = :flag and role=:role";
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setParameter("flag", flag);
+		q.setParameter("role", role);
+		
+		List<User> resultList = q.getResultList();
+		if (resultList.size() == 0) {
+			return null;
+		}
+		
+		return resultList;
 	}
 	
 }

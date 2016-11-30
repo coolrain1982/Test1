@@ -43,6 +43,18 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    .state('allOrder', {
 	    	url : '/allOrder',
 	    	templateUrl: 'allOrder.html'
+	    })
+	    .state('csOrder', {
+	    	url : '/csOrder',
+	    	templateUrl: 'cs/csOrder.html'
+	    })
+	    .state('csRejectOrder', {
+	    	url : '/csRejectOrder',
+	    	templateUrl: 'cs/csRejectOrder.html'
+	    })
+	    .state('allCsOrder', {
+	    	url : '/allCsOrder',
+	    	templateUrl: 'cs/allCsOrder.html'
 	    });
 });
 

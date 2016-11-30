@@ -1,5 +1,7 @@
 package com.web.user;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -35,6 +37,11 @@ public class UserServiceImpl implements UserService {
 	public User updateUser(User user) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<User> getCS() {
+		return userDao.getUser(1, "ROLE_CS");
 	}
 
 }

@@ -33,6 +33,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 	private String uploadBase;
 
 
+	@SuppressWarnings("unchecked")
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public Order saveNewOrder(String userName, MultiValueMap<String, Object> reqParams, MultipartFile[] files)
@@ -47,6 +48,12 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		user = userService.getUser(userName);
 		if (user == null) {
 			throw new Exception("未知用户：" + userName);
+		}
+		
+		int csid = -1;
+		List<User> csUsers = userService.getCS();
+		if (csUsers.size() > 0) {
+			csid = csUsers.get((int) (Math.random()*csUsers.size() + 1)).getId();
 		}
 
 		// 取当前汇率、佣金、paypal手续费（固定部分+比例）
@@ -210,6 +217,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		newOrder.setDiscount(user.getDiscount()==null || user.getDiscount()<= 0?100:user.getDiscount());
 		newOrder.setStatus(1);
 		newOrder.setType(srvtype);
+		newOrder.setCsid(csid);
 		
 		orderDao.newOrder(newOrder);
 		
@@ -263,5 +271,4 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		
 		return sb.toString();
 	}
-
 }

@@ -20,6 +20,7 @@ public class User {
 	private String password;
 	private String email;
 	private String role;
+	private String mobile, qq;
 	private Integer flag;
 	private Integer discount;
 	private Set<Order> orders;
@@ -88,5 +89,21 @@ public class User {
 	}
 	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
+	}
+	
+	@Column
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	
+	@Column
+	public String getQq() {
+		return qq;
+	}
+	public void setQq(String qq) {
+		this.qq = qq;
 	}
 }

@@ -5478,6 +5478,10 @@ span.customSelect.changed {
 	font-size: 14px;
 }
 
+.smalltd {
+    font-size: 12px;
+}
+
 .table td.actions {
 	width: 90px;
 	padding-right: 0;

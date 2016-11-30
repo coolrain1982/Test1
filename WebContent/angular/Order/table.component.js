@@ -3,58 +3,46 @@
 // Register `phoneList` component, along with its associated controller and
 // template
 angular.module('order-table').component('orderTable',{
-	templateUrl : 'angular/Order/table.template.html',controller : ['$state','$scope','$modal','$http','cfpLoadingBar','$timeout',
-	function TableController($state, $scope, $modal,$http, cfpLoadingBar, $timeout) {
+	templateUrl : 'angular/Order/table.template.html',
+	controller : ['$state','$scope','$modal','$http','cfpLoadingBar','$timeout','$popover',
+	function TableController($state, $scope, $modal,$http, cfpLoadingBar, $timeout, $popover) {
 
 		this.title = "";
 		this.icon = "";
 		this.queryStatus = -1;
-//		this.recordSize = 0;
 
 		this.orderList = [];
 		this.init = false;
-
-		// this.orderList = [
-		// {
-		// order_id: 1,
-		// discount: 80,
-		// product_descript:"11111111",
-		// link:"http://baidu.com",
-		// product_photo_url:"@@LeiYu/2016/11/1479973445415_0.png@@LeiYu/2016/11/1479973445415_1.PNG",
-		// audit_remark:"ok",
-		// product_unit_price:1.01,
-		// product_unit_freight:1.02,
-		// product_unit_commission:5,
-		// exchange_rate:7.0311,
-		// paypal_fee:0.3,
-		// paypal_rate:3.9,
-		// product_quantity:2,
-		// create_date: 1293072805,
-		// status: 1,
-		// },
-		// {
-		// order_id: 2,
-		// discount: 80,
-		// product_descript:"22222222",
-		// link:"http://sohu.com/11111111111111111111111111111111111",
-		// product_photo_url:"@@LeiYu/2016/11/1480077298963_0.PNG",
-		// audit_remark:"ok",
-		// product_unit_price:2.02,
-		// product_unit_freight:2.03,
-		// product_unit_commission:5,
-		// exchange_rate:7.0311,
-		// paypal_fee:0.3,
-		// paypal_rate:3.9,
-		// product_quantity:3,
-		// create_date: 1293062805,
-		// status: 3,
-		// }
-		// ];
+	    this.doUrl = "";
+	    
+	    this.operator = 1;
+	    this.doingAudit = false;
 
 		var modelDialog = $modal({
 			scope : $scope,
 			templateUrl : 'angular/Order/detail.template.html',
-			show : false
+			show : false,
+			animation: 'am-fade-and-slide-top',
+			backdrop:'static',
+			keyboard:false,
+		});
+		
+		var auditDialog = $modal({
+			scope : $scope,
+			templateUrl : 'angular/Order/audit.template.html',
+			show : false,
+			animation: 'am-fade-and-slide-top',
+			backdrop:'static',
+			keyboard:false,
+		});
+		
+		var confirmDialog = $modal({
+			scope : $scope,
+			templateUrl : 'angular/Order/confirm.template.html',
+			show : false,
+			animation: 'am-fade-and-slide-top',
+			backdrop:'static',
+			keyboard:false,
 		});
 
 		this.getUrlList = function(temp) {
@@ -74,6 +62,54 @@ angular.module('order-table').component('orderTable',{
 			$scope.selectItem = item;
 			modelDialog.$promise.then(modelDialog.show);
 		};
+		
+		this.showAudit = function(item) {
+			item.auditError = "";
+			auditDialog.$promise.then(auditDialog.show);
+		}
+		
+		this.checkAuditContent = function(item) {
+			item.auditError = "";
+			
+			if (!item.auditContent || item.auditContent.length < 1) {
+				item.auditError = "请输入审核意见!";
+				return false;
+			}
+			
+			if (item.auditContent.length > 100) {
+				item.auditError = "审核意见不能超过100个字符!";
+				return false;
+			}
+			
+			return true;
+		}
+		
+		this.showPassConfirm = function(item) {
+			if (!this.checkAuditContent(item)) {
+				return;
+			}
+			
+			auditDialog.hide();
+			this.auditError = "";
+			this.auditStatus = 2;
+			this.confirmTitle = "确定审核通过该订单吗？";
+			confirmDialog.$promise.then(confirmDialog.show);
+		}
+		
+        this.showRejectConfirm = function(item) {
+        	if (!this.checkAuditContent(item)) {
+				return;
+			}
+			auditDialog.hide();
+			this.auditError = "";
+        	this.auditStatus = 3;
+        	this.confirmTitle = "确定拒绝该订单吗？";
+        	confirmDialog.$promise.then(confirmDialog.show);
+		}
+        
+        this.confirmCancel = function() {
+        	auditDialog.$promise.then(auditDialog.show);
+        }
 
 		this.calcTotal = function(item) {
 			var temp = (item.product_unit_price
@@ -254,18 +290,19 @@ angular.module('order-table').component('orderTable',{
 			this.tableShow = true;
 		};
 	    
-	    this._get = function(page, size, callback) {
+	    this._get = function(page, size, orderid, callback) {
 	    	if (this.init && this.p_current == page) {
 	    		return;
 	    	}
 	    	
 	    	this.init = true;
 	    	this.start();
-			$http.get("userorder/getOrder.do", 
+			$http.get(this.doUrl,
 					{ params:{
 				        status:this.queryStatus,
 				        page: page,
 				        size: size,
+				        orderid: orderid,
 				    }
 			}).success(function(res) {
 				if (res && res.status == 1) {
@@ -290,14 +327,68 @@ angular.module('order-table').component('orderTable',{
 		}
  
 	    this.load_page = function(page){  
-	        this._get(page,this.p_pernum,function(){ });  
+	        this._get(page,this.p_pernum, this.queryOrderid,  function(){ });  
 	    };  
 		// //////////////////////////////////////////////////////
+	    
+	   //审核用户订单相关///////////////////////////////////////////////////////	    
+	    this.auditStart = function() {
+	    	this.auditError = "";
+			this.doingAudit = true;
+			this.auditTimeout = $timeout(function() {
+				cfpLoadingBar.start();}
+			, 2000);
+		}
+		
+		this.auditComplete = function(result) {
+			if (this.auditTimeout) {
+				$timeout.cancel(this.auditTimeout);
+			}
+			cfpLoadingBar.complete();
+			this.doingAudit = false;
+			if (result) {
+				confirmDialog.hide();
+				this.p_current = 1;
+				this.init = false;
+				this._get(this.p_current, this.p_pernum, -1, function(){});
+			}
+		};
+		
+	   this.confirmOK = function() {
+		   this.auditStart();
+		   $http.get("cs/auditOrder.do",
+					{ params:{
+				        status: this.auditStatus,
+				        orderid: $scope.selectItem.order_id,
+				        auditmark: $scope.selectItem.auditContent
+				    }
+			}).success(function(res) {
+				if (res && res.status == 1) {
+					//重新刷新当前的table
+					$scope.$ctrl.auditComplete(true);
+				} else if (res && res.status == 0) {
+					$scope.$ctrl.auditError = res.error;
+					$scope.$ctrl.auditComplete(false);
+				} else {
+					$scope.$ctrl.auditComplete(false);
+					window.location.href = res;
+				}
+				
+			}).error(function() {
+				$scope.$ctrl.auditComplete(false);
+				alert("发生错误，请重新登录！");
+				window.location.href = "logout";
+			});
+       }
+	   //////////////////////////////////////////////////////////////////
+	   
+	    
+	    this.doUrl = "userorder/getOrder.do";
 	    switch ($state.current.name) {
 	        case "unpayOrder":
 	        	this.title = "待支付订单";
 			    this.icon = "icon_currency_alt";
-			    this.queryStatus = 2;
+			    this.queryStatus = 2; 
 	        	break;
 	        case "doingOrder":
 	        	this.title = "进行中订单";
@@ -319,6 +410,27 @@ angular.module('order-table').component('orderTable',{
 			    this.icon = "icon_menu-circle_alt";
 			    this.queryStatus = 99;
 	        	break;
+	        case "csOrder":
+	        	this.title = "待审核订单";
+			    this.icon = "icon_question_alt";
+			    this.queryStatus = 1;
+			    this.operator = 2;
+			    this.doUrl = "cs/getOrder.do";
+	        	break;
+	        case "csRejectOrder":
+	        	this.title = "待关闭订单";
+			    this.icon = "icon_error-circle";
+			    this.queryStatus = 3;
+			    this.operator = 2;
+			    this.doUrl = "cs/getOrder.do";
+	        	break;
+	        case "allCsOrder":
+	        	this.title = "我处理的所有订单";
+			    this.icon = "icon_menu-circle_alt";
+			    this.queryStatus = 99;
+			    this.operator = 2;
+			    this.doUrl = "cs/getOrder.do";
+	        	break;
 			default:
 				this.title = "待确认订单";
 			    this.icon = "icon_question_alt";
@@ -326,6 +438,6 @@ angular.module('order-table').component('orderTable',{
 			    break;
 	    }
 		
-		this._get(this.p_current, this.p_pernum, function(){});
+		this._get(this.p_current, this.p_pernum, -1, function(){});
 	} ]
 });

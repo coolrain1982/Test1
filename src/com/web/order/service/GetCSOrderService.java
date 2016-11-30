@@ -5,7 +5,7 @@ import java.util.List;
 import com.web.common.PageForQuery;
 import com.web.entity.Order;
 
-public interface GetOrderService {
+public interface GetCSOrderService {
 	public long getOrderCount(Integer userId, int status) throws Exception;
 	public long getOrderCount(int status) throws Exception;
 	public List<Order> getOrders(Integer userId, int status, PageForQuery pfq) throws Exception;

@@ -21,10 +21,10 @@ import javax.persistence.TemporalType;
 public class Order {
 	
 	private long order_id;
-	//status:0-无效；1-初始值；2-待支付；3-审核未通过；4-客户已支付；10-已经付中介；20-已完成
+	//status:0-已取消；1-初始值；2-待支付；3-审核未通过；4-客户已支付；10-已经付中介；20-已完成
 	//type:1-仅购买；2-购买+review；3-购买+review+feedback
-	private int status, discount, type; 
-	private String link, key_word, product_descript, product_photo_url, audit_name, audit_remark;
+	private int status, discount, type, csid; 
+	private String link, key_word, product_descript, product_photo_url, audit_remark;
 	private Double product_unit_price, product_unit_freight, product_total_price, product_unit_commission;
 	private Double exchange_rate, refunds, paypal_fee, paypal_rate, total;                                               
 	private int product_quantity;
@@ -198,14 +198,6 @@ public class Order {
 		this.audit_date = audit_date;
 	}
 	
-	@Column
-	public String getAudit_name() {
-		return audit_name;
-	}
-	public void setAudit_name(String audit_name) {
-		this.audit_name = audit_name;
-	}
-	
 	@OneToMany(mappedBy="order", fetch=FetchType.LAZY)
 	public Set<OrderForReview> getOrdersForReview() {
 		return ordersForReview;
@@ -270,5 +262,14 @@ public class Order {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	@Column
+	public int getCsid() {
+		return csid;
+	}
+
+	public void setCsid(int csid) {
+		this.csid = csid;
 	}
 }
