@@ -10,9 +10,9 @@
 				<div class="row">
 					<div class="col-lg-12" style="line-height: 25px">
 						<p>
-							订单遍号：{{$ctrl.foo(selectItem.order_id, 8)}} <br>
+							订单遍号：{{$ctrl.commFunc.foo(selectItem.order_id, 8)}} <br>
 							<!-- 提交时间：{{getDate(selectItem.createdate)}}&nbsp;&nbsp;&nbsp;&nbsp;{{getTime(selectItem.createdate)}} -->
-							提交时间：{{$ctrl.formatDate(selectItem.create_date)}}
+							提交时间：{{$ctrl.commFunc.formatDate(selectItem.create_date)}}
 						</p>
 					</div>
 				</div>
@@ -94,8 +94,13 @@
                         <div style="float:right">
 						 <a class="btn btn-danger btn-lg btn-block"
 					          style="background-color:#f40;height:39px;width:182px;vertical-align:middle; 
-					          border-radius:0;color:white;font-size:14px;" ng-click="$hide();$ctrl.showAudit(selectItem)"
-					          ng-if="selectItem.status == 1 && $ctrl.operator >1">审核
+					          border-radius:0;color:white;font-size:14px;" ng-click="$hide();$ctrl.showAction1(selectItem)"
+					          ng-if="$ctrl.orderTable.detailAction1Show(selectItem)">{{$ctrl.orderTable.detailAction1Title(selectItem)}}
+                        </a>
+                        <a class="btn btn-danger btn-lg btn-block"
+                              style="background-color:#f40;height:39px;width:182px;vertical-align:middle; 
+                              border-radius:0;color:white;font-size:14px;" ng-click="$hide();$ctrl.showAction2(selectItem)"
+                              ng-if="$ctrl.orderTable.detailAction2Show(selectItem)">{{$ctrl.orderTable.detailAction2Title(selectItem)}}
                         </a>
                         </div>
 					</div>

@@ -1,17 +1,17 @@
 <section class="wrapper">
-	<div class="row" ng-show="$ctrl.tableShow">
+	<div class="row">
 		<div class="col-lg-12 col-md-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h2>
-						<i class="{{$ctrl.icon}}"></i>{{$ctrl.title}}
+						<i class="{{auditVar.icon}}"></i>{{auditVar.title}}
 					</h2>
 				</div>
 				<div class="widget-content padded clearfix"
-					ng-if="$ctrl.recordSize==0">
+					>
 					未查询到符合条件的订单数据！</div>
 				<div class="widget-content padded clearfix"
-                    ng-if="$ctrl.pageError">
+                    >
                     查询订单数据时出错：{{$ctrl.pageError}}！</div>
 				<div class="widget-container fluid-height clearfix"
 					ng-if="$ctrl.recordSize>0">
@@ -43,7 +43,7 @@
 									<td class="hidden-xs">
 										{{$ctrl.getDate($ctrl.formatDate(item.create_date))}}&nbsp;&nbsp;
 										{{$ctrl.getTime($ctrl.formatDate(item.create_date))}}</td>
-									<td class="hidden-xs"><label
+									<td class="hidden-xs" style="text-align:center;"><label
 										style="display: inline-block; line-height: 2; width: 60px;"
 										class="label {{$ctrl.getStatusClass(item.status)}}">
 											{{$ctrl.getStatus(item.status)}}</label></td>

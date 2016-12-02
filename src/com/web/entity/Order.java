@@ -89,7 +89,7 @@ public class Order {
 	public Double getProduct_unit_price() {
 		return product_unit_price;
 	}
-	public void setProduct_unit_price(double product_unit_price) {
+	public void setProduct_unit_price(Double product_unit_price) {
 		this.product_unit_price = product_unit_price;
 	}
 	
@@ -97,7 +97,7 @@ public class Order {
 	public int getProduct_quantity() {
 		return product_quantity;
 	}
-	public void setProduct_quantity(int product_quantity) {
+	public void setProduct_quantity(Integer product_quantity) {
 		this.product_quantity = product_quantity;
 	}
 	
@@ -130,7 +130,7 @@ public class Order {
 	public Double getProduct_total_price() {
 		return product_total_price;
 	}
-	public void setProduct_total_price(double product_total_price) {
+	public void setProduct_total_price(Double product_total_price) {
 		this.product_total_price = product_total_price;
 	}
 	
@@ -138,7 +138,7 @@ public class Order {
 	public Double getProduct_unit_freight() {
 		return product_unit_freight;
 	}
-	public void setProduct_unit_freight(double product_unit_freight) {
+	public void setProduct_unit_freight(Double product_unit_freight) {
 		this.product_unit_freight = product_unit_freight;
 	}
 	
@@ -146,7 +146,7 @@ public class Order {
 	public Double getProduct_unit_commission() {
 		return product_unit_commission;
 	}
-	public void setProduct_unit_commission(double product_unit_commission) {
+	public void setProduct_unit_commission(Double product_unit_commission) {
 		this.product_unit_commission = product_unit_commission;
 	}
 	
@@ -219,7 +219,7 @@ public class Order {
 	public Double getExchange_rate() {
 		return exchange_rate;
 	}
-	public void setExchange_rate(double exchange_rate) {
+	public void setExchange_rate(Double exchange_rate) {
 		this.exchange_rate = exchange_rate;
 	}
 	
@@ -227,7 +227,7 @@ public class Order {
 	public Double getRefunds() {
 		return refunds;
 	}
-	public void setRefunds(double refunds) {
+	public void setRefunds(Double refunds) {
 		this.refunds = refunds;
 	}
 	

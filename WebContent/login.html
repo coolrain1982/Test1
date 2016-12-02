@@ -51,7 +51,7 @@
                 <input type="password" class="form-control" placeholder="密码" name="password" />
             </div>
             <div class="input-group" ng-show="errorLogin">
-                <span style="color:Red">{{errorLogin}}</span>
+                <span style="color:Red" ng-bind="errorLogin"></span>
             </div>
             <label class="checkbox">
                 <!-- <input type="checkbox" value="remember-me"> Remember me -->

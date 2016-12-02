@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.web.common.PageForQuery;
 import com.web.entity.Order;
 import com.web.entity.User;
+import com.web.order.service.AuditOrderService;
 import com.web.order.service.GetCSOrderService;
-import com.web.order.service.SaveNewOrderService;
 import com.web.user.UserService;
 
 @Controller
@@ -23,7 +23,7 @@ import com.web.user.UserService;
 public class CsOrderCtrl {
 	
 	@Resource
-	public SaveNewOrderService saveSrv;
+	public AuditOrderService auditSrv;
 	
 	@Resource
 	public GetCSOrderService getSrv;
@@ -92,12 +92,21 @@ public class CsOrderCtrl {
 	@RequestMapping("/auditOrder.do")
 	@ResponseBody
 	public Map<String, Object> auditOrder(@RequestParam int status, 
-			                            @RequestParam int orderid,
+			                            @RequestParam long orderid,
 			                            @RequestParam String auditmark) {
 		
 		Map<String, Object> rtnMap = new HashMap<>();
-		rtnMap.put("status", 1);
-		rtnMap.put("error", "heheheh");
+		rtnMap.put("status", 0);
+		
+		if (auditmark==null || auditmark=="" || auditmark.trim()=="") {
+			rtnMap.put("error", "请填入审核意见");
+			return rtnMap;
+		}
+		
+		if (status != 2 && status != 3 ) {
+			rtnMap.put("error", "订单审核状态错误！");
+			return rtnMap;
+		}
 		
 		if (auditmark.length() > 100) {
 			rtnMap.put("error", "审核意见不能大于100个字符");
@@ -128,11 +137,13 @@ public class CsOrderCtrl {
 			return rtnMap;
 		}
 		
-		//根据订单ID查找出订单
+		//审核订单
 		try {
-			
+			auditSrv.auditOrder(user, status, orderid, auditmark);
+			rtnMap.put("status", 1);
 		} catch (Exception e) {
-			
+			rtnMap.put("error", String.format("审核订单时出错：%s" , e.getMessage()));
+			return rtnMap;
 		}
 		
 		return rtnMap;

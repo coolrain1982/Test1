@@ -22,8 +22,7 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public void updateOrder(Order order) {
-		// TODO Auto-generated method stub
-
+		sesssionFactory.getCurrentSession().update(order);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -161,6 +160,21 @@ public class OrderDaoImpl implements OrderDao {
 		q.setMaxResults(size);
 
 		return q.getResultList();
+	}
+
+	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Order getOrderById(long orderId) {
+		String hql = "from Order o where o.order_id = :orderId";
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setParameter("orderId", orderId);
+
+		List<Order> resultList = q.getResultList();
+		if (resultList.size() == 0) {
+			return null;
+		}
+		return resultList.get(0);
 	}
 
 }
