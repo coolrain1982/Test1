@@ -26,20 +26,10 @@ angular.module('audit-order').controller("auditOrderController",[
 	case "unconfirmOrder":
 		orderTable.title = "待确认订单";
 		orderTable.doUrl = "userorder/getOrder.do";
-		orderTable.canPay = function(item) {
-			if (item.status == 2) {
-				return true;
-			}
-			return false;
-		};
 		break;
 	case "csOrder":
 		orderTable.title = "待审核订单";
 		orderTable.doUrl = "cs/getOrder.do";
-		orderTable.canPay = function(item) {
-			return false;
-		};
-		orderTable.detailAction1 = function(item) {};
 		orderTable.detailAction1Show = function(item) {
 			if (item.status == 1) {
 				return true;
@@ -61,6 +51,11 @@ angular.module('audit-order').controller("auditOrderController",[
 			backdrop:'static',
 			keyboard:false,
 		});
+		
+		orderTable.detailAction1 = function(item) {
+			item.action1Error = "";
+			orderTable.action1Dialog.$promise.then(orderTable.action1Dialog.show);
+		};
 		
 		$scope.auditConfirmDialog = $modal({
 			scope : $scope,

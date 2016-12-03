@@ -23,7 +23,7 @@
 								<th width="15%">商品截图</th>
 								<th width="10%">商品链接</th>
 								<th width="5%">数量</th>
-								<th width="12%">总价格</th>
+								<th width="12%">价格<label style="font-size:7px">(点击金额查看明细)</label></th>
 								<th class="hidden-xs" width="10%">创建时间</th>
 								<th class="hidden-xs" width="5%">状态</th>
 							</thead>
@@ -43,10 +43,11 @@
 									<td class="hidden-xs">
 										{{$ctrl.commFunc.getDate($ctrl.commFunc.formatDate(item.create_date))}}&nbsp;&nbsp;
 										{{$ctrl.commFunc.getTime($ctrl.commFunc.formatDate(item.create_date))}}</td>
-									<td class="hidden-xs" style="text-align:center;"><label
-										style="display: inline-block; line-height: 2; width: 60px;"
-										class="label {{$ctrl.getStatusClass(item.status)}}">
-											{{$ctrl.getStatus(item.status)}}</label></td>
+									<td class="hidden-xs" style="text-align:center;"><a ng-disabled="$ctrl.orderTable.canClick(item)"
+										style="display: inline-block; line-height: 2; width: 60px;cursor:{{$ctrl.getCursor(item)}}"
+										class="label {{$ctrl.getStatusClass(item.status)}}" 
+										ng-click="$ctrl.orderTable.statusClick(item)">
+											{{$ctrl.getStatus(item.status)}}</a></td>
 								</tr>
 							</tbody>
 						</table>

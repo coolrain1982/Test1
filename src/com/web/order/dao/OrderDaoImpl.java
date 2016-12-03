@@ -99,7 +99,7 @@ public class OrderDaoImpl implements OrderDao {
 				"select new com.web.entity.Order(%s,%s,%s) from Order o join o.user u where o.status=:status and u.id = :userId ", 
 				"o.order_id, o.discount,o.product_descript,o.link,o.product_photo_url,o.audit_remark,o.product_unit_price",
 				"o.product_unit_freight,o.product_unit_commission,o.exchange_rate,o.paypal_fee,o.paypal_rate",
-				"o.product_quantity,o.create_date,o.status, o.type");
+				"o.product_quantity,o.create_date,o.status, o.type, o.audit_date");
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setParameter("status", status);
@@ -117,7 +117,7 @@ public class OrderDaoImpl implements OrderDao {
 				"select new com.web.entity.Order(%s,%s,%s) from Order o where o.status=:status and o.csid = :csId ", 
 				"o.order_id, o.discount,o.product_descript,o.link,o.product_photo_url,o.audit_remark,o.product_unit_price",
 				"o.product_unit_freight,o.product_unit_commission,o.exchange_rate,o.paypal_fee,o.paypal_rate",
-				"o.product_quantity,o.create_date,o.status, o.type");
+				"o.product_quantity,o.create_date,o.status, o.type, o.audit_date");
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setParameter("status", status);
@@ -135,7 +135,7 @@ public class OrderDaoImpl implements OrderDao {
 				"select new com.web.entity.Order(%s,%s,%s) from Order o join o.user u where u.id = :userId ", 
 				"o.order_id, o.discount,o.product_descript,o.link,o.product_photo_url,o.audit_remark,o.product_unit_price",
 				"o.product_unit_freight,o.product_unit_commission,o.exchange_rate,o.paypal_fee,o.paypal_rate",
-				"o.product_quantity,o.create_date,o.status, o.type");
+				"o.product_quantity,o.create_date,o.status, o.type, o.audit_date");
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setParameter("userId", userId);
@@ -152,7 +152,7 @@ public class OrderDaoImpl implements OrderDao {
 				"select new com.web.entity.Order(%s,%s,%s) from Order o where o.csid = :csId ", 
 				"o.order_id, o.discount,o.product_descript,o.link,o.product_photo_url,o.audit_remark,o.product_unit_price",
 				"o.product_unit_freight,o.product_unit_commission,o.exchange_rate,o.paypal_fee,o.paypal_rate",
-				"o.product_quantity,o.create_date,o.status, o.type");
+				"o.product_quantity,o.create_date,o.status, o.type, o.audit_date");
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setParameter("csId", csId);

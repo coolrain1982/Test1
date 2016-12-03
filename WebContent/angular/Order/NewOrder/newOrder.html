@@ -9,7 +9,7 @@
 							name="neworder_form"
 							ng-submit="neworder_submit(neworder_form.$valid)" novalidate>
 							<div class="form-group">
-								<label for="fullname" class="control-label col-lg-1 col-md-2">汇率
+								<label for="fullname" class="control-label col-lg-1 col-md-3">汇率
 									<span class="required">*</span>
 								</label>
 								<div>
@@ -26,7 +26,7 @@
 							</div>
 							
 							<div class="form-group">
-                                <label for="fullname" class="control-label col-lg-1 col-md-2">服务类型
+                                <label for="fullname" class="control-label col-lg-1 col-md-3">服务类型
                                     <span class="required">*</span>
                                 </label>
                                 <div>
@@ -49,7 +49,7 @@
                             </div>
 
 							<div class="form-group has-feedback">
-								<label for="fullname" class="control-label col-lg-1 col-md-2">商品描述
+								<label for="fullname" class="control-label col-lg-1 col-md-3">商品描述
 									<span class="required">*</span>
 								</label>
 								<div class="col-lg-8">
@@ -75,14 +75,14 @@
 							</div>
 
 							<div class="form-group ">
-								<label for="address" class="control-label col-lg-1 col-md-2">商品截图
+								<label for="address" class="control-label col-lg-1 col-md-3">商品截图
 									<span class="required">*</span>
 								</label>
 								<image-upload></image-upload>
 							</div>
 
 							<div class="form-group has-feedback">
-								<label for="address" class="control-label col-lg-1 col-md-2">
+								<label for="address" class="control-label col-lg-1 col-md-3">
 									<a href="javascript:void(0);" target="_blank"
 									ng-click="getLink()">商品链接</a> <span class="required">*</span>
 								</label>
@@ -103,7 +103,7 @@
 
 							<div class="form-group has-feedback">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-2">商品单价($)<span
+									class="control-label col-lg-1 col-sm-1 col-md-3">商品单价($)<span
 									class="required">*</span>
 								</label>
 								<div class="col-lg-10 col-sm-9">
@@ -119,7 +119,7 @@
 
 							<div class="form-group has-feedback">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-2">运费单价($)<span
+									class="control-label col-lg-1 col-sm-1 col-md-3">运费单价($)<span
 									class="required">*</span></label>
 								<div class="col-lg-10 col-sm-9">
 									<input type="number" checked="" data-toggle="switch"
@@ -134,7 +134,7 @@
 
 							<div class="form-group has-feedback">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-2">商品数量<span
+									class="control-label col-lg-1 col-sm-1 col-md-3">商品数量<span
 									class="required">*</span></label>
 								<div class="col-lg-10 col-sm-9">
 									<input type="number" required data-toggle="switch" value="1"
@@ -149,7 +149,7 @@
 
 							<div class="form-group ">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-2">手续费单价($)<span
+									class="control-label col-lg-1 col-sm-1 col-md-3">手续费单价($)<span
 									class="required"></span></label>
 								<div class="col-lg-10 col-sm-9">
 									<p class="form-control-static"
@@ -159,7 +159,7 @@
 
 							<div class="form-group" align="left">
 								<div = row style="">
-									<label for="agree" class="control-label col-lg-1 col-md-2">总价</label>
+									<label for="agree" class="control-label col-lg-1 col-md-3">总价</label>
 									<div class="col-lg-11 col-sm-11"
 										ng-show="neworder.unit_price>0 && neworder.quantity>0">
 										<label>商品： ${{calc_product_price().toFixed(2)}} =
@@ -214,7 +214,7 @@
 										class="col-lg-offset-1 col-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.quantity>0">
 										<i class="fa fa-lightbulb-o" style="color:#f8a564;margin-right:2px"></i>
-										<label style="font-size:12px">价格仅供参考，实际价格以系统最终计算金额为准！如您使用支付宝，将加收提现手续费 约
+										<label style="font-size:12px">价格仅供参考，实际价格以系统最终计算金额为准！如您使用微信，将加收提现手续费 约
 											￥{{calc_alipay().toFixed(2)}} 元</label>
 									</div>
 								</div>

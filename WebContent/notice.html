@@ -4,32 +4,23 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h2>
-						<i class="{{auditVar.icon}}"></i>{{auditVar.title}}
+						<i class="icon_volume-high_alt"></i>系统公告
 					</h2>
 				</div>
 				<div class="widget-content padded clearfix"
-					>
-					未查询到符合条件的订单数据！</div>
-				<div class="widget-content padded clearfix"
-                    >
-                    查询订单数据时出错：{{$ctrl.pageError}}！</div>
-				<div class="widget-container fluid-height clearfix"
-					ng-if="$ctrl.recordSize>0">
+                    ng-if="$ctrl.pageError">
+                    获取系统公告数据时出错：{{noticeError}}！</div>
+				<div class="widget-container fluid-height clearfix">
 					<div class="widget-content padded clearfix">
 						<table class="table table-hover">
 							<thead>
-								<th width="9%">订单号</th>
-								<th>商品描述</th>
-								<th width="15%">商品截图</th>
-								<th width="10%">商品链接</th>
-								<th width="5%">数量</th>
-								<th width="12%">总价格</th>
-								<th class="hidden-xs" width="10%">创建时间</th>
-								<th class="hidden-xs" width="5%">状态</th>
+								<th width="9%"></th>
+								<th>系统公告</th>
+								<th class="hidden-xs" width="10%">发布时间</th>
 							</thead>
 							<tbody>
 								<tr ng-repeat="item in $ctrl.orderList">
-									<td>{{$ctrl.foo(item.order_id, 8)}}</td>
+									<td>{{$ctrl.commFunc.foo(item.order_id, 8)}}</td>
 									<td>{{item.product_descript}}</td>
 									<td><a
 										ng-repeat="img in $ctrl.getUrlList(item.product_photo_url)"
@@ -41,12 +32,13 @@
 									<td><a href="javascript:void(0);" style="color:red"
 										ng-click="$ctrl.showDetail(item)">￥{{$ctrl.calcTotal(item).toFixed(2)}}</a></td>
 									<td class="hidden-xs">
-										{{$ctrl.getDate($ctrl.formatDate(item.create_date))}}&nbsp;&nbsp;
-										{{$ctrl.getTime($ctrl.formatDate(item.create_date))}}</td>
-									<td class="hidden-xs" style="text-align:center;"><label
-										style="display: inline-block; line-height: 2; width: 60px;"
-										class="label {{$ctrl.getStatusClass(item.status)}}">
-											{{$ctrl.getStatus(item.status)}}</label></td>
+										{{$ctrl.commFunc.getDate($ctrl.commFunc.formatDate(item.create_date))}}&nbsp;&nbsp;
+										{{$ctrl.commFunc.getTime($ctrl.commFunc.formatDate(item.create_date))}}</td>
+									<td class="hidden-xs" style="text-align:center;"><a ng-disabled="$ctrl.orderTable.canClick(item)"
+										style="display: inline-block; line-height: 2; width: 60px;cursor:{{$ctrl.getCursor(item)}}"
+										class="label {{$ctrl.getStatusClass(item.status)}}" 
+										ng-click="$ctrl.orderTable.statusClick(item)">
+											{{$ctrl.getStatus(item.status)}}</a></td>
 								</tr>
 							</tbody>
 						</table>

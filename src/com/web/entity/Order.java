@@ -31,6 +31,8 @@ public class Order {
 	private Calendar create_date, pay_date, audit_date, finish_date;
 	private User user;
 	private Set<OrderForReview> ordersForReview;
+	private Set<PayInfo> orderPay;
+	private Set<RefundInfo> orderRefund;
 	
 	public Order() {
 		
@@ -41,7 +43,7 @@ public class Order {
 			     Double product_unit_price, Double product_unit_freight,
 			     Double product_unit_commission, Double exchange_rate, Double paypal_fee,
 			     Double paypal_rate, int product_quantity, Calendar create_date, int status, 
-			     int type) {
+			     int type, Calendar audit_date) {
 		setOrder_id(id);
 		setDiscount(discount);
 		setProduct_descript(product_descript);
@@ -58,6 +60,7 @@ public class Order {
 		setCreate_date(create_date);
 		setStatus(status);
 		setType(type);
+		setAudit_date(audit_date);
 	}
 	
 	@Id
@@ -271,5 +274,23 @@ public class Order {
 
 	public void setCsid(int csid) {
 		this.csid = csid;
+	}
+
+	@OneToMany(mappedBy="order", fetch=FetchType.LAZY)
+	public Set<PayInfo> getOrderPay() {
+		return orderPay;
+	}
+
+	public void setOrderPay(Set<PayInfo> orderPay) {
+		this.orderPay = orderPay;
+	}
+
+	@OneToMany(mappedBy="order", fetch=FetchType.LAZY)
+	public Set<RefundInfo> getOrderRefund() {
+		return orderRefund;
+	}
+
+	public void setOrderRefund(Set<RefundInfo> orderRefund) {
+		this.orderRefund = orderRefund;
 	}
 }

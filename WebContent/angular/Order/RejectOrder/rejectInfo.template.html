@@ -1,0 +1,31 @@
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="left: 0; padding-top: 5%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="$hide()">&times;</button>
+                <h4 class="modal-title">详细信息</h4>
+            </div>
+            <div class="modal-body">
+                
+                <div class="row">
+                    <div class="col-lg-12" style="line-height: 25px">
+                        <p> 
+                            订单遍号：{{commFunc.foo(orderTable.selectItem.order_id, 8)}} <br>
+                            <!-- 提交时间：{{getDate(selectItem.createdate)}}&nbsp;&nbsp;&nbsp;&nbsp;{{getTime(selectItem.createdate)}} -->
+                            提交时间：{{commFunc.formatDate(orderTable.selectItem.create_date)}} <br>
+                            确认时间：{{commFunc.formatDate(orderTable.selectItem.audit_date)}}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>确认信息:
+                        </p>
+                        <textarea id="auditMark" class="form-control" rows="4" required style="resize:none"
+                            ng-bind="orderTable.selectItem.audit_remark" ng-disabled="true" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

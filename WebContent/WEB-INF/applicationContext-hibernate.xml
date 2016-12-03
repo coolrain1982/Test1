@@ -27,7 +27,7 @@
         <property name="packagesToScan" value="com.web.*" />
         <property name="hibernateProperties">
             <value>
-                hibernate.dialect=org.hibernate.dialect.MySQLDialect
+                hibernate.dialect=com.web.common.CustomMySQLDialect
                 hibernate.hbm2ddl.auto=update
                 hibernate.show_sql=true
                 hibernate.format_sql=true

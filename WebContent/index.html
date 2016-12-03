@@ -310,19 +310,19 @@
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="accordion">                
                   <li class="sub-menu">
-                      <a ui-sref-active="active" ui-sref="notice">
+                      <a ui-sref-active="active" ui-sref="notice" ui-sref-opts="{reload:'notice'}">
                           <i class="icon_volume-high_alt"></i>
                           <!-- <span>Dashboard</span> -->
                           <span>公告</span>
                       </a>
                   </li>
-                   <li class="sub-menu">
+                   <!-- <li class="sub-menu">
                       <a ui-sref-active="active" ui-sref="summary">
                           <i class="icon_house_alt"></i>
-                          <!-- <span>Dashboard</span> -->
+                          <span>Dashboard</span>
                           <span>我的主页</span>
                       </a>
-                  </li>
+                  </li> -->
 				  <li class="sub-menu" >
                       <a data-toggle="collapse" href="#orderSub" data-parent="accordion">
                           <i class="icon_document_alt"></i>
@@ -362,7 +362,7 @@
                           </a>
                       </li>
                       <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="historyOrder" ui-sref-opts="{reload:'historyOrder'}">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="finishOrder" ui-sref-opts="{reload:'finishOrder'}">
                               <i class="icon_check_alt"></i>
                               <span>已完成订单</span>
                           </a>

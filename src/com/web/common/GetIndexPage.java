@@ -1,17 +1,25 @@
 package com.web.common;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class GetIndexPage {
 
 	@RequestMapping("index.do")
-	public String getIndexHtml() {
+	@ResponseBody
+	public Map<String, String> getIndexHtml() {
+		
+        Map<String, String> rtn = new HashMap<>();
+        rtn.put("page", "login.html");
+		
 		// 先取用户
 		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (UserDetails.class.isInstance(o)) {
@@ -21,15 +29,26 @@ public class GetIndexPage {
 				
 				Object authObj = it.next();
 				if (authObj.toString().equalsIgnoreCase("role_admin")) {
-					return "admin/index";
+					rtn.put("page", "admin/index.html");
 				} else if  (authObj.toString().equalsIgnoreCase("role_cs")) {
-					return "cs/index";
+					rtn.put("page", "cs/index.html");
 			    } else if  (authObj.toString().equalsIgnoreCase("role_user")) {
-					return "index";
+			    	rtn.put("page", "index.html");
 				}
 			}
 		}
 
-		return "login";
+		return rtn;
+	}
+	
+	@RequestMapping("loginFail.do")
+	@ResponseBody
+	public Map<String, String> returnFailHtml() {
+		// 先取用户
+		Map<String, String> rtn = new HashMap<>();
+		
+		rtn.put("page", "login.html?error=1");
+		
+		return rtn;
 	}
 }

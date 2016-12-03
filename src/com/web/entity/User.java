@@ -24,6 +24,7 @@ public class User {
 	private Integer flag;
 	private Integer discount;
 	private Set<Order> orders;
+	private Set<Notice> notices;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -105,5 +106,13 @@ public class User {
 	}
 	public void setQq(String qq) {
 		this.qq = qq;
+	}
+	
+	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
+	public Set<Notice> getNotices() {
+		return notices;
+	}
+	public void setNotices(Set<Notice> notices) {
+		this.notices = notices;
 	}
 }

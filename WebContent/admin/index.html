@@ -39,6 +39,7 @@
 	<link href="css/angular-csp.css" rel="stylesheet">
 	<link href="css/angular-motion.min.css" rel="stylesheet">
 	<link href="css/loading-bar.css" rel="stylesheet">
+	<link href="css/summernote.css" rel="stylesheet">
 	
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
@@ -62,7 +63,7 @@
             </div>
 
             <!--logo start-->
-            <a href="cs/index.html" class="logo">MeiYa <span class="lite">Buy</span></a>
+            <a href="index.do" class="logo">MeiYa <span class="lite">Buy</span></a>
             <!--logo end-->
 
             <!-- <div class="nav search-row" id="top_menu">
@@ -283,7 +284,7 @@
                             <span class="profile-ava">
                                 <img alt="" src="img/user1.jpg">
                             </span>
-                            <span class="username" ng-bind="loginUserName"></span>(cs)
+                            <span class="username" ng-bind="loginUserName"></span>(admin)
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
@@ -308,15 +309,29 @@
       <aside>
           <div id="sidebar"  class="nav-collapse " >
               <!-- sidebar menu start-->
-              <ul class="sidebar-menu" id="accordion">                
-                  <li class="sub-menu">
-                      <a ui-sref-active="active" ui-sref="notice" ui-sref-opts="{reload:'notice'}">
+              <ul class="sidebar-menu" id="accordion">     
+                  <li class="sub-menu" >
+                      <a  href="" ng-click="showNoticeSub()">
                           <i class="icon_volume-high_alt"></i>
-                          <!-- <span>Dashboard</span> -->
-                          <span>公告</span>
+                          <!-- <span>Place Order</span> -->
+                          <span>公告管理</span>
                       </a>
-                  </li>
-                  <!--  <li class="sub-menu">
+                  </li>            
+	              <li ng-if="noticeSub">
+	                      <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="notice" ui-sref-opts="{reload:'notice'}">
+	                          <i class="icon_check_alt"></i>
+	                          <!-- <span>Dashboard</span> -->
+	                          <span>已发布公告</span>
+	                      </a>
+	              </li>
+	                  <li ng-if="noticeSub">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="releaseNotice" ui-sref-opts="{reload:'releaseNotice'}">
+                              <i class="icon_plus_alt"></i>
+                              <!-- <span>Dashboard</span> -->
+                              <span>发布公告</span>
+                          </a>
+                      </li>
+                   <!-- <li class="sub-menu">
                       <a ui-sref-active="active" ui-sref="summary">
                           <i class="icon_house_alt"></i>
                           <span>Dashboard</span>
@@ -324,32 +339,54 @@
                       </a>
                   </li> -->
 				  <li class="sub-menu" >
-                      <a data-toggle="collapse" href="#orderSub" data-parent="accordion">
+                      <a  href="" ng-click="showOrderSub()">
                           <i class="icon_document_alt"></i>
                           <!-- <span>Place Order</span> -->
                           <span>订单管理</span>
                       </a>
                   </li> 	
-                  <div class="collapse" id="orderSub">
-                      <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="csOrder" ui-sref-opts="{reload:'csOrder'}">
-                              <i class="icon_question_alt"></i>
-                              <span>待审核订单</span>
+                      <li ng-if="orderSub">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="newOrder" ui-sref-opts="{reload:'newOrder'}">
+	                          <i class="icon_plus_alt"></i>
+	                          <span>新的订单</span>
                           </a>
                       </li>
-                     <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="csRejectOrder" ui-sref-opts="{reload:'csRejectOrder'}">
+                      <li ng-if="orderSub">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="unconfirmOrder" ui-sref-opts="{reload:'unconfirmOrder'}">
+                              <i class="icon_question_alt"></i>
+                              <span>待确认订单</span>
+                          </a>
+                      </li>
+                      <li ng-if="orderSub">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="rejectOrder" ui-sref-opts="{reload:'rejectOrder'}">
                               <i class="icon_error-circle"></i>
                               <span>待关闭订单</span>
                           </a>
                       </li>
-                      <li>
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="csAllOrder" ui-sref-opts="{reload:'csAllOrder'}">
-                              <i class="icon_menu-circle_alt"></i>
-                              <span>我处理的所有订单</span>
+                      <li ng-if="orderSub">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="unpayOrder" ui-sref-opts="{reload:'unpayOrder'}">
+                              <i class="icon_currency_alt"></i>
+                              <span>待支付订单</span>
                           </a>
                       </li>
-                  </div> 			  
+                      <li ng-if="orderSub">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="doingOrder" ui-sref-opts="{reload:'doingOrder'}">
+                              <i class="arrow_carrot-2right_alt"></i>
+                              <span>进行中订单</span>
+                          </a>
+                      </li>
+                      <li ng-if="orderSub">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="finishOrder" ui-sref-opts="{reload:'finishOrder'}">
+                              <i class="icon_check_alt"></i>
+                              <span>已完成订单</span>
+                          </a>
+                      </li>
+                      <li ng-if="orderSub">
+                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="allOrder" ui-sref-opts="{reload:'allOrder'}">
+                              <i class="icon_menu-circle_alt"></i>
+                              <span>全部订单</span>
+                          </a>
+                      </li>			  
 				 <!--  <li class="sub-menu">
                       <a href="./vendor_history.html" class="">
                           <i class="icon_archive"></i>
@@ -427,6 +464,8 @@
     <script src="angular/Component/angular-strap.tpl.min.js"></script>
     <script src="angular/Component/angular-animate.min.js"></script>
     <script src="angular/Component/loading-bar.js"></script>
+    <script src="angular/Component/summernote.min.js"></script>
+    <script src="angular/Component/angular-summernote.min.js"></script>
     <script src="angular/Order/Common/table.module.js"></script>
     <script src="angular/Order/Common/table.component.js"></script>
     <script src="angular/Order/Home/home.module.js"></script>
@@ -440,6 +479,7 @@
     <script src="angular/Order/RejectOrder/rejectorder.module.js"></script>
     <script src="angular/Image/upload.module.js" ></script>
     <script src="angular/Image/upload.component.js" ></script>
+    <script src="angular/Notice/newnotice.module.js"></script>
     <script src="angular/Mainpage/mainpage.module.js"></script>
 
 

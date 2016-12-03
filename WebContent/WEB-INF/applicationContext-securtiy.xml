@@ -10,6 +10,7 @@
     <!-- <global-method-security jsr250-annotations="enabled" /> -->
 	
 	<http pattern="/login.html*" security="none"/>
+	<http pattern="/loginFail.do" security="none"/>
     <http pattern="/**/*.css" security="none" />  
     <http pattern="/**/**.js" security="none" />
     <http pattern="/img/**" security="none" />   
@@ -19,7 +20,7 @@
 	
 	<http auto-config="true" use-expressions="false"> 
 	     <form-login login-page="/login.html" 
-                authentication-failure-url="/login.html?error=1" default-target-url="/index.do" 
+                authentication-failure-url="/loginFail.do" default-target-url="/index.do" 
                 always-use-default-target="true" />
          <intercept-url pattern="/cs/**" access="ROLE_ADMIN,ROLE_CS" />
 	     <intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
@@ -38,7 +39,7 @@
     <authentication-manager>
         <authentication-provider user-service-ref="jdbcUserService">
         <!-- <authentication-provider user-service-ref="myUserDetailsService"> -->
-           <password-encoder ref="bcryptEncoder" />
+<!--            <password-encoder ref="bcryptEncoder" /> -->
         <!-- <authentication-provider>
             <user-service>
                 <user name="123" password="123" authorities="ROLE_USER" />

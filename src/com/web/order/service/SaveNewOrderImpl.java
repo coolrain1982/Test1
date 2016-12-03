@@ -53,7 +53,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		int csid = -1;
 		List<User> csUsers = userService.getCS();
 		if (csUsers.size() > 0) {
-			csid = csUsers.get((int) (Math.random()*csUsers.size() + 1)).getId();
+			csid = csUsers.get((int) (Math.random()*csUsers.size() + 1) -1).getId();
 		}
 
 		// 取当前汇率、佣金、paypal手续费（固定部分+比例）

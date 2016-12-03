@@ -4,7 +4,7 @@
 var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap',
     'ui.router', 'order-home', 'new-order', 'image-upload', 
     'order-table', 'audit-order', 'pay-order', 'reject-order', 'doing-order',
-    'finish-order', 'all-order'
+    'finish-order', 'all-order', 'new-notice', 'summernote'
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -13,6 +13,10 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    .state('notice', {
 	    	url : '/notice',
 	    	templateUrl: 'notice.html'
+	    })
+	    .state('releaseNotice', {
+	    	url : '/releaseNotice',
+	    	templateUrl: 'admin/releaseNotice.html'
 	    })
 	    .state('summary', {
 	    	url : '/summary',
@@ -54,8 +58,8 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    	url : '/csRejectOrder',
 	    	templateUrl: 'cs/csRejectOrder.html'
 	    })
-	    .state('allCsOrder', {
-	    	url : '/allCsOrder',
+	    .state('csAllOrder', {
+	    	url : '/csAllOrder',
 	    	templateUrl: 'cs/allCsOrder.html'
 	    });
 });
@@ -95,6 +99,17 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 	$scope.getTime = function(str) {
 		return str.substring(11);
 	};
+	
+	$scope.noticeSub = false;
+	$scope.orderSub = false;
+	
+	$scope.showNoticeSub = function() {
+		$scope.noticeSub = !$scope.noticeSub
+	}
+	
+	$scope.showOrderSub = function() {
+		$scope.orderSub = !$scope.orderSub;
+	}
 });
 
 mainpageApp.service('orderTable', function() {
@@ -103,6 +118,7 @@ mainpageApp.service('orderTable', function() {
 	this.queryStatus=-1;
     this.doUrl = "";
     this.selectItem = null;
+    this.canClick = function(item) {return false};
     this.canPay = function(item) {return false};
     this.detailDialog = null;
     this.detailAction1 = function(item) {};
@@ -111,6 +127,7 @@ mainpageApp.service('orderTable', function() {
     this.detailAction1Title = function(item) {return ""};
     this.detailAction2Show = function(item) {return false};
     this.detailAction2Title = function(item) {return ""};
+    this.statusClick = function(item) {};
     this.action1Dialog = null;
     this.reset = function() {
     	this.title="";
@@ -119,6 +136,7 @@ mainpageApp.service('orderTable', function() {
     	this.queryStatus=-1;
         this.doUrl = "";
         this.selectItem = null;
+        this.canClick = function(item) {return false};
         this.canPay = function(item) {return false};
         this.detailAction1 = function(item) {};
         this.detailAction2 = function(item) {};
@@ -126,6 +144,7 @@ mainpageApp.service('orderTable', function() {
         this.detailAction1Title = function(item) {return ""};
         this.detailAction2Show = function(item) {return false};
         this.detailAction2Title = function(item) {return ""};
+        this.statusClick = function(item) {};
         this.action1Dialog = null;
     }  
 });

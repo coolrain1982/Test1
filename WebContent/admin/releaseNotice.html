@@ -1,0 +1,194 @@
+<section class="wrapper" ng-controller="newNoticeController" ng-show="newnotice_show">
+	<div class="row" ng-if="!isSuccess">
+		<div class="col-lg-12">
+			<section class="panel">
+				<header class="panel-heading">新的公告</header>
+				<div class="panel-body">
+					<div class="form">
+						<form role="form" class="form-validate form-horizontal table"
+							name="newnotice_form"
+							ng-submit="newnotice_submit(newnotice_form$valid)" novalidate>
+							<div class="form-group">
+								<label for="fullname" class="control-label col-lg-1 col-md-3">公告类型
+									<span class="required">*</span>
+								</label>
+								<div>
+									<label class="checkbox-inline"> 
+									<input name="newnotice_status" style="margin-right: 10px;" type="radio"
+										ng-value="1" ng-checked="true" ng-model="newnotice.status"/>
+										公开
+									</label>
+									<!-- <label class="checkbox-inline">
+                                        <input id="british" name="exchangeRate"
+                                            type="radio" value="2" />英镑 <span ng-bind="pond"></span>
+                                    </label> -->
+								</div>
+							</div>
+
+							<div class="form-group has-feedback">
+								<label for="fullname" class="control-label col-lg-1 col-md-3">公告标题
+									<span class="required">*</span>
+								</label>
+								<div class="col-lg-11">
+									<div style="float: left; padding-left: 0px;" class="col-lg-6">
+										<textarea class="form-control" rows="3" required
+											id="neworder_desp" name="neworder_desp"
+											ng-model="newnotice.title" />
+									</div>
+								</div>
+							</div>
+							<div class="form-group has-feedback">
+                                <label for="fullname" class="control-label col-lg-1 col-md-3">公告内容
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-lg-11">
+                                    <div style="float: left; padding-left: 0px;" class="col-lg-6">
+                                        <summernote height="300"></summernote>
+                                    </div>
+                                </div>
+                            </div>
+
+							<div class="form-group ">
+								<div class="col-lg-offset-1 col-offset-2  col-lg-10"
+									style="color: red; padding-bottom: 10px;" 
+									ng-show="notice_error != ''">发布失败：{{notice_error}}</div>
+								<div class="col-lg-offset-1 col-offset-2 col-lg-2">
+									<a class="btn btn-danger btn-lg btn-block" id="new_order_submit" 
+									   style="background-color:#f40;width:182px;height:39px;vertical-align:middle;
+									     font-size:14px; font-weight:700;border-radius:0;color:white"
+										ng-click="newnotice_submit(newnotice_form.$valid)"
+										>发布公告
+									</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+    <div ng-if="isSuccess">
+		<div class="row" >
+			<div class="col-lg-12">
+				<h4 class="page-header">
+					<i class="fa fa fa-check"></i> <strong>您的订单已经提交成功！请耐心等待我们的反馈，谢谢！</strong>
+				</h4>
+			</div>
+		</div>
+		<div class="row" >
+	        <div class="col-lg-12" style="line-height:25px">
+	            <p>订单遍号：{{foo(orderid, 8)}}
+	            <br>提交时间：{{getDate(createdate)}}&nbsp;&nbsp;&nbsp;&nbsp;{{getTime(createdate)}}
+	            <br>商品链接：<a href="javascript:void(0);" target="_blank"
+                                    ng-click="getLink()">请点击查看</a>
+	            </p>
+	        </div>
+	    </div>
+	    <div class="row">
+            <div class="col-lg-12">
+              <div class="widget-container fluid-height">
+                <div class="widget-content padded clearfix">
+                  <table class="table table-striped invoice-table">
+                    <thead>
+                      <tr><th width="50"></th>
+                      <th>
+                      </th>
+                      <th width="70">
+                        数量
+                      </th>
+                      <th width="180">
+                        单位价格
+                      </th>
+                      <th width="180">
+                        总价
+                      </th>
+                    </tr></thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          #1
+                        </td>
+                        <td ng-bind="neworder.descript"> 
+                        </td>
+                        <td ng-bind="neworder.quantity">
+                        </td>
+                        <td ng-bind="'$' + neworder.unit_price">
+                        </td>
+                        <td ng-bind="'$' + calc_product_price().toFixed(2)" >
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          #2
+                        </td>
+                        <td>
+                          运费
+                        </td>
+                        <td ng-bind="neworder.quantity">
+                        </td>
+                        <td ng-bind="'$' + neworder.unit_freight">
+                        </td>
+                        <td ng-bind="'$' + calc_product_freight().toFixed(2)">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          #3
+                        </td>
+                        <td>
+                          服务费
+                        </td>
+                        <td ng-bind="neworder.quantity">
+                        </td>
+                        <td ng-bind="'$' + neworder.unit_commision">
+                        </td>
+                        <td ng-bind="'$' + calc_commison().toFixed(2) +'（折扣' + neworder.fee_discount + '%）'">
+                        </td>
+                      </tr>
+					<tr>
+						<td>#4</td>
+						<td>汇率</td>
+						<td>-</td>
+						<td ng-bind="dollar"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>#5</td>
+						<td>服务类型</td>
+						<td colspan="3" ng-bind="getSrvType(neworder.srvtype)"></td>
+					</tr>
+							</tbody>
+                    <tfoot>
+                      <tr>
+                        <td class="text-right" colspan="4">
+                          <strong>小计</strong>
+                        </td>
+                        <td ng-bind="'$' + calc_product_sum().toFixed(2)"> 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-right" colspan="4">
+                          <strong>手续费</strong>
+                        </td>
+                        <td ng-bind="'$' + (calc_product_sum()*0.039+0.3).toFixed(2)">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-right" colspan="4">
+                          <strong>
+                            总计
+                          </strong>
+                        </td>
+                        <td class="text-danger" ng-bind="'$' + calc_sum().toFixed(2) + '    (￥' + calc_sum_rmb().toFixed(2) + ')'">
+                           
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+	</div>
+</section>

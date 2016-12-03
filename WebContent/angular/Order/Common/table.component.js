@@ -49,8 +49,11 @@ angular.module('order-table').component('orderTable',{
 		};
 		
 		this.showAction1 = function(item) {
-			item.action1Error = "";
-			orderTable.action1Dialog.$promise.then(orderTable.action1Dialog.show);
+			orderTable.detailAction1(item);
+		}
+		
+		this.showAction2 = function(item) {
+			orderTable.detailAction2(item);
 		}
 
 		this.calcTotal = function(item) {
@@ -139,6 +142,14 @@ angular.module('order-table').component('orderTable',{
 				return "购买商品+review+feedback";
 			default:
 				return "无效";
+			}
+		}
+		
+		this.getCursor = function(item) {
+			if (orderTable.canClick(item)) {
+				return "pointer";
+			} else {
+				return "default";
 			}
 		}
 
