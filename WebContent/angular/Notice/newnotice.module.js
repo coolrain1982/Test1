@@ -24,6 +24,23 @@ angular.module('new-notice').
 			$location.hash(id);
 			$anchorScroll();
 		}
+		
+		$scope.options = {
+		    height: 300,
+		    toolbar: [
+		    	['headline', ['style']],
+		    	['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+		    	['para', ['paragraph']],
+		    	['edit', ['undo', 'redo']],
+		    	['fontname', ['fontname']],
+		    	['textsize', ['fontsize']],
+		    	['fontclr', 'color'],
+		    	['alignment', 'ul', 'ol','paragraph','lineheight'],
+		    	['table',['table']],
+		    	['view', ['fullscreen', 'codeview']],
+		    	['help', ['help']]
+		    ],
+		};
     	
     	$scope.isSuccess = false;
     	$scope.notice_error = "";
