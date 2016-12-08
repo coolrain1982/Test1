@@ -23,6 +23,19 @@ public class Notice {
 	private String url;
 	private String title;
 	
+	public Notice() {
+		
+	}
+	
+	public Notice(Integer status, Calendar releasedata, String url, String title, String name) {
+		this.status = status;
+		this.release_date = releasedata;
+		this.url = url;
+		this.title = title;
+		this.user = new User();
+		this.user.setName(name);
+	}
+	
 	@Column
 	public Integer getStatus() {
 		return status;

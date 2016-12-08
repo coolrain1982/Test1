@@ -1,4 +1,4 @@
-<section class="wrapper">
+<div class="wrapper" ng-controller="noticeController">
 	<div class="row">
 		<div class="col-lg-12 col-md-12">
 			<div class="panel panel-default">
@@ -8,7 +8,7 @@
 					</h2>
 				</div>
 				<div class="widget-content padded clearfix"
-                    ng-if="$ctrl.pageError">
+                    ng-if="noticeError">
                     获取系统公告数据时出错：{{noticeError}}！</div>
 				<div class="widget-container fluid-height clearfix">
 					<div class="widget-content padded clearfix">
@@ -16,46 +16,32 @@
 							<thead>
 								<th width="9%"></th>
 								<th>系统公告</th>
+								<th width="9%">发布人</th>
 								<th class="hidden-xs" width="10%">发布时间</th>
 							</thead>
 							<tbody>
-								<tr ng-repeat="item in $ctrl.orderList">
-									<td>{{$ctrl.commFunc.foo(item.order_id, 8)}}</td>
-									<td>{{item.product_descript}}</td>
-									<td><a
-										ng-repeat="img in $ctrl.getUrlList(item.product_photo_url)"
-										href="{{img}}" target="_blank"><img ng-src="{{img}}"
-											width="40px" height="40px" /></a></td>
-									<td><a href="{{item.link}}" target="_blank"
-										alt="{{item.link}}">{{$ctrl.getShowLink(item.link)}}</a></td>
-									<td>{{item.product_quantity}}</td>
-									<td><a href="javascript:void(0);" style="color:red"
-										ng-click="$ctrl.showDetail(item)">￥{{$ctrl.calcTotal(item).toFixed(2)}}</a></td>
-									<td class="hidden-xs">
-										{{$ctrl.commFunc.getDate($ctrl.commFunc.formatDate(item.create_date))}}&nbsp;&nbsp;
-										{{$ctrl.commFunc.getTime($ctrl.commFunc.formatDate(item.create_date))}}</td>
-									<td class="hidden-xs" style="text-align:center;"><a ng-disabled="$ctrl.orderTable.canClick(item)"
-										style="display: inline-block; line-height: 2; width: 60px;cursor:{{$ctrl.getCursor(item)}}"
-										class="label {{$ctrl.getStatusClass(item.status)}}" 
-										ng-click="$ctrl.orderTable.statusClick(item)">
-											{{$ctrl.getStatus(item.status)}}</a></td>
+								<tr ng-repeat="item in noticeList">
+									<td>{{(p_current-1)*6 + $index +1}}</td>
+									<td><a href="javascript:void(0);" target="_black" ng-click="showNotice(item.url)">{{item.title}}</a></td>
+									<td>{{item.user.name}}</td>
+									<td class="hidden-xs">{{commFunc.formatDate(item.release_date)}}</td>
 								</tr>
 							</tbody>
 						</table>
 						<ul class="pagination" style="margin: 0px;">
-							<li ng-class="{true:'disabled'}[$ctrl.p_current==1]"><a
-								href="javascript:void(0);" ng-click="$ctrl.p_index()">首页</a></li>
-							<li ng-repeat="page in $ctrl.pages"
-								ng-class="{true:'active'}[$ctrl.p_current==page]"><a
-								href="javascript:void(0);" ng-click="$ctrl.load_page(page)">{{
+							<li ng-class="{true:'disabled'}[p_current==1]"><a
+								href="javascript:void(0);" ng-click="p_index()">首页</a></li>
+							<li ng-repeat="page in pages"
+								ng-class="{true:'active'}[p_current==page]"><a
+								href="javascript:void(0);" ng-click="load_page(page)">{{
 									page }}</a></li>
-							<li ng-class="{true:'disabled'}[$ctrl.p_current==$ctrl.p_all_page]"><a
-								href="javascript:void(0);" ng-click="$ctrl.p_last()">尾页</a></li>
+							<li ng-class="{true:'disabled'}[p_current==p_all_page]"><a
+								href="javascript:void(0);" ng-click="p_last()">尾页</a></li>
 						</ul>
-						<span style="vertical-align: 12px;"> 共{{$ctrl.recordSize}}条记录</span>
+						<span style="vertical-align: 12px;"> 共{{recordSize}}条记录</span>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</section>
+</div>

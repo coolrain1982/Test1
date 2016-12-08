@@ -1,0 +1,91 @@
+<section class="wrapper" ng-controller="profileController"
+	ng-show="profile_show">
+	<div class="row" ng-if="!isSuccess">
+		<div class="col-lg-12">
+			<section class="panel">
+				<header class="panel-heading">
+					<i class="fa fa-list-alt" />个人资料
+				</header>
+				<div class="panel-body">
+					<div ng-show="profileError">{{profileError}}</div>
+					<div class="form">
+						<form role="form" class="form-validate form-horizontal table"
+							name="profile_form"
+							ng-submit="profile_submit(profile_form$valid)" novalidate>
+							<div class="form-group ">
+								<label for="agree"
+									class="control-label col-lg-1 col-sm-1 col-md-3">用户名</label>
+								<div class="col-lg-10 col-sm-9">
+									<p class="form-control-static" ng-bind="user.name"></p>
+								</div>
+							</div>
+
+							<div class="form-group has-feedback">
+								<label class="control-label col-lg-1 col-sm-1 col-md-3">email<span
+									class="required">*</span>
+								</label>
+								<div class="col-lg-10 col-md-9">
+									<input class="col-lg-6 col-md-6" type="email" name="email"
+										ng-model="user.email" ng-disabled="!user.emailEdit" /> <a
+										style="margin-left: 5px; text-decoration: none"
+										href="javascript:void(0);"
+										ng-click="user.emailEdit = !user.emailEdit"><i
+										class="icon_pencil-edit" /></a>
+								</div>
+							</div>
+
+							<div class="form-group has-feedback">
+								<label class="control-label col-lg-1 col-sm-1 col-md-3">手机<span
+									class="required">*</span>
+								</label>
+								<div class="col-lg-10 col-md-9">
+									<input class="col-lg-6 col-md-6" type="number"
+										ng-model="user.mobile" ng-disabled="!user.mobileEdit" /> <a
+										style="margin-left: 5px; text-decoration: none"
+										href="javascript:void(0);"
+										ng-click="user.mobileEdit = !user.mobileEdit"><i
+										class="icon_pencil-edit" /></a>
+								</div>
+							</div>
+
+							<div class="form-group has-feedback">
+								<label class="control-label col-lg-1 col-sm-1 col-md-3">QQ
+								</label>
+								<div class="col-lg-10 col-md-9">
+									<input class="col-lg-6 col-md-6" type="number"
+										ng-model="user.qq" ng-disabled="!user.qqEdit" /> <a
+										style="margin-left: 5px; text-decoration: none"
+										href="javascript:void(0);"
+										ng-click="user.qqEdit = !user.qqEdit"><i
+										class="icon_pencil-edit" /></a>
+								</div>
+							</div>
+
+							<div class="form-group ">
+								<div class="col-lg-offset-1 col-offset-2  col-lg-10"
+									style="color: red; padding-bottom: 10px;" ng-show="user.error">更新个人资料失败：{{user.error}}</div>
+								<div class="col-lg-offset-1 col-offset-2 col-lg-2">
+									<a class="btn btn-lg btn-block"
+										style="background-color: #f40; width: 182px; height: 39px; vertical-align: middle; font-size: 14px; font-weight: 700; border-radius: 0; color: white"
+										ng-click="profile_submit()" ng-disabled="!profile_form.$valid">更新个人资料
+									</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+	<div ng-if="isSuccess">
+		<div class="row">
+			<div class="col-lg-12">
+				<h4 class="page-header">
+					<i class="fa fa fa-check"></i> <strong>您的资料已经成功更新！</strong>
+				</h4>
+				<a href="javascript:void(0)" ng-click="refresh()">点此查看个人资料</a>
+			</div>
+		</div>
+	</div>
+</section>

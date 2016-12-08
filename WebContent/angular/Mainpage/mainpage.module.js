@@ -2,9 +2,9 @@
 
 // Define the `loginApp` module
 var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap',
-    'ui.router', 'order-home', 'new-order', 'image-upload', 
+    'ui.router', 'order-home', 'new-order', 'image-upload', 'ui.slimscroll',
     'order-table', 'audit-order', 'pay-order', 'reject-order', 'doing-order',
-    'finish-order', 'all-order', 'new-notice', 'summernote'
+    'finish-order', 'all-order', 'new-notice', 'summernote', 'profile',
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -61,10 +61,16 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    .state('csAllOrder', {
 	    	url : '/csAllOrder',
 	    	templateUrl: 'cs/allCsOrder.html'
+	    }).state('profile', {
+	    	url : '/profile',
+	    	templateUrl: 'profile.html'
 	    });
 });
 
 mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams, $scope, $http) {
+	
+	$scope.userValid = false;
+	
 	//取登陆用户
 	$http.get('security/getLoginUserName.do')
 	.success(function(data) {
@@ -72,6 +78,19 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 			$scope.loginUserName = "未知用户";
 		} else {
 			$scope.loginUserName = data.username;
+			if (data.authorities && data.authorities.length > 0) {
+				switch (data.authorities[0].authority) {
+				case "ROLE_USER": 
+					$scope.loginUserRole = "用户";
+					break;
+				case "ROLE_CS":
+					$scope.loginUserRole = "客服";
+					break;
+				case "ROLE_ADMIN":
+					$scope.loginUserRole = "管理员";
+					break;
+				}
+			}
 		}
 	})
 	.error(function(data){
@@ -99,17 +118,9 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 	$scope.getTime = function(str) {
 		return str.substring(11);
 	};
+
 	
-	$scope.noticeSub = false;
-	$scope.orderSub = false;
-	
-	$scope.showNoticeSub = function() {
-		$scope.noticeSub = !$scope.noticeSub
-	}
-	
-	$scope.showOrderSub = function() {
-		$scope.orderSub = !$scope.orderSub;
-	}
+	$state.go('notice', {}, {reload:true});
 });
 
 mainpageApp.service('orderTable', function() {

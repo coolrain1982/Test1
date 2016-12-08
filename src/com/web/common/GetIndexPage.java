@@ -34,6 +34,8 @@ public class GetIndexPage {
 					rtn.put("page", "cs/index.html");
 			    } else if  (authObj.toString().equalsIgnoreCase("role_user")) {
 			    	rtn.put("page", "index.html");
+				} else if  (authObj.toString().equalsIgnoreCase("role_user_invalid")) {
+			    	rtn.put("page", "porfile.html");
 				}
 			}
 		}

@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.web.entity.User;
 
@@ -18,17 +17,13 @@ public class UserDaoImpl implements UserDao {
 	public SessionFactory sesssionFactory;
 
 	@Override
-	@Transactional
 	public void addUser(User user) {
-		// TODO Auto-generated method stub
-		
+		sesssionFactory.getCurrentSession().save(user);	
 	}
 
 	@Override
-	@Transactional
 	public void updateUser(User user) {
-		// TODO Auto-generated method stub
-		
+		sesssionFactory.getCurrentSession().update(user);	
 	}
 
 	@Override
@@ -66,6 +61,25 @@ public class UserDaoImpl implements UserDao {
 		}
 		
 		return resultList;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public boolean checkUserExists(String colName, String colVal) {
+		
+		String hql = String.format("select count(u.id) from User u where LOWER(u.%s) = :%s", colName, colName);
+		
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setParameter(colName, colVal);
+		
+		List resultList = q.getResultList();
+		if (resultList.size() == 0) {
+			return false;
+		}
+		
+		long count = (long)resultList.get(0);
+		
+		return count==0?false:true;
 	}
 	
 }

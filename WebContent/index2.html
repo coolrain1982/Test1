@@ -23,23 +23,23 @@
     <link href="css/font-awesome.min.css" rel="stylesheet" />    
     <!-- full calendar css-->
     <link href="assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
-	<link href="assets/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" />
+    <link href="assets/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" />
     <!-- easy pie chart-->
     <link href="assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
     <!-- owl carousel -->
     <link rel="stylesheet" href="css/owl.carousel.css" type="text/css">
-	<link href="css/jquery-jvectormap-1.2.2.css" rel="stylesheet">
+    <link href="css/jquery-jvectormap-1.2.2.css" rel="stylesheet">
     <!-- Custom styles -->
-	<link rel="stylesheet" href="css/fullcalendar.css">
-	<link href="css/widgets.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/fullcalendar.css">
+    <link href="css/widgets.css" rel="stylesheet">
     <link href="css/style-responsive.css" rel="stylesheet" />
-	<link href="css/xcharts.min.css" rel=" stylesheet">	
-	<link href="css/jquery-ui-1.10.4.min.css" rel="stylesheet">
-	<link href="css/upload.css" rel="stylesheet">
-	<link href="css/angular-csp.css" rel="stylesheet">
-	<link href="css/angular-motion.min.css" rel="stylesheet">
-	<link href="css/loading-bar.css" rel="stylesheet">
-	<link href="css/summernote.css" rel="stylesheet">
+    <link href="css/xcharts.min.css" rel=" stylesheet"> 
+    <link href="css/jquery-ui-1.10.4.min.css" rel="stylesheet">
+    <link href="css/upload.css" rel="stylesheet">
+    <link href="css/angular-csp.css" rel="stylesheet">
+    <link href="css/angular-motion.min.css" rel="stylesheet">
+    <link href="css/loading-bar.css" rel="stylesheet">
+    <link href="css/summernote.css" rel="stylesheet">
 	
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
@@ -281,15 +281,18 @@
                     <!-- user login dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="profile-ava">
-                                <img alt="" src="img/user1.jpg">
+                            <span class="profile-ava fa fa-user">
                             </span>
-                            <span class="username" ng-bind="loginUserName"></span>(admin)
+                            <span class="username" ng-bind="loginUserName"></span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
                             <div class="log-arrow-up"></div>
-                            <li class="eborder-top">
+                             <li >
+                                <a ui-sref-active="active" ui-sref="profile" ui-sref-opts="{reload:'profile'}">
+                                <i class="fa fa-list-alt"></i>个人资料</a>
+                            </li>
+                            <li >
                                 <a href="#"><i class="fa fa-key"></i>修改密码</a>
                             </li>
                             <li>
@@ -307,30 +310,16 @@
 
       <!--sidebar start-->
       <aside>
-          <div id="sidebar"  class="nav-collapse " >
+          <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
-              <ul class="sidebar-menu" id="accordion">     
-                  <li class="sub-menu" >
-                      <a  href="" ng-click="showNoticeSub()">
+              <ul class="sidebar-menu" id="accordion">                
+                  <li class="sub-menu">
+                      <a ui-sref-active="active" ui-sref="notice" ui-sref-opts="{reload:'notice'}">
                           <i class="icon_volume-high_alt"></i>
-                          <!-- <span>Place Order</span> -->
-                          <span>公告管理</span>
+                          <!-- <span>Dashboard</span> -->
+                          <span>公告</span>
                       </a>
-                  </li>            
-	              <li class="sub-menu-sub" ng-if="noticeSub">
-	                      <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="notice" ui-sref-opts="{reload:'notice'}">
-	                          <i class="icon_check_alt"></i>
-	                          <!-- <span>Dashboard</span> -->
-	                          <span>已发布公告</span>
-	                      </a>
-	              </li>
-	                  <li ng-if="noticeSub">
-                          <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="releaseNotice" ui-sref-opts="{reload:'releaseNotice'}">
-                              <i class="icon_plus_alt"></i>
-                              <!-- <span>Dashboard</span> -->
-                              <span>发布公告</span>
-                          </a>
-                      </li>
+                  </li>
                    <!-- <li class="sub-menu">
                       <a ui-sref-active="active" ui-sref="summary">
                           <i class="icon_house_alt"></i>
@@ -339,54 +328,56 @@
                       </a>
                   </li> -->
 				  <li class="sub-menu" >
-                      <a  href="" ng-click="showOrderSub()">
+                      <a data-toggle="collapse" href="#orderSub" data-parent="accordion">
                           <i class="icon_document_alt"></i>
                           <!-- <span>Place Order</span> -->
                           <span>订单管理</span>
                       </a>
                   </li> 	
-                      <li ng-if="orderSub">
+                  <div class="collapse" id="orderSub">
+                      <li>
                           <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="newOrder" ui-sref-opts="{reload:'newOrder'}">
 	                          <i class="icon_plus_alt"></i>
 	                          <span>新的订单</span>
                           </a>
                       </li>
-                      <li ng-if="orderSub">
+                      <li>
                           <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="unconfirmOrder" ui-sref-opts="{reload:'unconfirmOrder'}">
                               <i class="icon_question_alt"></i>
                               <span>待确认订单</span>
                           </a>
                       </li>
-                      <li ng-if="orderSub">
+                      <li>
                           <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="rejectOrder" ui-sref-opts="{reload:'rejectOrder'}">
                               <i class="icon_error-circle"></i>
                               <span>待关闭订单</span>
                           </a>
                       </li>
-                      <li ng-if="orderSub">
+                      <li>
                           <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="unpayOrder" ui-sref-opts="{reload:'unpayOrder'}">
                               <i class="icon_currency_alt"></i>
                               <span>待支付订单</span>
                           </a>
                       </li>
-                      <li ng-if="orderSub">
+                      <li>
                           <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="doingOrder" ui-sref-opts="{reload:'doingOrder'}">
                               <i class="arrow_carrot-2right_alt"></i>
                               <span>进行中订单</span>
                           </a>
                       </li>
-                      <li ng-if="orderSub">
+                      <li>
                           <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="finishOrder" ui-sref-opts="{reload:'finishOrder'}">
                               <i class="icon_check_alt"></i>
                               <span>已完成订单</span>
                           </a>
                       </li>
-                      <li ng-if="orderSub">
+                      <li>
                           <a style="font-size:12px;padding-left:20px;" ui-sref-active="active" ui-sref="allOrder" ui-sref-opts="{reload:'allOrder'}">
                               <i class="icon_menu-circle_alt"></i>
                               <span>全部订单</span>
                           </a>
-                      </li>			  
+                      </li>
+                  </div> 			  
 				 <!--  <li class="sub-menu">
                       <a href="./vendor_history.html" class="">
                           <i class="icon_archive"></i>
@@ -420,7 +411,7 @@
 
     <!-- javascripts -->
     <script src="js/jquery.js"></script>
-	<script src="js/jquery-ui-1.10.4.min.js"></script>
+    <script src="js/jquery-ui-1.10.4.min.js"></script>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.min.js"></script>
     <!-- bootstrap -->
@@ -435,30 +426,30 @@
     <script src="js/owl.carousel.js" ></script>
     <!-- jQuery full calendar -->
     <<script src="js/fullcalendar.min.js"></script> <!-- Full Google Calendar - Calendar -->
-	<script src="assets/fullcalendar/fullcalendar/fullcalendar.js"></script>
+    <script src="assets/fullcalendar/fullcalendar/fullcalendar.js"></script>
     <!--script for this page only-->
     <script src="js/calendar-custom.js"></script>
-	<script src="js/jquery.rateit.min.js"></script>
+    <script src="js/jquery.rateit.min.js"></script>
     <!-- custom select -->
     <script src="js/jquery.customSelect.min.js" ></script>
-	<script src="assets/chart-master/Chart.js"></script>
+    <script src="assets/chart-master/Chart.js"></script>
    
     <!--custome script for all page-->
     <script src="js/scripts.js"></script>
     <!-- custom script for this page-->
     <script src="js/sparkline-chart.js"></script>
     <script src="js/easy-pie-chart.js"></script>
-	<script src="js/jquery-jvectormap-1.2.2.min.js"></script>
-	<script src="js/jquery-jvectormap-world-mill-en.js"></script>
-	<script src="js/xcharts.min.js"></script>
-	<script src="js/jquery.autosize.min.js"></script>
-	<script src="js/jquery.placeholder.min.js"></script>
-	<script src="js/gdp-data.js"></script>	
-	<script src="js/morris.min.js"></script>
-	<script src="js/sparklines.js"></script>	
-	<script src="js/charts.js"></script>
-	<script src="js/jquery.slimscroll.min.js"></script>
-	<script src="angular/Component/angular.min.js"></script>
+    <script src="js/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="js/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="js/xcharts.min.js"></script>
+    <script src="js/jquery.autosize.min.js"></script>
+    <script src="js/jquery.placeholder.min.js"></script>
+    <script src="js/gdp-data.js"></script>  
+    <script src="js/morris.min.js"></script>
+    <script src="js/sparklines.js"></script>    
+    <script src="js/charts.js"></script>
+    <script src="js/jquery.slimscroll.min.js"></script>
+    <script src="angular/Component/angular.min.js"></script>
     <script src="angular/Component/angular-ui-router.js"></script>
     <script src="angular/Component/angular-strap.min.js"></script>
     <script src="angular/Component/angular-strap.tpl.min.js"></script>
@@ -480,6 +471,7 @@
     <script src="angular/Image/upload.module.js" ></script>
     <script src="angular/Image/upload.component.js" ></script>
     <script src="angular/Notice/newnotice.module.js"></script>
+    <script src="angular/User/profile.module.js"></script>
     <script src="angular/Mainpage/mainpage.module.js"></script>
 
 

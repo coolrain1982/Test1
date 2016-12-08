@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="/MyWeb/" />
+
+<title>Meiyabuy - 注册</title>
+<link rel="shortcut icon" href="favicon.ico">
+<link href="css/style.css" rel="stylesheet">
+<link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/iCheck.css" rel="stylesheet">
+<link href="css/animate.min.css" rel="stylesheet">
+<link href="css/style.min.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg" ng-app="loginApp" ng-controller="userController">
+
+	<h2 class="logo-name" style="text-align: center; font-size: 100px">MeiYaBuy</h2>
+	<div class="middle-box text-center loginscreen  animated fadeInDown">
+		<div>
+			<h3>欢迎注册 MeiYaBuy</h3>
+			<p ng-bind="welcomWord"></p>
+			<form role="form" class="form-horizontal" name="newUser" ng-show="!isSuccess">
+				<div class="form-group" >
+					<label class="col-sm-4 control-label">用户名*</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" placeholder="请输入用户名"
+							name="clear" required=""  ng-model="user.name" ng-disabled="sumbitToServer">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">密码*</label>
+					<div class="col-sm-8">
+						<input type="password" class="form-control" placeholder="请输入密码"
+							name="clear" required="" ng-model="user.password" ng-disabled="sumbitToServer">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">密码确认*</label>
+					<div class="col-sm-8">
+						<input type="password" class="form-control" placeholder="请输入密码"
+							name="clear" required="" ng-model="user.password_confirm" ng-disabled="sumbitToServer">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">email*</label>
+					<div class="col-sm-8">
+						<input type="email" class="form-control" placeholder="请输入email"
+							name="clear" required="" ng-model="user.email" ng-disabled="sumbitToServer">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">手机号码*</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" placeholder="请输入手机号码"
+							name="clear" required="" ng-model="user.mobile" ng-disabled="sumbitToServer">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">QQ号码*</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" placeholder="请输入QQ号码"
+							name="clear" required="" ng-model="user.qq" ng-disabled="sumbitToServer">
+					</div>
+				</div>
+				<!-- <div class="form-group text-left">
+					<div class="checkbox i-checks">
+						<label class="no-padding"> <input type="checkbox"><i></i>
+							我同意注册协议
+						</label>
+					</div>
+				</div> -->
+				<div class="col-sm-12" style="color: red; padding-bottom: 10px;"
+					ng-show="user.error">注册失败：{{user.error}}</div>
+				<button class="btn btn-primary block full-width m-b" 
+				   ng-click="registerUser()" ng-disabled="sumbitToServer">注册</button>
+
+				<p class="text-muted text-center">
+					<small>已经有账户了？</small><a href="javascript:void(0)" ng-click="toLogin()"
+					ng-disabled="sumbitToServer">点此登录</a>
+				</p>
+
+			</form>
+			
+			<form role="form" class="form-horizontal" novalid autocompelete="new-password" ng-show="isSuccess">
+
+                <p class="text-muted text-center">
+                    <small>注册新用户成功！请</small><a href="javascript:void(0)" ng-click="toLogin()">点此登录</a>
+                </p>
+
+            </form>
+		</div>
+	</div>
+</body>
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery-ui-1.10.4.min.js"></script>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<!-- bootstrap -->
+<script src="js/bootstrap.min.js"></script>
+<script src="angular/Component/angular.min.js"></script>
+<script src="angular/Component/angular-md5.js"></script>
+<script src="angular/Login/login.module.js"></script>
+
+</html>

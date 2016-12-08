@@ -10,4 +10,5 @@ public interface UserDao {
 	public User getUser(String userName);
 	public User getUser(int id);
 	public List<User> getUser(int flag, String role);
+	public boolean checkUserExists(String string, String lowerCase);
 }

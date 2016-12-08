@@ -1,15 +1,19 @@
 <section class="wrapper" ng-controller="newOrderController" ng-show="new_order_show">
 	<div class="row" ng-if="!isSuccess" name="new_order_row" >
 		<div class="col-lg-12">
-			<section class="panel">
-				<header class="panel-heading">新的订单</header>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+                    <h2>
+                        <i class="icon_plus_alt"></i>新的订单
+                    </h2>
+                </div>
 				<div class="panel-body">
 					<div class="form">
 						<form role="form" class="form-validate form-horizontal table"
 							name="neworder_form"
 							ng-submit="neworder_submit(neworder_form.$valid)" novalidate>
 							<div class="form-group">
-								<label for="fullname" class="control-label col-lg-1 col-md-3">汇率
+								<label for="fullname" class="control-label col-lg-2 col-md-3">汇率
 									<span class="required">*</span>
 								</label>
 								<div>
@@ -26,7 +30,7 @@
 							</div>
 							
 							<div class="form-group">
-                                <label for="fullname" class="control-label col-lg-1 col-md-3">服务类型
+                                <label for="fullname" class="control-label col-lg-2 col-md-3">服务类型
                                     <span class="required">*</span>
                                 </label>
                                 <div>
@@ -49,7 +53,7 @@
                             </div>
 
 							<div class="form-group has-feedback">
-								<label for="fullname" class="control-label col-lg-1 col-md-3">商品描述
+								<label for="fullname" class="control-label col-lg-2 col-md-3">商品描述
 									<span class="required">*</span>
 								</label>
 								<div class="col-lg-8">
@@ -75,14 +79,14 @@
 							</div>
 
 							<div class="form-group ">
-								<label for="address" class="control-label col-lg-1 col-md-3">商品截图
+								<label for="address" class="control-label col-lg-2 col-md-3">商品截图
 									<span class="required">*</span>
 								</label>
 								<image-upload></image-upload>
 							</div>
 
 							<div class="form-group has-feedback">
-								<label for="address" class="control-label col-lg-1 col-md-3">
+								<label for="address" class="control-label col-lg-2 col-md-3">
 									<a href="javascript:void(0);" target="_blank"
 									ng-click="getLink()">商品链接</a> <span class="required">*</span>
 								</label>
@@ -103,7 +107,7 @@
 
 							<div class="form-group has-feedback">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-3">商品单价($)<span
+									class="control-label col-lg-2 col-sm-1 col-md-3">商品单价($)<span
 									class="required">*</span>
 								</label>
 								<div class="col-lg-10 col-sm-9">
@@ -119,7 +123,7 @@
 
 							<div class="form-group has-feedback">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-3">运费单价($)<span
+									class="control-label col-lg-2 col-sm-1 col-md-3">运费单价($)<span
 									class="required">*</span></label>
 								<div class="col-lg-10 col-sm-9">
 									<input type="number" checked="" data-toggle="switch"
@@ -134,7 +138,7 @@
 
 							<div class="form-group has-feedback">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-3">商品数量<span
+									class="control-label col-lg-2 col-sm-1 col-md-3">商品数量<span
 									class="required">*</span></label>
 								<div class="col-lg-10 col-sm-9">
 									<input type="number" required data-toggle="switch" value="1"
@@ -149,7 +153,7 @@
 
 							<div class="form-group ">
 								<label for="agree"
-									class="control-label col-lg-1 col-sm-1 col-md-3">手续费单价($)<span
+									class="control-label col-lg-2 col-sm-1 col-md-3">手续费单价($)<span
 									class="required"></span></label>
 								<div class="col-lg-10 col-sm-9">
 									<p class="form-control-static"
@@ -159,75 +163,76 @@
 
 							<div class="form-group" align="left">
 								<div = row style="">
-									<label for="agree" class="control-label col-lg-1 col-md-3">总价</label>
-									<div class="col-lg-11 col-sm-11"
+									<label for="agree" class="control-label col-lg-2 col-md-3">总价</label>
+									<div class="col-lg-10 col-sm-11"
 										ng-show="neworder.unit_price>0 && neworder.quantity>0">
-										<label>商品： ${{calc_product_price().toFixed(2)}} =
+										<label style="font-weight:normal">商品： ${{calc_product_price().toFixed(2)}} =
 											{{neworder.unit_price}} x {{neworder.quantity}} </label>
 									</div>
 									<div style="float: top"
-										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										class="col-lg-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.unit_freight>0 && neworder.quantity>0">
-										<label>运费： ${{calc_product_freight().toFixed(2)}} =
+										<label style="font-weight:normal">运费： ${{calc_product_freight().toFixed(2)}} =
 											{{neworder.unit_freight}} x {{neworder.quantity}} </label>
 									</div>
 									<div style="float: top"
-										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										class="col-lg-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.unit_commision>0 && neworder.quantity>0">
-										<label>服务费： ${{calc_commison().toFixed(2)}} =
+										<label style="font-weight:normal">服务费： ${{calc_commison().toFixed(2)}} =
 											{{neworder.unit_commision}} x {{neworder.quantity}} x
 											{{neworder.fee_discount}}% (折扣 {{neworder.fee_discount}}%)</label>
 									</div>
 									<div style="float: top"
-										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										class="col-lg-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.quantity>0">
-										<label>-----------------------------------------------</label>
+										<label style="font-weight:normal">-----------------------------------------------</label>
 									</div>
 									<div style="float: top"
-										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										class="col-lg-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.quantity>0">
-										<label>小计： ${{calc_product_sum().toFixed(2)}}</label>
+										<label style="font-weight:normal">小计： ${{calc_product_sum().toFixed(2)}}</label>
 									</div>
-									<div style="float: top"
-										class="col-lg-offset-1 col-lg-12 col-sm-12"
+									<div style="float: top; "
+										class="col-lg-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.unit_commision>0 && neworder.quantity>0">
-										<label>手续费：
+										<label style="font-weight:normal">手续费：
 											${{(calc_product_sum()*0.039+0.3).toFixed(2)}} =
 											{{calc_product_sum().toFixed(2)}} x 3.9% + 0.3
 											(收费标准：每笔金额的3.9% + 0.3)</label>
 									</div>
 									<div style="float: top"
-										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										class="col-lg-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.quantity>0">
-										<label>-----------------------------------------------</label>
+										<label style="font-weight:normal">-----------------------------------------------</label>
 									</div>
 									<div style="float: top"
-										class="col-lg-offset-1 col-lg-12 col-sm-12"
+										class="col-lg-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.quantity>0">
-										<label>共计 <span
+										<label style="font-weight:normal">共计 <span
 											style="margin-left: 10px; color: red; font-weight: bold">${{calc_sum().toFixed(2)}}</span>
 											<span
 											style="margin-left: 15px; color: red; font-weight: bold">合人民币：￥{{calc_sum_rmb().toFixed(2)}}</span>
 										</label>
 									</div>
 									<div style="float: top"
-										class="col-lg-offset-1 col-offset-2 col-lg-12 col-sm-12"
+										class="col-lg-offset-2 col-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.quantity>0">
 										<i class="fa fa-lightbulb-o" style="color:#f8a564;margin-right:2px"></i>
-										<label style="font-size:12px">价格仅供参考，实际价格以系统最终计算金额为准！如您使用微信，将加收提现手续费 约
+										<label style="font-size:12px;font-weight:normal">价格仅供参考，实际价格以系统最终计算金额为准！如您使用支付宝，将加收提现手续费 约
 											￥{{calc_alipay().toFixed(2)}} 元</label>
 									</div>
 								</div>
 							</div>
 							<div class="form-group ">
-								<div class="col-lg-offset-1 col-offset-2  col-lg-10"
+								<div class="col-lg-offset-2 col-offset-2  col-lg-10"
 									style="color: red; padding-bottom: 10px;" 
 									ng-show="neworder_error != ''">提交失败：{{neworder_error}}</div>
-								<div class="col-lg-offset-1 col-offset-2 col-lg-2">
+								<div class="col-lg-offset-2 col-offset-2 col-lg-2">
 									<a class="btn btn-danger btn-lg btn-block" id="new_order_submit" 
 									   style="background-color:#f40;width:182px;height:39px;vertical-align:middle;
 									     font-size:14px; font-weight:700;border-radius:0;color:white"
-										ng-click="neworder_submit(neworder_form.$valid)"
+										ng-click="neworder_form.$invalid || neworder.quantity<1 || neworder.unit_price<=0 
+                                          || neworder.unit_freight<=0 || neworder_submit(neworder_form.$valid)"
 										ng-disabled="neworder_form.$invalid || neworder.quantity<1 || neworder.unit_price<=0 
 										  || neworder.unit_freight<=0">提交订单
 									</a>
@@ -236,7 +241,7 @@
 						</form>
 					</div>
 				</div>
-			</section>
+			</div>
 		</div>
 	</div>
 

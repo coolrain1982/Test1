@@ -17,12 +17,12 @@ Website: http://geekslabs.com/
 }
 
 body {
-	color: #666666;
+	color: #676a6c !important;
 	background: #eeeeee;
 	font-family: 'Lato', sans-serif !important;
 	padding: 0px !important;
 	margin: 0px !important;
-	font-size: 14px ;
+	font-size: 14px !important;
 }
 
 h1, h2, h3, h4, h5 {
@@ -591,8 +591,8 @@ ul.sidebar-menu li.active a i {
 
 .wrapper {
 	display: inline-block;
-	margin-top: 60px;
-	padding: 15px;
+	margin-top: 0px;
+	padding-left: 1px;
 	width: 100%;
 }
 
@@ -602,6 +602,7 @@ a.logo {
 	color: #fed189;
 	float: left;
 	margin-top: 15px;
+	margin-left:15px;
 	text-transform: uppercase;
 }
 
@@ -4433,8 +4434,8 @@ ul.amounts li {
 
 .form-horizontal .form-group {
 	border-bottom: 1px solid #eff2f7;
-	padding-bottom: 15px;
-	margin-bottom: 15px;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 .form-horizontal .form-group:last-child {
@@ -5606,10 +5607,10 @@ span.customSelect.changed {
 .navbar {
 	background: white;
 	background: rgba(255, 255, 255, 0.95);
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+/* 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15); */
 	padding: 0;
 	min-height: 45px;
-	height: 112px;
+	height: 30px;
 	width: 100%;
 	border: 0;
 	-webkit-transition: all 0.3s;
@@ -5898,10 +5899,6 @@ span.customSelect.changed {
 	text-align: left;
 }
 
-.navbar .nav>li>a {
-	padding: 0;
-}
-
 .navbar .nav>li>.dropdown-menu:before, .navbar .nav>li>.dropdown-menu:after
 	{
 	display: none;
@@ -5909,4 +5906,13 @@ span.customSelect.changed {
 
 .navbar.scroll-hide.closed {
 	top: -45px;
+}
+
+/*----------------------------------------------------------------------------------- */
+.dropdown-menu>li>a {
+	padding:3px 10px !important;
+}
+
+.dropdown-menu>li>a>i {
+    padding:3px 5px;
 }
