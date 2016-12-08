@@ -5572,11 +5572,13 @@ span.customSelect.changed {
 
 .table>thead>tr>th {
 	border-bottom: 2px solid #dddddd;
+	text-align:left !important;
 }
 
 .table>tbody>tr>td {
 	word-break: break-all;
 	word-wrap: break-word;
+	text-align:left !important;
 }
 
 .table thead>tr>th, .table tbody>tr>th, .table tfoot>tr>th, .table thead>tr>td,
@@ -5915,4 +5917,10 @@ span.customSelect.changed {
 
 .dropdown-menu>li>a>i {
     padding:3px 5px;
+}
+
+.underline>
+    a:hover,
+    a:focus {
+	text-decoration: underline;
 }

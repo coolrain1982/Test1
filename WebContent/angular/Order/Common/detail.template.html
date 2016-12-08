@@ -1,5 +1,5 @@
 <div class="modal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" style="left: 0; padding-top: 5%">
+	<div class="modal-dialog" style="left: 0;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" ng-click="$hide()">&times;</button>
@@ -92,12 +92,12 @@
 							</div>
 						</div>
                         <div style="float:right">
-						 <a class="btn btn-danger btn-lg btn-block"
+						 <a class="btn btn-lg btn-block"
 					          style="background-color:#f40;height:39px;width:182px;vertical-align:middle; 
 					          border-radius:0;color:white;font-size:14px;" ng-click="$hide();$ctrl.showAction1(selectItem)"
 					          ng-if="$ctrl.orderTable.detailAction1Show(selectItem)">{{$ctrl.orderTable.detailAction1Title(selectItem)}}
                         </a>
-                        <a class="btn btn-danger btn-lg btn-block"
+                        <a class="btn btn-lg btn-block"
                               style="background-color:#f40;height:39px;width:182px;vertical-align:middle; 
                               border-radius:0;color:white;font-size:14px;" ng-click="$hide();$ctrl.showAction2(selectItem)"
                               ng-if="$ctrl.orderTable.detailAction2Show(selectItem)">{{$ctrl.orderTable.detailAction2Title(selectItem)}}

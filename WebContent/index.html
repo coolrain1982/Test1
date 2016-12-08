@@ -14,7 +14,6 @@
 <!-- Bootstrap CSS -->
 <link href="css/style.css" rel="stylesheet" />
 <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css" />
-<link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 <!-- bootstrap theme -->
 <link href="bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
 <!--external css-->
@@ -51,13 +50,14 @@
 		<div class="slimScrollDiv"
 			style="position: relative; width: auto; height: 100%;">
 			<div class="sidebar-collapse" slimscroll="{height:'100%'}">
-				<ul class="nav" id="side-menu" style="margin-bottom:10px">
+				<ul class="nav" id="side-menu" style="margin-bottom: 10px">
 					<li class="nav-header">
 						<div class="dropdown profile-element">
 							<span><img class="img-circle" src="img/user.png"
 								width="48px"></img></span> <a data-toggle="dropdown"
-								class="dropdown-toggle" href="#"> <span class="clear" style="letter-spacing:2px;">
-									<span class="block m-t-xs"> <strong class="font-bold">{{loginUserName}}</strong>
+								class="dropdown-toggle" href="#"> <span class="clear"
+								style="letter-spacing: 2px;"> <span class="block m-t-xs">
+										<strong class="font-bold">{{loginUserName}}</strong>
 								</span> <span class="text-muted text-xs block">{{loginUserRole}}
 										<b class="caret"></b>
 								</span>
@@ -72,60 +72,42 @@
 							</ul>
 						</div>
 					</li>
-					<li class="">
-						<a class="J_menuItem" ui-sref-active="active" ui-sref="notice" ui-sref-opts="{reload:'notice'}">
-						        <i class="icon_volume-high_alt"></i> <span
-								class="nav-label">公告</span> 
-						</a>
-					</li>
-					<li class="{{orderLiClass}}">
-					     <a href="#">
-					         <i class="icon_document_alt"></i> <span
-							    class="nav-label">订单管理</span> <span class="fa arrow"></span>
-					    </a>
+					<li class=""><a class="J_menuItem" ui-sref-active="active"
+						ui-sref="notice" ui-sref-opts="{reload:'notice'}"> <i
+							class="icon_volume-high_alt"></i> <span class="nav-label">公告</span>
+					</a></li>
+					<li><a href="#"><i class="icon_document_alt"></i> <span
+							class="nav-label">订单管理</span> <span class="fa arrow"></span> </a>
 						<ul class="nav nav-second-level collapse">
-							<li>
-                          <a class="J_menuItem" ui-sref-active="active" ui-sref="newOrder" ui-sref-opts="{reload:'newOrder'}">
-                              <i class="icon_plus_alt"></i>
-                              <span>新的订单</span>
-                          </a>
-                      </li>
-                      <li>
-                          <a class="J_menuItem" ui-sref-active="active" ui-sref="unconfirmOrder" ui-sref-opts="{reload:'unconfirmOrder'}">
-                              <i class="icon_question_alt"></i>
-                              <span>待确认订单</span>
-                          </a>
-                      </li>
-                      <li>
-                          <a class="J_menuItem" ui-sref-active="active" ui-sref="rejectOrder" ui-sref-opts="{reload:'rejectOrder'}">
-                              <i class="icon_error-circle"></i>
-                              <span>待关闭订单</span>
-                          </a>
-                      </li>
-                      <li>
-                          <a class="J_menuItem" ui-sref-active="active" ui-sref="unpayOrder" ui-sref-opts="{reload:'unpayOrder'}">
-                              <i class="icon_currency_alt"></i>
-                              <span>待支付订单</span>
-                          </a>
-                      </li>
-                      <li>
-                          <a class="J_menuItem" ui-sref-active="active" ui-sref="doingOrder" ui-sref-opts="{reload:'doingOrder'}">
-                              <i class="arrow_carrot-2right_alt"></i>
-                              <span>进行中订单</span>
-                          </a>
-                      </li>
-                      <li>
-                          <a class="J_menuItem" ui-sref-active="active" ui-sref="finishOrder" ui-sref-opts="{reload:'finishOrder'}">
-                              <i class="icon_check_alt"></i>
-                              <span>已完成订单</span>
-                          </a>
-                      </li>
-                      <li>
-                          <a class="J_menuItem" ui-sref-active="active" ui-sref="allOrder" ui-sref-opts="{reload:'allOrder'}">
-                              <i class="icon_menu-circle_alt"></i>
-                              <span>全部订单</span>
-                          </a>
-                      </li>
+							<li><a class="J_menuItem" ui-sref-active="active"
+								ui-sref="newOrder" ui-sref-opts="{reload:'newOrder'}"> <i
+									class="icon_plus_alt"></i> <span>新的订单</span>
+							</a></li>
+							<li><a class="J_menuItem" ui-sref-active="active"
+								ui-sref="unconfirmOrder"
+								ui-sref-opts="{reload:'unconfirmOrder'}"> <i
+									class="icon_question_alt"></i> <span>待确认订单</span>
+							</a></li>
+							<li><a class="J_menuItem" ui-sref-active="active"
+								ui-sref="rejectOrder" ui-sref-opts="{reload:'rejectOrder'}">
+									<i class="icon_error-circle"></i> <span>待关闭订单</span>
+							</a></li>
+							<li><a class="J_menuItem" ui-sref-active="active"
+								ui-sref="unpayOrder" ui-sref-opts="{reload:'unpayOrder'}"> <i
+									class="icon_currency_alt"></i> <span>待支付订单</span>
+							</a></li>
+							<li><a class="J_menuItem" ui-sref-active="active"
+								ui-sref="doingOrder" ui-sref-opts="{reload:'doingOrder'}"> <i
+									class="arrow_carrot-2right_alt"></i> <span>进行中订单</span>
+							</a></li>
+							<li><a class="J_menuItem" ui-sref-active="active"
+								ui-sref="finishOrder" ui-sref-opts="{reload:'finishOrder'}">
+									<i class="icon_check_alt"></i> <span>已完成订单</span>
+							</a></li>
+							<li><a class="J_menuItem" ui-sref-active="active"
+								ui-sref="allOrder" ui-sref-opts="{reload:'allOrder'}"> <i
+									class="icon_menu-circle_alt"></i> <span>全部订单</span>
+							</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -146,39 +128,13 @@
 				<ul class="nav navbar-top-links navbar-right">
 					<li class="dropdown"><a class="dropdown-toggle count-info"
 						data-toggle="dropdown" href="#"> <img src="img/bell.png"
-							width="32px" /> <span class="label label-primary">8</span>
-					</a> <!-- <ul class="dropdown-menu dropdown-alerts">
-                                <li>
-                                    <a href="mailbox.html">
-                                        <div>
-                                            <i class="fa fa-envelope fa-fw"></i> 您有16条未读消息
-                                            <span class="pull-right text-muted small">4分钟前</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="profile.html">
-                                        <div>
-                                            <i class="fa fa-qq fa-fw"></i> 3条新回复
-                                            <span class="pull-right text-muted small">12分钟钱</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <div class="text-center link-block">
-                                        <a class="J_menuItem" href="notifications.html" data-index="89">
-                                            <strong>查看所有 </strong>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul> --></li>
+							width="32px" /> <span class="label label-primary"></span>
+					</a></li>
 				</ul>
 			</nav>
 		</div>
-		<div class="row J_mainContent" id="content-main" style="overflow-y:auto">
+		<div class="row J_mainContent" id="content-main"
+			style="overflow-y: auto">
 			<div ui-view></div>
 		</div>
 	</div>

@@ -35,10 +35,10 @@
 										ng-repeat="img in $ctrl.getUrlList(item.product_photo_url)"
 										href="{{img}}" target="_blank"><img ng-src="{{img}}"
 											width="40px" height="40px" /></a></td>
-									<td><a href="{{item.link}}" target="_blank"
+									<td class="underline"><a href="{{item.link}}" target="_blank"
 										alt="{{item.link}}">{{$ctrl.getShowLink(item.link)}}</a></td>
 									<td>{{item.product_quantity}}</td>
-									<td><a href="javascript:void(0);" style="color:red"
+									<td class="underline"><a href="javascript:void(0);" style="color:red" 
 										ng-click="$ctrl.showDetail(item)">￥{{$ctrl.calcTotal(item).toFixed(2)}}</a></td>
 									<td class="hidden-xs">
 										{{$ctrl.commFunc.getDate($ctrl.commFunc.formatDate(item.create_date))}}&nbsp;&nbsp;
