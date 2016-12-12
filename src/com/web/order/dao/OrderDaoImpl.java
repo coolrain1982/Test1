@@ -177,4 +177,24 @@ public class OrderDaoImpl implements OrderDao {
 		return resultList.get(0);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Order getOrder(Integer userId, long orderId) {
+		String hql = String.format(
+				"select new com.web.entity.Order(%s,%s,%s) from Order o join o.user u where u.id = :userId and o.order_id = :orderId", 
+				"o.order_id, o.discount,o.product_descript,o.link,o.product_photo_url,o.audit_remark,o.product_unit_price",
+				"o.product_unit_freight,o.product_unit_commission,o.exchange_rate,o.paypal_fee,o.paypal_rate",
+				"o.product_quantity,o.create_date,o.status, o.type, o.audit_date");
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setParameter("userId", userId);
+		q.setParameter("orderId", orderId);
+		
+		List<Order> resultList = q.getResultList();
+		if (resultList.size() == 0) {
+			return null;
+		}
+		return resultList.get(0);
+	}
+
 }

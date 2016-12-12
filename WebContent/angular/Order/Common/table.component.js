@@ -56,33 +56,6 @@ angular.module('order-table').component('orderTable',{
 			orderTable.detailAction2(item);
 		}
 
-		this.calcTotal = function(item) {
-			var temp = (item.product_unit_price
-					+ item.product_unit_freight + item.product_unit_commission
-					* item.discount / 100)
-					* item.product_quantity;
-			return (temp
-					* (1 + parseFloat(item.paypal_rate) / 100) + item.paypal_fee).toFixed(2)
-					* item.exchange_rate;
-		};
-
-		this.calcSum = function(item) {
-			var temp = this.calcProductSum(item)
-					* (1 + parseFloat(item.paypal_rate) / 100)
-					+ item.paypal_fee;
-
-			return temp;
-		};
-
-		this.calcProductSum = function(item) {
-			var temp = (item.product_unit_price
-					+ item.product_unit_freight + item.product_unit_commission
-					* item.discount / 100)
-					* item.product_quantity;
-
-			return temp;
-		};
-
 		this.getShowLink = function(temp) {
 			if (temp.length > 20) {
 				return temp.substring(0, 20) + "...";
@@ -127,19 +100,6 @@ angular.module('order-table').component('orderTable',{
 				return "已完成";
 			case 21:
 				return "有退款";
-			default:
-				return "无效";
-			}
-		}
-		
-		this.getSrvType = function(item) {
-			switch (item.type) {
-			case 1:
-				return "只购买商品";
-			case 2:
-				return "购买商品+review";
-			case 3:
-				return "购买商品+review+feedback";
 			default:
 				return "无效";
 			}

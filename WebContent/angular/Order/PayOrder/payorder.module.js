@@ -46,7 +46,47 @@ angular.module('pay-order').controller("payOrderController",[
 				return "";
 			};
 			
-			orderTable.detailAction1 = function(item) {};
+			orderTable.action1Dialog = $modal({
+				scope : $scope,
+				templateUrl : 'angular/Order/PayOrder/pay.template.html',
+				show : false,
+				animation: 'am-fade-and-slide-top',
+				backdrop:'static',
+				keyboard:false,
+			});
+			
+			orderTable.detailAction1 = function(item) {
+				item.action1Error = "";
+				orderTable.action1Dialog.$promise.then(orderTable.action1Dialog.show);
+			};
+			
+			$scope.calcPayMoney = function(item) {
+				return (commFunc.calcTotal(item).toFixed(2) * (1 + 0.001)).toFixed(2);
+			}
+			
+			$scope.calcWithdrawFee = function(item) {
+				return (commFunc.calcTotal(item).toFixed(2) * 0.001).toFixed(2);
+			}
+			
+			$scope.showHelp = function() {
+				return "<p align='left'>1、手机支付宝打开【账单】" +
+						"<br/>2、选中转款记录点击进入【账单详情】" +
+						"<br/>3、点击【创建时间】后可以看到【订单号】</p>"
+			}
+			
+			$scope.$watch('orderTable.selectItem.payInfo.sn', function(newVal, oldVal) {
+	    	    if (newVal && newVal!=oldVal) {
+	    	    	if (newVal.length >= 8) {
+	    	    		$scope.orderTable.selectItem.payInfo.sn = newVal.substr(0, 8);
+	    	    	}
+	    	    }	
+	    	    
+	    	    if (newVal && newVal!=oldVal) {
+	    	    	if (parseInt(newVal) != newVal) {
+	    	    		$scope.orderTable.selectItem.payInfo.sn = oldVal
+	    	    	}
+	    	    }
+	    	});
 			
 			break;
 		default:

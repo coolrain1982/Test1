@@ -39,7 +39,7 @@
 										alt="{{item.link}}">{{$ctrl.getShowLink(item.link)}}</a></td>
 									<td>{{item.product_quantity}}</td>
 									<td class="underline"><a href="javascript:void(0);" style="color:red" 
-										ng-click="$ctrl.showDetail(item)">￥{{$ctrl.calcTotal(item).toFixed(2)}}</a></td>
+										ng-click="$ctrl.showDetail(item)">￥{{$ctrl.commFunc.calcTotal(item).toFixed(2)}}</a></td>
 									<td class="hidden-xs">
 										{{$ctrl.commFunc.getDate($ctrl.commFunc.formatDate(item.create_date))}}&nbsp;&nbsp;
 										{{$ctrl.commFunc.getTime($ctrl.commFunc.formatDate(item.create_date))}}</td>
@@ -51,7 +51,8 @@
 								</tr>
 							</tbody>
 						</table>
-						<ul class="pagination" style="margin: 0px;">
+						<ul class="pagination pull-right" style="margin: 0px;line-height:29px;">
+						    <span style="margin-left:10px"> 共{{$ctrl.recordSize}}条记录</span>
 							<li ng-class="{true:'disabled'}[$ctrl.p_current==1]"><a
 								href="javascript:void(0);" ng-click="$ctrl.p_index()">首页</a></li>
 							<li ng-repeat="page in $ctrl.pages"
@@ -61,7 +62,6 @@
 							<li ng-class="{true:'disabled'}[$ctrl.p_current==$ctrl.p_all_page]"><a
 								href="javascript:void(0);" ng-click="$ctrl.p_last()">尾页</a></li>
 						</ul>
-						<span style="vertical-align: 12px;"> 共{{$ctrl.recordSize}}条记录</span>
 					</div>
 				</div>
 			</div>

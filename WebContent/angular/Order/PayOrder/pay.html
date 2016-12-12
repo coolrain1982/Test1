@@ -1,0 +1,108 @@
+<section class="wrapper" ng-controller="payController">
+
+	<div ng-if="fail && idle">
+		<div class="row">
+			<div class="col-lg-12">
+				<h4 class="page-header">
+					<i class="fa fa fa-close"></i> <strong ng-bind="failInfo"></strong>
+				</h4>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" ng-if="!fail && idle">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2>
+						<i class="icon_currency_alt"></i>订单支付
+					</h2>
+				</div>
+				<div class="panel-body">
+					<p>
+						订单遍号：<small style="margin-right:10px">{{commFunc.foo(orderId, 8)}}
+						</small> 提交时间：<small>{{commFunc.formatDate(orderItem.create_date)}}</small>
+					</p>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="widget-container fluid-height">
+								<div class="widget-content padded clearfix">
+									<table class="table table-striped invoice-table">
+										<thead>
+											<tr>
+												<th width="50"></th>
+												<th></th>
+												<th width="70">数量</th>
+												<th width="180">单位价格</th>
+												<th width="180">总价</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>#1</td>
+												<td ng-bind="orderItem.product_descript"></td>
+												<td ng-bind="orderItem.product_quantity"></td>
+												<td ng-bind="'$' + orderItem.product_unit_price"></td>
+												<td ng-bind="'$' + (orderItem.product_unit_price*orderItem.product_quantity).toFixed(2)"></td>
+											</tr>
+											<tr>
+												<td>#2</td>
+												<td>运费</td>
+												<td ng-bind="orderItem.product_quantity"></td>
+												<td ng-bind="'$' + orderItem.product_unit_freight"></td>
+												<td ng-bind="'$' + (orderItem.product_unit_freight*orderItem.product_quantity).toFixed(2)"></td>
+											</tr>
+											<tr>
+												<td>#3</td>
+												<td>服务费</td>
+												<td ng-bind="orderItem.product_quantity"></td>
+												<td ng-bind="'$' + orderItem.product_unit_commission"></td>
+												<td
+													ng-bind="'$' + (orderItem.product_unit_commission*orderItem.product_quantity*orderItem.discount/100).toFixed(2) +'（折扣' + orderItem.discount + '%）'">
+												</td>
+											</tr>
+											<tr>
+                                                <td>#4</td>
+                                                <td>手续费</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td ng-bind="'$' + (commFunc.calcProductSum(orderItem)*orderItem.paypal_rate/100+orderItem.paypal_fee).toFixed(2)"></td>
+                                            </tr>
+											<tr>
+												<td>#5</td>
+												<td>汇率</td>
+												<td>-</td>
+												<td ng-bind="orderItem.exchange_rate"></td>
+												<td></td>
+											</tr>
+											<tr>
+                                                <td>#6</td>
+                                                <td>总计</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td class="text-danger"
+                                                    ng-bind="'$' + commFunc.calcSum(orderItem).toFixed(2) + 
+                                                    '    (￥' + (commFunc.calcSum(orderItem).toFixed(2)*orderItem.exchange_rate).toFixed(2) + ')'">
+
+                                                </td>
+                                            </tr>
+											<tr>
+												<td>#7</td>
+												<td>服务类型</td>
+												<td colspan="3" ng-bind="commFunc.getSrvType(orderItem)"></td>
+											</tr>	
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<p style="margin:10px 0 10px 0"><small>支付宝扫一扫，向我付款</small></p>
+					<div style="float:left"><img src="img/alipay.jpg"></div>
+					<div style="float:left;margin:100px 20px 10px 10px"><label style="font-size:48px">￥9999.99</label>
+					<small style="display:block;padding-left:20px">(加收%0.1手续费 10.00)</small></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

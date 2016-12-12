@@ -4,7 +4,7 @@
 var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap',
     'ui.router', 'order-home', 'new-order', 'image-upload', 'ui.slimscroll',
     'order-table', 'audit-order', 'pay-order', 'reject-order', 'doing-order',
-    'finish-order', 'all-order', 'new-notice', 'summernote', 'profile',
+    'finish-order', 'all-order', 'new-notice', 'summernote', 'profile', 'payment',
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -64,6 +64,10 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    }).state('profile', {
 	    	url : '/profile',
 	    	templateUrl: 'profile.html'
+	    }).state('orderPay', {
+	    	url : '/orderPay',
+	    	params: {'id':-1},
+	    	templateUrl: 'angular/Order/PayOrder/pay.html'
 	    });
 });
 
@@ -191,6 +195,45 @@ mainpageApp.service('commFunc', function() {
 		return str.substring(str.length - len,
 				str.length);
 	};
+	
+	this.calcTotal = function(item) {
+		var temp = (item.product_unit_price
+				+ item.product_unit_freight + item.product_unit_commission
+				* item.discount / 100)
+				* item.product_quantity;
+		return (temp
+				* (1 + parseFloat(item.paypal_rate) / 100) + item.paypal_fee).toFixed(2)
+				* item.exchange_rate;
+	};
+
+	this.calcSum = function(item) {
+		var temp = this.calcProductSum(item)
+				* (1 + parseFloat(item.paypal_rate) / 100)
+				+ item.paypal_fee;
+
+		return temp;
+	};
+
+	this.calcProductSum = function(item) {
+		var temp = (item.product_unit_price
+				+ item.product_unit_freight + item.product_unit_commission
+				* item.discount / 100)
+				* item.product_quantity;
+
+		return temp;
+	};
+	this.getSrvType = function(item) {
+		switch (item.type) {
+		case 1:
+			return "只购买商品";
+		case 2:
+			return "购买商品+review";
+		case 3:
+			return "购买商品+review+feedback";
+		default:
+			return "无效";
+		}
+	}
 });
 
 

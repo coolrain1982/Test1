@@ -72,7 +72,7 @@
 							</ul>
 						</div>
 					</li>
-					<li class=""><a class="J_menuItem" ui-sref-active="active"
+					<li><a class="J_menuItem" ui-sref-active="active"
 						ui-sref="notice" ui-sref-opts="{reload:'notice'}"> <i
 							class="icon_volume-high_alt"></i> <span class="nav-label">公告</span>
 					</a></li>
@@ -123,12 +123,11 @@
 	<div id="page-wrapper" class="gray-bg dashbard-1">
 		<div class="row border-bottom">
 			<nav class="navbar navbar-static-top" role="navigation"
-				style="margin-bottom: 0">
+				style="margin-bottom: 0;min-height:20px">
 				<a href="index.do" class="logo">MeiYa <span class="lite">Buy</span></a>
 				<ul class="nav navbar-top-links navbar-right">
 					<li class="dropdown"><a class="dropdown-toggle count-info"
-						data-toggle="dropdown" href="#"> <img src="img/bell.png"
-							width="32px" /> <span class="label label-primary"></span>
+						data-toggle="dropdown" href="#"> <i class="fa fa-bell"></i><span class="label label-primary"></span>
 					</a></li>
 				</ul>
 			</nav>
@@ -173,6 +172,7 @@
 	<script src="angular/Order/FinishOrder/finishorder.module.js"></script>
 	<script src="angular/Order/HisOrder/allorder.module.js"></script>
 	<script src="angular/Order/PayOrder/payorder.module.js"></script>
+	<script src="angular/Order/PayOrder/pay.module.js"></script>
 	<script src="angular/Order/RejectOrder/rejectorder.module.js"></script>
 	<script src="angular/Image/upload.module.js"></script>
 	<script src="angular/Image/upload.component.js"></script>

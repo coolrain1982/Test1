@@ -119,13 +119,55 @@ public class UserOrderCtrl {
 		return rtnMap;
 	}
 	
+	@RequestMapping("/getPayment.do")
+	@ResponseBody
+	public Map<String, Object> getPayment(@RequestParam long orderId) {
+		
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+		
+		if (orderId < 1) {
+			rtnMap.put("error", String.format("非法的订单编号[%s]", orderId));
+			return rtnMap;
+		}
+		
+		String userName = "";
+		
+		try {
+			userName = getLoginName();
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+			return rtnMap;
+		}
+		
+		//查询用户
+		User user = null;
+		try {
+			user = userSrv.getUser(userName);
+		} catch (Exception e) {
+			rtnMap.put("error", String.format("未知登陆用户[%s]:%s" , userName , e.getMessage()));
+			return rtnMap;
+		}
+		
+		//根据订单id，用户查询订单信息
+		try {
+			Order order = getSrv.getPayment(user.getId(), orderId);
+			rtnMap.put("order", order);
+			rtnMap.put("status", 1);
+		} catch (Exception e) {
+			rtnMap.put("error",	e.getMessage());
+		}
+		
+		return rtnMap;
+	}
+	
 	public static String getLoginName() throws Exception {
 		// 先取用户
 		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (UserDetails.class.isInstance(o)) {
 			return ((UserDetails) o).getUsername();
 		} else {
-			throw new Exception("请先登录系统后再进行订单操作！");
+			throw new Exception("请先登录系统后再进行相关操作！");
 		}
 	}
 }
