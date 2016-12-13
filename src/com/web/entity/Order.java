@@ -1,6 +1,8 @@
 package com.web.entity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -29,10 +31,11 @@ public class Order {
 	public static final int WAIT_ASSIGNMENT = 5;
 	public static final int PAYED_FAIL = 6;
 	public static final int PAY_TO_AGENT = 10;
-	public static final int FINISH = 20;
+	public static final int WAIT_FINISH = 20;
+	public static final int FINISH = 21;
 
 	private long order_id;
-	// status:0-已取消；1-初始值；2-待支付；3-审核未通过；4-客户已支付；10-已经付中介；20-已完成
+	// status:0-已取消；1-初始值；2-待支付；3-审核未通过；4-客户已支付；5-支付审核通过；6-支付审核失败；10-已经付中介；20-已完成；21-用户确认完成
 	// type:1-仅购买；2-购买+review；3-购买+review+feedback
 	private int status, discount, type, csid;
 	private String link, key_word, product_descript, product_photo_url, audit_remark;
@@ -333,4 +336,21 @@ public class Order {
 		}
 		return strOrderID.substring(strOrderID.length() - len, strOrderID.length());
 	}
-}
+	
+	public static List<Integer> getProcessOrderStatus() {
+		List<Integer> processStatus = new ArrayList<>();
+		processStatus.add(Order.WAIT_PAY);
+		processStatus.add(Order.PAYED_FAIL);
+		processStatus.add(Order.WAIT_FINISH);
+		
+		return processStatus;
+	}
+	
+	public static List<Integer> getDoingOrderStatus() {
+		List<Integer> doingStatus = new ArrayList<>();
+		doingStatus.add(Order.PAYED_SUCCESS);
+		doingStatus.add(Order.PAY_TO_AGENT);
+		
+		return doingStatus;
+	}
+ }

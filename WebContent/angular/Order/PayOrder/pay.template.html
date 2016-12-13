@@ -50,16 +50,16 @@
 					</form>
 					<div class="col-lg-12"
 						style="color: red; margin: 10px 15px 15px 0; font-size: 12px; text-align: right;">
-						{{orderTable.selectItem.auditError}}</div>
+						{{orderTable.selectItem.payError}}</div>
 					<div style="float: right; margin-right: 15px">
 						<a
 							style="color: #36c; line-height: 34px; margin-right: 20px; font-size: 12px; cursor: pointer"
-							ng-click="backToDetail()" ng-show="!doing"> <i
+							ng-click="payBackToDetail()" ng-show="!doing"> <i
 							class="fa fa-reply" style="padding-right: 6px" />返回
 						</a> <a
 							class="btn btn-lg"
 							style="background-color: #f40; height: 39px; width: 120px; vertical-align: middle; border-radius: 0; color: white; font-size: 14px;"
-							ng-click="showPayConfirm()">提交支付信息 </a>
+							ng-click="showPayConfirm(orderTable.selectItem)">提交支付信息 </a>
 					</div>
 				</div>
 			</div>

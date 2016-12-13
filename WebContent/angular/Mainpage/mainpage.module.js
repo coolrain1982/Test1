@@ -1,10 +1,10 @@
 'use strict';
 
 // Define the `loginApp` module
-var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap',
+var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap', 'ngSanitize',
     'ui.router', 'order-home', 'new-order', 'image-upload', 'ui.slimscroll',
-    'order-table', 'audit-order', 'pay-order', 'reject-order', 'doing-order',
-    'finish-order', 'all-order', 'new-notice', 'summernote', 'profile', 'payment',
+    'order-table', 'process-order', 'doing-order', 'new-notice', 'summernote', 
+    'profile',
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -26,25 +26,12 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    	url : '/newOrder',
 	    	templateUrl: 'angular/Order/NewOrder/newOrder.html'
 	    })
-	    .state('unconfirmOrder', {
-	    	url : '/unconfirmOrder',
-	    	templateUrl: 'angular/Order/AuditOrder/unconfirmOrder.html'
-	    })
-	    .state('unpayOrder', {
-	    	url : '/unpayOrder',
-	    	templateUrl: 'angular/Order/PayOrder/unpayOrder.html'
-	    })
-	    .state('doingOrder', {
+	    .state('processOrder', {
+	    	url : '/processOrder',
+	    	templateUrl: 'angular/Order/processOrder.html'
+	    }).state('doingOrder', {
 	    	url : '/doingOrder',
 	    	templateUrl: 'angular/Order/DoingOrder/doingOrder.html'
-	    })
-	    .state('rejectOrder', {
-	    	url : '/rejectOrder',
-	    	templateUrl: 'angular/Order/RejectOrder/rejectOrder.html'
-	    })
-	    .state('finishOrder', {
-	    	url : '/finishOrder',
-	    	templateUrl: 'angular/Order/FinishOrder/finishOrder.html'
 	    })
 	    .state('allOrder', {
 	    	url : '/allOrder',
@@ -64,10 +51,6 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    }).state('profile', {
 	    	url : '/profile',
 	    	templateUrl: 'profile.html'
-	    }).state('orderPay', {
-	    	url : '/orderPay',
-	    	params: {'id':-1},
-	    	templateUrl: 'angular/Order/PayOrder/pay.html'
 	    });
 });
 
@@ -85,13 +68,13 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 			if (data.authorities && data.authorities.length > 0) {
 				switch (data.authorities[0].authority) {
 				case "ROLE_USER": 
-					$scope.loginUserRole = "用户";
+					$scope.loginUserRole = "VIP用户<b class='caret'></b>";
 					break;
 				case "ROLE_CS":
-					$scope.loginUserRole = "客服";
+					$scope.loginUserRole = "客服<b class='caret'></b>";
 					break;
 				case "ROLE_ADMIN":
-					$scope.loginUserRole = "管理员";
+					$scope.loginUserRole = "管理员<b class='caret'></b>";
 					break;
 				}
 			}
@@ -144,6 +127,8 @@ mainpageApp.service('orderTable', function() {
     this.detailAction2Title = function(item) {return ""};
     this.statusClick = function(item) {};
     this.action1Dialog = null;
+    this.showAction1 = function(item) {};
+    this.showAction2 = function(item) {};
     this.reset = function() {
     	this.title="";
     	this.detailDialog = null;
@@ -161,6 +146,8 @@ mainpageApp.service('orderTable', function() {
         this.detailAction2Title = function(item) {return ""};
         this.statusClick = function(item) {};
         this.action1Dialog = null;
+        this.showAction1 = function(item) {};
+        this.showAction2 = function(item) {};
     }  
 });
 

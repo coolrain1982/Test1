@@ -52,26 +52,28 @@ public class GetOrderServiceImpl implements GetOrderService {
 
 	@Override
 	@Transactional
-	public Order getPayment(Integer userId, long orderId) throws Exception {
-		Order order = null;
-		// 获取order
-		order = orderDao.getOrder(userId, orderId);
-		if (order == null) {
-			throw new Exception(String.format("找不到订单[编号%s]信息!", Order.getFormatOrderID(orderId, 8)));
-		}
-		
-		switch (order.getStatus()) {
-		case Order.PAYED :
-			throw new Exception(String.format("订单[编号%s]已支付，请等待我们的确认反馈!", Order.getFormatOrderID(orderId, 8)));
-		case Order.WAIT_PAY:
-		case Order.PAYED_FAIL:
-			return order;
-		case Order.PAYED_SUCCESS:
-		case Order.FINISH:
-			throw new Exception(String.format("订单[编号%s]已支付成功，不能再次支付!", Order.getFormatOrderID(orderId, 8)));
-		default:
-			throw new Exception(String.format("订单[编号%s]无法支付, 请刷新页面后重试!", Order.getFormatOrderID(orderId, 8)));
-		}
+	public long getProcessOrderCount(Integer userId) throws Exception {
+		return orderDao.getProcessOrderCount(userId);
+	}
+
+	@Override
+	@Transactional
+	public List<Order> getProcessOrders(Integer userId, PageForQuery pfq) throws Exception {
+		int startIdx = (pfq.getPage() - 1) * pfq.getSize();
+		return orderDao.getProcessOrders(userId, startIdx, pfq.getSize());
+	}
+
+	@Override
+	@Transactional
+	public long getDoingOrderCount(Integer userId) throws Exception {
+		return orderDao.getDoingOrderCount(userId);
+	}
+
+	@Override
+	@Transactional
+	public List<Order> getDoingOrders(Integer userId, PageForQuery pfq) throws Exception {
+		int startIdx = (pfq.getPage() - 1) * pfq.getSize();
+		return orderDao.getDoingOrders(userId, startIdx, pfq.getSize());
 	}
 
 }

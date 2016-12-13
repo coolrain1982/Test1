@@ -24,7 +24,6 @@ angular.module('order-table').component('orderTable',{
 			templateUrl : 'angular/Order/Common/detail.template.html',
 			show : false,
 			animation: 'am-fade-and-slide-top',
-			backdrop:'static',
 			keyboard:false,
 		});
 
@@ -47,14 +46,6 @@ angular.module('order-table').component('orderTable',{
 			orderTable.detailDialog = this.modelDialog;
 			this.modelDialog.$promise.then(this.modelDialog.show);
 		};
-		
-		this.showAction1 = function(item) {
-			orderTable.detailAction1(item);
-		}
-		
-		this.showAction2 = function(item) {
-			orderTable.detailAction2(item);
-		}
 
 		this.getShowLink = function(temp) {
 			if (temp.length > 20) {
@@ -181,7 +172,7 @@ angular.module('order-table').component('orderTable',{
 	    	this.start();
 			$http.get(orderTable.doUrl,
 					{ params:{
-				        status:orderTable.queryStatus,
+				        command:orderTable.queryCommand,
 				        page: page,
 				        size: size,
 				        orderid: orderid,

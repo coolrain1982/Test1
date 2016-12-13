@@ -63,7 +63,7 @@
 											ng-model="neworder.descript" />
 									</div>
 									<div style="float: left;">
-										<span class="glyphicon glyphicon-ok for-control-feedback"
+										<span class="glyphicon glyphicon-ok"
 											ng-show="neworder_form.neworder_desp.$dirty && neworder_form.neworder_desp.$valid"></span>
 									</div>
 								</div>
@@ -91,15 +91,15 @@
 									ng-click="getLink()">商品链接</a> <span class="required">*</span>
 								</label>
 								<div class="col-lg-8">
-									<div style="float: left; padding-left: 0px;" class="col-lg-7">
+									<div style="float: left; padding-left: 0px;" class="col-lg-7 ">
 										<input class=" form-control" id="neworder_link"
 											name="neworder_link" type="url" required value=""
 											ng-model="neworder.link" />
 									</div>
 									<div style="float: left;">
-										<span class="glyphicon glyphicon-ok form-control-feedback"
+										<span class="glyphicon glyphicon-ok"
 											ng-show="neworder_form.neworder_link.$dirty && neworder_form.neworder_link.$valid"></span>
-										<span class="glyphicon glyphicon-remove form-control-feedback"
+										<span class="glyphicon glyphicon-remove"
 											ng-show="neworder_form.neworder_link.$dirty && neworder_form.neworder_link.$invalid"></span>
 									</div>
 								</div>
@@ -228,7 +228,7 @@
 									style="color: red; padding-bottom: 10px;" 
 									ng-show="neworder_error != ''">提交失败：{{neworder_error}}</div>
 								<div class="col-lg-offset-2 col-offset-2 col-lg-2">
-									<a class="btn btn-danger btn-lg btn-block" id="new_order_submit" 
+									<a class="btn btn-lg btn-block" id="new_order_submit" 
 									   style="background-color:#f40;width:182px;height:39px;vertical-align:middle;
 									     font-size:14px; font-weight:700;border-radius:0;color:white"
 										ng-click="neworder_form.$invalid || neworder.quantity<1 || neworder.unit_price<=0 
@@ -245,7 +245,7 @@
 		</div>
 	</div>
 
-    <div ng-if="isSuccess">
+    <div ng-if="isSuccess" style="margin-left:20px">
 		<div class="row" >
 			<div class="col-lg-12">
 				<h4 class="page-header">

@@ -17,4 +17,8 @@ public interface OrderDao {
 	public List<Order> getOrdersForCS(int csId, int startIdx, int size);
 	public Order getOrderById(long orderId);
 	public Order getOrder(Integer userId, long orderId);
+	public long getProcessOrderCount(Integer userId);
+	public List<Order> getProcessOrders(Integer userId, int startIdx, int size);
+	public List<Order> getDoingOrders(Integer userId, int startIdx, int size);
+	public long getDoingOrderCount(Integer userId);
 }

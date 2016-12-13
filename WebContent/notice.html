@@ -28,7 +28,8 @@
 								</tr>
 							</tbody>
 						</table>
-						<ul class="pagination" style="margin: 0px;">
+						<ul class="pagination pull-right" style="margin: 0px;line-height:29px;">
+						    <span style="margin-left:10px" ng-bind="'共'+ recordSize + '条记录'"></span>
 							<li ng-class="{true:'disabled'}[p_current==1]"><a
 								href="javascript:void(0);" ng-click="p_index()">首页</a></li>
 							<li ng-repeat="page in pages"
@@ -38,7 +39,6 @@
 							<li ng-class="{true:'disabled'}[p_current==p_all_page]"><a
 								href="javascript:void(0);" ng-click="p_last()">尾页</a></li>
 						</ul>
-						<span style="vertical-align: 12px;"> 共{{recordSize}}条记录</span>
 					</div>
 				</div>
 			</div>

@@ -16,6 +16,10 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="tbl_payinfo", schema="meiyabuy")
 public class PayInfo {
+	public static final Integer INIT = 1;
+	public static final Integer SUCCESS = 2;
+	public static final Integer FAILED = 3;
+	public static final Integer INVALID = 0;
 	private Integer status, pay_type;
 	private Long id;
 	private String sn, payer;

@@ -10,5 +10,8 @@ public interface GetOrderService {
 	public long getOrderCount(int status) throws Exception;
 	public List<Order> getOrders(Integer userId, int status, PageForQuery pfq) throws Exception;
 	public List<Order> getOrders(int status, PageForQuery pfq);
-	public Order getPayment(Integer id, long orderId) throws Exception;
+	public long getProcessOrderCount(Integer userId) throws Exception;
+	public List<Order> getProcessOrders(Integer userId, PageForQuery pageForQuery) throws Exception;
+	public long getDoingOrderCount(Integer userId) throws Exception;
+	public List<Order> getDoingOrders(Integer userId, PageForQuery pageForQuery) throws Exception;
 }

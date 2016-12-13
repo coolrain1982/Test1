@@ -52,7 +52,7 @@
 							</tbody>
 						</table>
 						<ul class="pagination pull-right" style="margin: 0px;line-height:29px;">
-						    <span style="margin-left:10px"> 共{{$ctrl.recordSize}}条记录</span>
+						    <span style="margin-left:10px" ng-bind="'共'+ $ctrl.recordSize + '条记录'"></span>
 							<li ng-class="{true:'disabled'}[$ctrl.p_current==1]"><a
 								href="javascript:void(0);" ng-click="$ctrl.p_index()">首页</a></li>
 							<li ng-repeat="page in $ctrl.pages"
