@@ -1,5 +1,6 @@
 package com.web.order.dao;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -28,7 +29,9 @@ public class PayInfoDaoImpl implements PayInfoDao {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<PayInfo> getPayInfo(long orderId) {
-		String hql = String.format("from PayInfo p join p.order o where o.order_id = :orderId");
+		String hql = 
+				String.format("select new com.web.entity.PayInfo(%s) from PayInfo p join p.order o where o.order_id = :orderId",
+				"p.id,p.status,p.pay_type,p.sn,p.payer,p.pay_date,p.money");
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setParameter("orderId", orderId);

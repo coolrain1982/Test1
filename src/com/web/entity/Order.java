@@ -353,4 +353,21 @@ public class Order {
 		
 		return doingStatus;
 	}
+	
+	public static List<Integer> getAdminProcessOrderStatus() {
+		List<Integer> processStatus = new ArrayList<>();
+		processStatus.add(Order.INIT);
+		processStatus.add(Order.PAYED);
+		processStatus.add(Order.WAIT_ASSIGNMENT);
+		
+		return processStatus;
+	}
+	
+	public static List<Integer> getAdminDoingOrderStatus() {
+		List<Integer> doingStatus = new ArrayList<>();
+		doingStatus.add(Order.PAYED_SUCCESS);
+		doingStatus.add(Order.PAY_TO_AGENT);
+		
+		return doingStatus;
+	}
  }

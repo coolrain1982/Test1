@@ -55,14 +55,13 @@
 					<li class="nav-header">
 						<div class="dropdown profile-element">
 							<span><img class="img-circle" src="img/user.png"
-								width="48px"></img></span> <a data-toggle="dropdown"
-								class="dropdown-toggle" href="#"> <span class="clear"
-								style="letter-spacing: 2px;"> <span class="block m-t-xs">
-										<strong class="font-bold">{{loginUserName}}</strong>
-								</span> <span class="text-muted text-xs block">{{loginUserRole}}
-										<b class="caret"></b>
-								</span>
-							</span>
+                                width="48px"></img></span> <a data-toggle="dropdown"
+                                class="dropdown-toggle" href="#"> <span class="clear"
+                                style="letter-spacing: 2px;"> <span class="block m-t-xs">
+                                        <strong class="font-bold" ng-bind="loginUserName"></strong>
+                                </span> <span class="text-muted text-xs block" ng-bind-html="loginUserRole">
+                                </span>
+                            </span>
 							</a>
 							<ul class="dropdown-menu animated fadeInRight m-t-xs">
 								<li><a class="J_menuItem" hui-sref-active="active"
@@ -92,24 +91,13 @@
 							class="nav-label">订单管理</span> <span class="fa arrow"></span> </a>
 						<ul class="nav nav-second-level collapse">
 							<li><a class="J_menuItem" ui-sref-active="active"
-								ui-sref-active="active" ui-sref="adminOrder" ui-sref-opts="{reload:'adminOrder'}"> <i
-									class="icon_question_alt"></i> <span>待审核订单</span>
-							</a></li>
-							<li><a class="J_menuItem" ui-sref-active="active" ui-sref="adminRejectOrder" 
-							        ui-sref-opts="{reload:'adminRejectOrder'}">
-									<i class="icon_error-circle"></i> <span>待关闭订单</span>
-							</a></li>
-							<li><a class="J_menuItem" ui-sref-active="active"
-								ui-sref="adminUnpayOrder" ui-sref-opts="{reload:'adminUnpayOrder'}"> <i
-									class="icon_currency_alt"></i> <span>待审核支付订单</span>
+									ui-sref-active="active" ui-sref="adminProcessOrder" 
+									ui-sref-opts="{reload:'adminProcessOrder'}"> <i
+									class="icon_error-circle"></i> <span>待处理订单</span>
 							</a></li>
 							<li><a class="J_menuItem" ui-sref-active="active"
 								ui-sref="adminDoingOrder" ui-sref-opts="{reload:'adminDoingOrder'}"> <i
 									class="arrow_carrot-2right_alt"></i> <span>进行中订单</span>
-							</a></li>
-							<li><a class="J_menuItem" ui-sref-active="active"
-								ui-sref="adminFinishOrder" ui-sref-opts="{reload:'adminFinishOrder'}">
-									<i class="icon_check_alt"></i> <span>已完成订单</span>
 							</a></li>
 							<li><a class="J_menuItem" ui-sref-active="active"
 								ui-sref="adminAllOrder" ui-sref-opts="{reload:'adminAllOrder'}"> <i
@@ -134,8 +122,7 @@
 				<a href="index.do" class="logo">MeiYa <span class="lite">Buy</span></a>
 				<ul class="nav navbar-top-links navbar-right">
 					<li class="dropdown"><a class="dropdown-toggle count-info"
-						data-toggle="dropdown" href="#"> <img src="img/bell.png"
-							width="32px" /> <span class="label label-primary"></span>
+						data-toggle="dropdown" href="#"> <i class="fa fa-bell"></i> <span class="label label-primary"></span>
 					</a></li>
 				</ul>
 			</nav>
@@ -170,17 +157,16 @@
 	<script src="angular/Component/loading-bar.js"></script>
 	<script src="angular/Component/summernote.min.js"></script>
 	<script src="angular/Component/angular-summernote.min.js"></script>
+	<script src="//cdn.bootcss.com/angular-sanitize/1.6.0/angular-sanitize.min.js"></script>
 	<script src="angular/Order/Common/table.module.js"></script>
 	<script src="angular/Order/Common/table.component.js"></script>
 	<script src="angular/Order/Home/home.module.js"></script>
 	<script src="angular/Order/Home/home.component.js"></script>
 	<script src="angular/Order/NewOrder/neworder.module.js"></script>
-	<script src="angular/Order/AuditOrder/auditorder.module.js"></script>
 	<script src="angular/Order/DoingOrder/doingorder.module.js"></script>
-	<script src="angular/Order/FinishOrder/finishorder.module.js"></script>
-	<script src="angular/Order/HisOrder/allorder.module.js"></script>
-	<script src="angular/Order/PayOrder/payorder.module.js"></script>
-	<script src="angular/Order/RejectOrder/rejectorder.module.js"></script>
+    <script src="angular/Order/processorder.module.js"></script>
+    <script src="admin/doingorder.module.js"></script>
+    <script src="admin/processorder.module.js"></script>
 	<script src="angular/Image/upload.module.js"></script>
 	<script src="angular/Image/upload.component.js"></script>
 	<script src="angular/Notice/newnotice.module.js"></script>

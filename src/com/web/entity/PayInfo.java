@@ -27,6 +27,19 @@ public class PayInfo {
 	private Calendar pay_date;
 	private Double money;
 	
+	public PayInfo() {}
+	
+	public PayInfo(long id, int status, int pay_type, String sn, String payer, 
+			Calendar pay_date, Double money) {
+		setId(id);
+		setSn(sn);
+		setStatus(status);
+		setPay_date(pay_date);
+		setPay_type(pay_type);
+		setPayer(payer);
+		setMoney(money);
+	}
+	
 	@ManyToOne
 	@JoinColumn(name="order_id")
 	public Order getOrder() {

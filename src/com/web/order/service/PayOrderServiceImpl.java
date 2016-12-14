@@ -1,6 +1,7 @@
 package com.web.order.service;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -18,7 +19,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 
 	@Resource
 	public OrderDao orderDao;
-	
+
 	@Resource
 	public PayInfoDao payDao;
 
@@ -42,18 +43,38 @@ public class PayOrderServiceImpl implements PayOrderService {
 		if (order.getStatus() != Order.WAIT_PAY && order.getStatus() != Order.PAYED_FAIL) {
 			throw new Exception(String.format("订单[%s]不可支付！", orderId));
 		}
-		
-		//保存payInfo信息
+
+		// 保存payInfo信息
 		payInfo.setOrder(order);
 		payInfo.setPay_date(Calendar.getInstance());
 		payInfo.setPay_type(1);
 		payInfo.setStatus(PayInfo.INIT);
-		
+
 		payDao.newPayInfo(payInfo);
-		
-		//更新order的状态
+
+		// 更新order的状态
 		order.setStatus(Order.PAYED);
 		orderDao.updateOrder(order);
+	}
+
+	@Override
+	@Transactional
+	public List<PayInfo> getPayInfo(User user, long orderId) throws Exception {
+		// 先用orderid取出order
+		Order order = orderDao.getOrderById(orderId);
+		if (order == null) {
+			throw new Exception(String.format("未找到单号为[%s]的订单！", orderId));
+		}
+
+		// 检查是否为该用户的订单
+		if (!user.getRole().equalsIgnoreCase("role_admin") && 
+			!user.getRole().equalsIgnoreCase("role_cs")	) {
+			if (order.getUser().getId() != user.getId()) {
+				throw new Exception(String.format("未找到您的订单[%s]！", orderId));
+			}
+		}
+		
+		return payDao.getPayInfo(orderId);
 	}
 
 }

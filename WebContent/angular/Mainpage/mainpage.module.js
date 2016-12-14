@@ -4,7 +4,7 @@
 var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap', 'ngSanitize',
     'ui.router', 'order-home', 'new-order', 'image-upload', 'ui.slimscroll',
     'order-table', 'process-order', 'doing-order', 'new-notice', 'summernote', 
-    'profile',
+    'profile', 'admin-process-order', 'admin-doing-order',
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -36,16 +36,22 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    .state('allOrder', {
 	    	url : '/allOrder',
 	    	templateUrl: 'angular/Order/HisOrder/allOrder.html'
-	    })
-	    .state('csOrder', {
+	    }).state('adminProcessOrder', {
+	    	url : '/adminProcessOrder',
+	    	templateUrl: 'admin/processOrder.html'
+	    }).state('adminDoingOrder', {
+	    	url : '/adminDoingOrder',
+	    	templateUrl: 'admin/doingOrder.html'
+	    }).state('adminAllOrder', {
+	    	url : '/adminAllOrder',
+	    	templateUrl: 'admin/allOrder.html'
+	    }).state('csOrder', {
 	    	url : '/csOrder',
 	    	templateUrl: 'cs/csOrder.html'
-	    })
-	    .state('csRejectOrder', {
+	    }).state('csRejectOrder', {
 	    	url : '/csRejectOrder',
 	    	templateUrl: 'cs/csRejectOrder.html'
-	    })
-	    .state('csAllOrder', {
+	    }).state('csAllOrder', {
 	    	url : '/csAllOrder',
 	    	templateUrl: 'cs/allCsOrder.html'
 	    }).state('profile', {

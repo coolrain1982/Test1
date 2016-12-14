@@ -32,6 +32,13 @@ public class GetOrderServiceImpl implements GetOrderService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	@Transactional
+	public List<Order> getOrders(int status, PageForQuery pfq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	@Transactional
@@ -43,12 +50,6 @@ public class GetOrderServiceImpl implements GetOrderService {
 		return orderDao.getOrders(userId, status, startIdx, pfq.getSize());
 	}
 
-	@Override
-	@Transactional
-	public List<Order> getOrders(int status, PageForQuery pfq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	@Transactional
@@ -74,6 +75,46 @@ public class GetOrderServiceImpl implements GetOrderService {
 	public List<Order> getDoingOrders(Integer userId, PageForQuery pfq) throws Exception {
 		int startIdx = (pfq.getPage() - 1) * pfq.getSize();
 		return orderDao.getDoingOrders(userId, startIdx, pfq.getSize());
+	}
+	
+	@Transactional
+	@Override
+	public long getOrderCount() throws Exception {
+		return orderDao.getOrderCount();
+	}
+	
+	@Override
+	@Transactional
+	public List<Order> getOrders(PageForQuery pfq) throws Exception {
+		int startIdx = (pfq.getPage() - 1) * pfq.getSize();
+		return orderDao.getOrders(startIdx, pfq.getSize());
+	}
+
+
+	@Override
+	@Transactional
+	public long getProcessOrderCount() throws Exception {
+		return orderDao.getProcessOrderCount();
+	}
+
+	@Override
+	@Transactional
+	public List<Order> getProcessOrders(PageForQuery pfq) throws Exception {
+		int startIdx = (pfq.getPage() - 1) * pfq.getSize();
+		return orderDao.getProcessOrders(startIdx, pfq.getSize());
+	}
+
+	@Override
+	@Transactional
+	public long getDoingOrderCount() throws Exception {
+		return orderDao.getDoingOrderCount();
+	}
+
+	@Override
+	@Transactional
+	public List<Order> getDoingOrders(PageForQuery pfq) throws Exception {
+		int startIdx = (pfq.getPage() - 1) * pfq.getSize();
+		return orderDao.getDoingOrders(startIdx, pfq.getSize());
 	}
 
 }

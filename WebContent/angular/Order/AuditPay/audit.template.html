@@ -1,0 +1,67 @@
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" style="left: 0;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="$hide()" ng-disabled="doing">&times;</button>
+				<h4 class="modal-title">订单[{{commFunc.foo(orderTable.selectItem.order_id, 8)}}]支付信息审核</h4>
+			</div>
+			<div class="modal-body">
+			    <div class="row">
+			        <table class="table table-hover">
+                            <thead>
+                                <th width="9%"></th>
+                                <th>付款账户</th>
+                                <th width="25%">流水号后8位</th>
+                                <th class="hidden-xs" width="30%">付款时间</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in orderTable.selectItem.payInfos">
+                                    <td ng-bind="$index +1"></td>
+                                    <td ng-bind="item.payer"></td>
+                                    <td ng-bind="item.sn"></td>
+                                    <td class="hidden-xs" ng-bind="commFunc.formatDate(item.pay_date)"></td>
+                                </tr>
+                            </tbody>
+                    </table>
+			    </div>
+				<div class="row">
+						<div class="form-group">
+							<label 
+								class="control-label col-lg-2 col-sm-1 col-md-3">应付款
+							</label>
+                            <div class="col-lg-10 col-md-9">
+                                <label style="color:red;font-size:17px;margin-left:10px">
+                                     ￥{{calcPayMoney(orderTable.selectItem)}}</label>
+                            </div>
+						</div>
+						<div class="form-group ">
+							<label
+	                            class="control-label col-lg-2 col-sm-1 col-md-3">审核意见<span class="required">*</span>
+							</label> 
+							<div class="col-lg-10 col-md-9">
+                                <textarea class="form-control" rows="3" required style="resize:none"
+                                    ng-model="orderTable.selectItem.auditPayContent" ng-disabled="doing" />
+                            </div>
+						</div>
+						<div class="col-lg-12" style="color: red; margin:10px 15px 15px 0;
+						font-size:12px;text-align:right;">
+						   {{orderTable.selectItem.auditPayError}}
+						</div>
+					</form>
+					<div style="float: right; margin-right:15px">
+						<a  style="color: #36c; line-height: 34px; margin-right: 50px; font-size: 12px; cursor: pointer"
+							ng-click="auditPayBackToDetail()"  ng-show="!doing" > <i
+							class="fa fa-reply" style="padding-right: 6px" />返回
+						</a> 
+						<a class="btn btn-lg" 
+							style="background-color: #007aff; height: 39px; width: 100px; vertical-align: middle; border-radius: 0; color: white; font-size: 14px;"
+							ng-click="showAuditPayPassConfirm(orderTable.selectItem)">通过 </a>
+						<a class="btn btn-lg"
+							style="background-color: #f40; height: 39px; width: 100px; vertical-align: middle; border-radius: 0; color: white; font-size: 14px;"
+							ng-click="showAuditPayRejectConfirm(orderTable.selectItem)">拒绝 </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

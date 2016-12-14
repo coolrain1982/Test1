@@ -1,5 +1,6 @@
 package com.web.order.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.annotation.Resource;
@@ -33,13 +34,17 @@ public class AuditOrderServiceImpl implements AuditOrderService {
 		}
 		
 		//检查订单状态
-		if (order.getStatus() != 1) {
+		if (order.getStatus() != Order.INIT) {
 			throw new Exception(String.format("订单[%s]未处于[待审核]状态！", orderId));
 		}
 		
+		Calendar c = Calendar.getInstance();
+		auditRemark = String.format("[%s by %s]\n%s",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").
+				   format(c.getTime()), user.getName(), auditRemark);
+		
 		//开始审核订单
 		order.setStatus(status);
-		order.setAudit_date(Calendar.getInstance());
+		order.setAudit_date(c);
 		order.setAudit_remark(auditRemark);
 		
 		orderDao.updateOrder(order);
