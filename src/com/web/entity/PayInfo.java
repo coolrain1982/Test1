@@ -24,13 +24,14 @@ public class PayInfo {
 	private Long id;
 	private String sn, payer;
 	private Order order;
-	private Calendar pay_date;
+	private Calendar pay_date, audit_date;
 	private Double money;
+	private String auditRemark, auditor;
 	
 	public PayInfo() {}
 	
 	public PayInfo(long id, int status, int pay_type, String sn, String payer, 
-			Calendar pay_date, Double money) {
+			Calendar pay_date, Double money, String auditRemark) {
 		setId(id);
 		setSn(sn);
 		setStatus(status);
@@ -38,6 +39,7 @@ public class PayInfo {
 		setPay_type(pay_type);
 		setPayer(payer);
 		setMoney(money);
+		setAuditRemark(auditRemark);
 	}
 	
 	@ManyToOne
@@ -104,5 +106,32 @@ public class PayInfo {
 	}
 	public void setPayer(String payer) {
 		this.payer = payer;
+	}
+
+	@Column
+	public String getAuditRemark() {
+		return auditRemark;
+	}
+
+	public void setAuditRemark(String auditRemark) {
+		this.auditRemark = auditRemark;
+	}
+
+	@Column
+	public String getAuditor() {
+		return auditor;
+	}
+
+	public void setAuditor(String auditor) {
+		this.auditor = auditor;
+	}
+
+	@Column
+	public Calendar getAudit_date() {
+		return audit_date;
+	}
+
+	public void setAudit_date(Calendar audit_date) {
+		this.audit_date = audit_date;
 	}
 }

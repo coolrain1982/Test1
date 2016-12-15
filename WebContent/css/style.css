@@ -5924,3 +5924,40 @@ span.customSelect.changed {
     a:focus {
 	text-decoration: underline;
 }
+
+/*----------------------------------------------------------------------------------- */
+.btn-important { 
+	height: 39px; 
+	width: 100px; 
+	border-radius: 0 !important; 
+	color: white; 
+	font-size: 14px !important;
+}
+
+.btn-important-red {
+	background-color: #007aff;
+}
+
+.btn-important-blue {
+    background-color: #f40;
+}
+
+.money {
+	color:red;
+	font-weight:800 !important;
+}
+
+.btn-back {
+	color: #36c; 
+	line-height: 34px; 
+	margin-right: 50px; 
+	font-size: 12px; 
+	cursor: pointer;
+}
+
+.error-info {
+	color: red;
+	 margin:10px 15px 15px 0;
+	 font-size:12px;
+	 text-align:right;
+}

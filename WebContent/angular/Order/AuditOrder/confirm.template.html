@@ -8,12 +8,10 @@
 			</div>
 			<div class="modal-body">
 				<div class="row" style="text-align: center">
-					<a class="btn btn-lg" ng-disabled="doing"
-						style="background-color: #007aff; height: 39px; width: 100px; vertical-align: middle; border-radius: 0; color: white; font-size: 14px;"
+					<a class="btn btn-lg btn-important btn-important-red" ng-disabled="doing"
 						ng-click="auditConfirmOK(orderTable.selectItem)">确定 </a> <a
-						class="btn btn-lg" ng-disabled="doing"
-						style="background-color: #f40; height: 39px; width: 100px; vertical-align: middle; border-radius: 0; color: white; font-size: 14px;"
-						ng-click="$hide();auditConfirmCancel()">取消 </a>
+						class="btn btn-lg btn-important btn-important-blue" ng-disabled="doing"
+					    ng-click="auditConfirmCancel()">取消 </a>
 				</div>
 			</div>
 		</div>

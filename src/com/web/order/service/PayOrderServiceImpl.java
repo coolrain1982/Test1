@@ -1,7 +1,10 @@
 package com.web.order.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -75,6 +78,49 @@ public class PayOrderServiceImpl implements PayOrderService {
 		}
 		
 		return payDao.getPayInfo(orderId);
+	}
+	
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void auditOrderPay(User user, long orderId, int result, int payResult, String auditRemark) throws Exception {
+		
+		// 先用orderid取出order
+		Order order = orderDao.getOrderById(orderId);
+		if (order == null) {
+			throw new Exception(String.format("未找到单号为[%s]的订单！", orderId));
+		}
+
+		// 检查是否为该用户的订单
+		if (!user.getRole().equalsIgnoreCase("role_admin")) {
+			if (order.getCsid() != user.getId()) {
+				throw new Exception(String.format("你无权操作订单[%s]！", orderId));
+			}
+		}
+
+		// 检查订单状态
+		if (order.getStatus() != Order.PAYED) {
+			throw new Exception(String.format("订单[%s]不可审核支付！", orderId));
+		}
+
+		//取order的payinfo
+		Set<PayInfo> payInfos = order.getOrderPay();
+		for(Iterator<PayInfo> it = payInfos.iterator(); it.hasNext();) {
+			PayInfo payinfo = it.next();
+			payinfo.setAuditor(user.getName());
+			payinfo.setAudit_date(Calendar.getInstance());
+			payinfo.setAuditRemark(String.format("%s[%s by %s]\n%s",
+					payinfo.getAuditRemark()==null?"":(payinfo.getAuditRemark()+"\n"), 
+							new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getCreate_date().getTime()),
+							user.getName(),
+							auditRemark));
+			payinfo.setStatus(payResult);
+			
+			payDao.updatePayInfo(payinfo);
+		}
+
+		// 更新order的状态
+		order.setStatus(result);
+		orderDao.updateOrder(order);
 	}
 
 }

@@ -21,6 +21,7 @@ public class AuditOrderServiceImpl implements AuditOrderService {
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 	public void auditOrder(User user, int status, long orderId, String auditRemark) throws Exception {
+		
 		//先用orderid取出order
 		Order order = orderDao.getOrderById(orderId);
 		if (order == null) {

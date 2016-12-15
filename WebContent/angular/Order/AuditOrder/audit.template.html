@@ -23,19 +23,17 @@
 						<textarea id="auditMark" class="form-control" rows="4" required style="resize:none"
 							ng-model="orderTable.selectItem.auditContent" ng-disabled="doing" />
 					</div>
-					<div class="col-lg-12" style="color: red; margin:10px 15px 15px 0;font-size:12px;text-align:right;">
+					<div class="col-lg-12 error-info">
 					   {{orderTable.selectItem.auditError}}
 					</div>
 					<div style="float: right; margin-right:15px">
-						<a  style="color: #36c; line-height: 34px; margin-right: 50px; font-size: 12px; cursor: pointer"
+						<a  class="btn-back"
 							ng-click="auditBackToDetail()"  ng-show="!doing" > <i
 							class="fa fa-reply" style="padding-right: 6px" />返回
 						</a> 
-						<a class="btn btn-lg" 
-							style="background-color: #007aff; height: 39px; width: 100px; vertical-align: middle; border-radius: 0; color: white; font-size: 14px;"
-							ng-click="showAuditPassConfirm(orderTable.selectItem)">通过 </a>
-						<a class="btn btn-lg"
-							style="background-color: #f40; height: 39px; width: 100px; vertical-align: middle; border-radius: 0; color: white; font-size: 14px;"
+						<a class="btn btn-lg btn-important btn-important-red" 
+						ng-click="showAuditPassConfirm(orderTable.selectItem)">通过 </a>
+						<a class="btn btn-lg btn-important btn-important-blue"
 							ng-click="showAuditRejectConfirm(orderTable.selectItem)">拒绝 </a>
 					</div>
 				</div>

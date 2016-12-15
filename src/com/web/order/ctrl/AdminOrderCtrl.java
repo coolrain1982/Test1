@@ -213,75 +213,6 @@ public class AdminOrderCtrl {
 		return rtnMap;
 	}
 	
-	@RequestMapping("/payOrder.do")
-	@ResponseBody
-	public Map<String, Object> getPayment(@RequestParam long orderId,
-			@RequestParam String payaccount, @RequestParam long paysn, @RequestParam double money) {
-		
-		Map<String, Object> rtnMap = new HashMap<>();
-		rtnMap.put("status", 0);
-		
-		if (orderId < 1) {
-			rtnMap.put("error", String.format("非法的订单编号[%s]", orderId));
-			return rtnMap;
-		}
-		
-		if (payaccount==null || payaccount.trim().equals("")) {
-			rtnMap.put("error", "请填入您的支付宝账户");
-			return rtnMap;
-		}
-		
-		payaccount = payaccount.trim();
-		
-		if (payaccount.length() > 50) {
-			rtnMap.put("error", "您的支付宝账户名称不能多于50个字符！");
-			return rtnMap;
-		}
-		
-		String paysnStr = String.valueOf(paysn).trim();
-		if (paysnStr.equals("")) {
-			rtnMap.put("error", "请填入付款订单号后8位!");
-			return rtnMap;
-		}
-		
-		if (paysnStr.length() != 8) {
-			rtnMap.put("error", "请填入正确的付款订单号！");
-			return rtnMap;
-		}
-		
-		String userName = "";
-		
-		try {
-			userName = UserOrderCtrl.getLoginName();
-		} catch (Exception e) {
-			rtnMap.put("error", e.getMessage());
-			return rtnMap;
-		}
-		
-		//查询用户
-		User user = null;
-		try {
-			user = userSrv.getUser(userName);
-		} catch (Exception e) {
-			rtnMap.put("error", String.format("未知登陆用户[%s]:%s" , userName , e.getMessage()));
-			return rtnMap;
-		}
-		
-		PayInfo payInfo = new PayInfo();
-		payInfo.setMoney(money);
-		payInfo.setPayer(payaccount);
-		payInfo.setSn(paysnStr);
-		//
-		try {
-			paySrv.payOrder(user, orderId, payInfo);
-			rtnMap.put("status", 1);
-		} catch (Exception e) {
-			rtnMap.put("error",	e.getMessage());
-		}
-		
-		return rtnMap;
-	}
-	
 	@RequestMapping("/auditOrder.do")
 	@ResponseBody
 	public Map<String, Object> auditOrder(@RequestParam int status, 
@@ -296,7 +227,7 @@ public class AdminOrderCtrl {
 			return rtnMap;
 		}
 		
-		if (status != 2 && status != 3 ) {
+		if (status != Order.WAIT_PAY && status != Order.REJECT ) {
 			rtnMap.put("error", "订单审核状态错误！");
 			return rtnMap;
 		}
@@ -336,6 +267,71 @@ public class AdminOrderCtrl {
 			rtnMap.put("status", 1);
 		} catch (Exception e) {
 			rtnMap.put("error", String.format("审核订单时出错：%s" , e.getMessage()));
+			return rtnMap;
+		}
+		
+		return rtnMap;
+	}
+	
+	@RequestMapping("/auditPay.do")
+	@ResponseBody
+	public Map<String, Object> auditPay(@RequestParam int status, 
+			                            @RequestParam long orderid,
+			                            @RequestParam String auditmark) {
+		
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+		
+		if (auditmark==null || auditmark=="" || auditmark.trim()=="") {
+			rtnMap.put("error", "请填入审核意见");
+			return rtnMap;
+		}
+		
+		int payResult = PayInfo.INVALID;
+		if (status == Order.PAYED_SUCCESS) {
+			payResult = PayInfo.SUCCESS;
+		} else if (status == Order.PAYED_FAIL) {
+			payResult = PayInfo.FAILED;
+		} else {
+			rtnMap.put("error", "审核支付信息状态错误，必须为通过或拒绝！");
+			return rtnMap;
+		}
+		
+		if (auditmark.length() > 100) {
+			rtnMap.put("error", "审核意见不能大于100个字符");
+			return rtnMap;
+		}
+		
+		String userName = "";
+		
+		try {
+			userName = UserOrderCtrl.getLoginName();
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+			return rtnMap;
+		}
+		
+		//查询用户
+		User user = null;
+		try {
+			user = userSrv.getUser(userName);
+		} catch (Exception e) {
+			rtnMap.put("error", String.format("未知登陆用户[%s]--%s" , userName , e.getMessage()));
+			return rtnMap;
+		}
+		
+		if (!user.getRole().equalsIgnoreCase("role_cs") &&
+			!user.getRole().equalsIgnoreCase("role_admin")) {
+			rtnMap.put("error", String.format("登陆用户权限错误[%s]" , userName));
+			return rtnMap;
+		}
+		
+		//审核订单
+		try {
+			paySrv.auditOrderPay(user, orderid, status, payResult, auditmark);
+			rtnMap.put("status", 1);
+		} catch (Exception e) {
+			rtnMap.put("error", String.format("审核支付信息时出错：%s" , e.getMessage()));
 			return rtnMap;
 		}
 		

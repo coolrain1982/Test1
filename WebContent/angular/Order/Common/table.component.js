@@ -57,13 +57,17 @@ angular.module('order-table').component('orderTable',{
 		this.getStatusClass = function(temp) {
 			switch (temp) {
 			case 1:
-				return "label-primary";
+				return "label-default";
 			case 2:
 				return "label-info";
 			case 3:
 				return "label-danger";
 			case 4:
 				return "label-success";
+			case 5:
+				return "label-primary";
+			case 6:
+				return "label-danger";
 			case 10:
 				return "label-info";
 			case 20:
@@ -85,12 +89,16 @@ angular.module('order-table').component('orderTable',{
 				return "拒绝";
 			case 4:
 				return "已支付";
+			case 5:
+				return "支付成功";
+			case 6:
+				return "支付失败";
 			case 10:
 				return "已拨付";
 			case 20:
-				return "已完成";
+				return "待确认完成";
 			case 21:
-				return "有退款";
+				return "已完成";
 			default:
 				return "无效";
 			}
