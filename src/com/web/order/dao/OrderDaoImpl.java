@@ -304,7 +304,7 @@ public class OrderDaoImpl implements OrderDao {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Order> getOrders(int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o  order by o.create_date desc", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u  order by o.create_date desc", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -318,7 +318,7 @@ public class OrderDaoImpl implements OrderDao {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Order> getProcessOrders(int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o where o.status in (:status) order by o.create_date desc", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u where o.status in (:status) order by o.create_date desc", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -333,7 +333,7 @@ public class OrderDaoImpl implements OrderDao {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Order> getDoingOrders(int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order where o.status in (:status) order by o.create_date desc", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u where o.status in (:status) order by o.create_date desc", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -348,7 +348,7 @@ public class OrderDaoImpl implements OrderDao {
 		StringBuffer sb = new StringBuffer();
 		sb.append("o.order_id, o.discount,o.product_descript,o.link,o.product_photo_url,o.audit_remark,o.product_unit_price,");
 		sb.append("o.product_unit_freight,o.product_unit_commission,o.exchange_rate,o.paypal_fee,o.paypal_rate,");
-		sb.append("o.product_quantity,o.create_date,o.status, o.type, o.audit_date ");
+		sb.append("o.product_quantity,o.create_date,o.status, o.type, o.audit_date, u.name ");
 		return sb.toString();
 	}
 

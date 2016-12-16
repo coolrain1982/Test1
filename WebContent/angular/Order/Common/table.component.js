@@ -18,6 +18,9 @@ angular.module('order-table').component('orderTable',{
 	    
 	    this.queryOrderid = -1;
 	    this.tableShow = true;
+	    
+	    $scope.showuser = {};
+	    $scope.existsuser = [];
 
 		this.modelDialog = $modal({
 			scope : $scope,
@@ -110,6 +113,40 @@ angular.module('order-table').component('orderTable',{
 			} else {
 				return "default";
 			}
+		}
+		
+		//显示用户详细信息--------------------------------------------------------------------
+		this.userInfoDialog = $modal({
+			scope : $scope,
+			templateUrl : 'angular/User/userInfo.template.html',
+			show : false,
+			animation: 'am-fade-and-slide-top',
+			keyboard:false,
+		});
+		
+		this.showUserInfo = function(userName) {
+			this.userInfoDialog.$promise.then(this.userInfoDialog.show);
+			$scope.showuser = {};
+			for(var temp in $scope.existsuser) {
+				if ($scope.existsuser[temp].name == userName) {
+					$scope.showuser = $scope.existsuser[temp];
+					return;
+				}
+			}
+			
+			$scope.showuser.error = null;
+			
+			$http.get('user/getUserInfo.do',{ params:{
+		        username:userName}}).success(function(data) {
+	    		if (data.error) {
+	    			$scope.showuser.error = data.error;
+	    		} else {
+	    			$scope.showuser = data.userInfo;
+	    			$scope.existsuser.push(data.userInfo);
+	    		}
+	    	}).error(function(data){
+		    	
+	    	});	
 		}
 
 		// 分页////////////////////////////////////////////////////

@@ -103,4 +103,49 @@ public class UserController {
 
 		return rtnMap;
 	}
+	
+	@RequestMapping("user/getUserInfo.do")
+	@ResponseBody
+	public Map<String, Object> getUserInfo(@RequestParam String username) {
+
+		Map<String, Object> rtnMap = new HashMap<>();
+		String loginUserName;
+    	// 先取用户
+		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (UserDetails.class.isInstance(o)) {
+			loginUserName = ((UserDetails) o).getUsername();
+		} else {
+			rtnMap.put("error", "请先登录系统！");
+			return rtnMap;
+		}
+
+		User loginUser = userSrv.getUser(loginUserName);
+		if (loginUser == null) {
+			rtnMap.put("error", String.format("用户名[%s]不存在，请重新登录系统！", loginUserName));
+			return rtnMap;
+		}
+		
+		if (!loginUser.getRole().equalsIgnoreCase("role_admin")) {
+			if (!loginUserName.equalsIgnoreCase(username)) {
+				rtnMap.put("error", "您只能查看自己的详细信息");
+				return rtnMap;
+			}
+		}
+		
+		User user = userSrv.getUser(username);
+		if (user == null) {
+			rtnMap.put("error", String.format("用户名[%s]不存在，请重新登录系统！", user));
+			return rtnMap;
+		}
+
+		User rtnUser = new User();
+		rtnUser.setEmail(user.getEmail());
+		rtnUser.setName(user.getName());
+		rtnUser.setMobile(user.getMobile());
+		rtnUser.setQq(user.getQq());
+
+		rtnMap.put("userInfo", rtnUser);
+
+		return rtnMap;
+	}
 }

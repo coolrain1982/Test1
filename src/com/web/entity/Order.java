@@ -47,6 +47,7 @@ public class Order {
 	private Set<OrderForReview> ordersForReview;
 	private Set<PayInfo> orderPay;
 	private Set<RefundInfo> orderRefund;
+	private String userName;
 
 	public Order() {
 
@@ -55,7 +56,7 @@ public class Order {
 	public Order(long id, int discount, String product_descript, String link, String product_photo_url,
 			String audit_remark, Double product_unit_price, Double product_unit_freight, Double product_unit_commission,
 			Double exchange_rate, Double paypal_fee, Double paypal_rate, int product_quantity, Calendar create_date,
-			int status, int type, Calendar audit_date) {
+			int status, int type, Calendar audit_date, String userName) {
 		setOrder_id(id);
 		setDiscount(discount);
 		setProduct_descript(product_descript);
@@ -73,6 +74,7 @@ public class Order {
 		setStatus(status);
 		setType(type);
 		setAudit_date(audit_date);
+		setUserName(userName);
 	}
 
 	@Id
@@ -369,5 +371,13 @@ public class Order {
 		doingStatus.add(Order.PAY_TO_AGENT);
 		
 		return doingStatus;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
  }

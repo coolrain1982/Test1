@@ -56,7 +56,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 	}   
 	
 	orderTable.detailAction1Show = function(item) {
-		if (item.status == 1 || item.status==4 || item.status==5) {
+		if (item.status == 1 || item.status==4) {
 			return true;
 		}
 		return false;
@@ -68,8 +68,6 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 			return "审核订单";
 		case 4:
 			return "审核支付信息";
-		case 5:
-			return "分配订单";
 		default:
 			return "";
 		}
@@ -327,7 +325,10 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 	
 	//加载付款信息------------------------------------------------------------------
 	$scope.loadPayInfo = function(item) { 
-		item.payInfos = [];
+		if (item.payInfos) {
+			return;
+		}
+		
 		item.auditPayError = null;
 		$http.get("payinfo/getPayInfo.do",
 			    { params:{
@@ -336,6 +337,9 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 		}).success(function(res) {
 			if (res && res.status == 1) {
 				item.payInfos = res.payInfo;
+				if (item.payInfos.length > 0) {
+					item.auditPayInfoRemark = item.payInfos[0].auditRemark;
+				}
 			} else if (res && res.status == 0) {
 				item.auditPayError = res.error;
 			} else {
