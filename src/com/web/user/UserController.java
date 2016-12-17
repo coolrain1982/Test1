@@ -148,4 +148,31 @@ public class UserController {
 
 		return rtnMap;
 	}
+	
+	@RequestMapping("changepassword.do")
+	@ResponseBody
+	public Map<String, Object> changePassword(@RequestParam MultiValueMap<String, Object> params) {
+
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+		
+		String loginUserName;
+    	// 先取用户
+		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (UserDetails.class.isInstance(o)) {
+			loginUserName = ((UserDetails) o).getUsername();
+		} else {
+			rtnMap.put("error", "请先登录系统！");
+			return rtnMap;
+		}
+
+		try {
+			userSrv.changePassword(loginUserName, params);
+			rtnMap.put("status", 1);
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+		}
+
+		return rtnMap;
+	}
 }

@@ -2,7 +2,7 @@
 
 angular.module('doing-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ])
 		.config(function(cfpLoadingBarProvider) {
-			cfpLoadingBarProvider.includeSpinner = true;
+			cfpLoadingBarProvider.includeSpinner = false;
 		});
 
 angular.module('doing-order').controller(

@@ -360,7 +360,6 @@ public class Order {
 		List<Integer> processStatus = new ArrayList<>();
 		processStatus.add(Order.INIT);
 		processStatus.add(Order.PAYED);
-		processStatus.add(Order.WAIT_ASSIGNMENT);
 		
 		return processStatus;
 	}

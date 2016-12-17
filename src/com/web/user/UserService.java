@@ -10,4 +10,5 @@ public interface UserService {
 	public List<User> getCS();
 	public void addUser(MultiValueMap<String, Object> params) throws Exception;
 	public void updateUser(String name, MultiValueMap<String, Object> params) throws Exception;
+	public void changePassword(String name, MultiValueMap<String, Object> params) throws Exception;
 }

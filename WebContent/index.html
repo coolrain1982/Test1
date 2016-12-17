@@ -67,6 +67,10 @@
 									ui-sref="profile" ui-sref-opts="{reload:'profile'}"><i
 										class="fa fa-list-alt"></i> 个人资料</a></li>
 								<li class="divider"></li>
+								<li><a class="J_menuItem" hui-sref-active="active"
+                                    ui-sref="changepassword" ui-sref-opts="{reload:'changepassword'}"><i
+                                        class="fa fa-key"></i> 更改密码</a></li>
+                                <li class="divider"></li>
 								<li><a href="logout"><i class="fa fa-sign-out"></i>安全退出</a></li>
 							</ul>
 						</div>
@@ -110,8 +114,8 @@
 	<div id="page-wrapper" class="gray-bg dashbard-1">
 		<div class="row border-bottom">
 			<nav class="navbar navbar-static-top" role="navigation"
-				style="margin-bottom: 0;min-height:20px">
-				<a href="index.do" class="logo">MeiYa <span class="lite">Buy</span></a>
+				style="margin-bottom: 0">
+				<a href="" class="logo">MeiYa <span class="lite">Buy</span></a>
 				<ul class="nav navbar-top-links navbar-right">
 					<li class="dropdown"><a class="dropdown-toggle count-info"
 						data-toggle="dropdown" href="#"> <i class="fa fa-bell"></i><span class="label label-primary"></span>
@@ -146,6 +150,7 @@
 	<script src="angular/Component/angular-strap.min.js"></script>
 	<script src="angular/Component/angular-strap.tpl.min.js"></script>
 	<script src="angular/Component/angular-animate.min.js"></script>
+	<script src="angular/Component/angular-md5.js"></script>
 	<script src="//cdn.bootcss.com/angular-sanitize/1.6.0/angular-sanitize.min.js"></script>
 	<script src="angular/Component/loading-bar.js"></script>
 	<script src="angular/Component/summernote.min.js"></script>
@@ -163,6 +168,7 @@
 	<script src="angular/Image/upload.component.js"></script>
 	<script src="angular/Notice/newnotice.module.js"></script>
 	<script src="angular/User/profile.module.js"></script>
+	<script src="angular/User/changepassword.module.js"></script>
 	<script src="angular/Mainpage/mainpage.module.js"></script>
 
 </body>

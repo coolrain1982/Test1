@@ -2,7 +2,7 @@
 
 angular.module('new-notice', ['chieffancypants.loadingBar', 'ngAnimate'])
     .config(function(cfpLoadingBarProvider) {
-        cfpLoadingBarProvider.includeSpinner = true;
+        cfpLoadingBarProvider.includeSpinner = false;
 });
 
 angular.module('new-notice').

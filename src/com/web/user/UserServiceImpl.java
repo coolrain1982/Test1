@@ -176,4 +176,47 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public void changePassword(String name, MultiValueMap<String, Object> params) throws Exception {
+		String password, newPassword;
+		
+		if (params.containsKey("password") && params.get("password").size() > 0 &&
+				!params.get("password").get(0).toString().trim().equals("")) {
+			password = params.get("password").get(0).toString().trim();
+			
+			if (password.length() != 32) {
+				throw new Exception("密码输入不正确！");
+			}
+		} else {
+			throw new Exception("密码输入不正确！");
+		}
+		
+		if (params.containsKey("newpassword") && params.get("newpassword").size() > 0 &&
+				!params.get("newpassword").get(0).toString().trim().equals("")) {
+			newPassword = params.get("newpassword").get(0).toString().trim();
+			
+			if (newPassword.length() != 32) {
+				throw new Exception("新密码输入不正确！");
+			}
+		} else {
+			throw new Exception("新密码输入不正确！");
+		}
+		
+		User user = userDao.getUser(name);
+		if (user == null) {
+			throw new Exception(String.format("用户[%s]不存在", name));
+		}
+		
+		//检查用户密码是否匹配
+		if (user.getPassword().equalsIgnoreCase(password)) {
+			if (!user.getPassword().equalsIgnoreCase(newPassword)) {
+				user.setPassword(newPassword);
+				userDao.updateUser(user);
+			}	
+		} else {
+			throw new Exception("您输入的密码不正确！");
+		}
+	}
+
 }

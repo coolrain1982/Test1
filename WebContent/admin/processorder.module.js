@@ -2,7 +2,7 @@
 
 angular.module('admin-process-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ])
 		.config(function(cfpLoadingBarProvider) {
-			cfpLoadingBarProvider.includeSpinner = true;
+			cfpLoadingBarProvider.includeSpinner = false;
 		});
 
 angular.module('admin-process-order').controller("adminProcessOrderController",[
@@ -17,6 +17,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 	$scope.orderTable = orderTable;
 	$scope.commFunc = commFunc;
 	$scope.doing = false;
+	orderTable.isAdmin = true;
 	
 	//整体页面相关------------------------------------------------------------------
 	switch ($state.current.name) {

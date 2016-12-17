@@ -5919,13 +5919,21 @@ span.customSelect.changed {
     padding:3px 5px;
 }
 
-.underline>
-    a:hover,
-    a:focus {
+.underline>a:hover,.underline>a:focus {
 	text-decoration: underline;
 }
 
 /*----------------------------------------------------------------------------------- */
+.btn-submit {
+	background-color: #f40; 
+	width: 182px; 
+	height: 39px; 
+	vertical-align: middle; 
+	font-size: 14px; 
+	font-weight: 700; 
+	border-radius: 0; 
+	color: white;
+}
 .btn-important { 
 	height: 39px; 
 	width: 100px; 

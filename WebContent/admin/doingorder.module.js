@@ -2,7 +2,7 @@
 
 angular.module('admin-doing-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ])
 		.config(function(cfpLoadingBarProvider) {
-			cfpLoadingBarProvider.includeSpinner = true;
+			cfpLoadingBarProvider.includeSpinner = false;
 		});
 
 angular.module('admin-doing-order').controller(
@@ -26,6 +26,7 @@ angular.module('admin-doing-order').controller(
 		$scope.orderTable = orderTable;
 		$scope.commFunc = commFunc;
 		$scope.doing = false;
+		orderTable.isAdmin = true;
 	
 		orderTable.title = "进行中订单";
 	

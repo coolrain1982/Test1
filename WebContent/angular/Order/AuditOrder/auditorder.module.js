@@ -2,7 +2,7 @@
 
 angular.module('audit-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ])
 		.config(function(cfpLoadingBarProvider) {
-			cfpLoadingBarProvider.includeSpinner = true;
+			cfpLoadingBarProvider.includeSpinner = false;
 		});
 
 angular.module('audit-order').controller("auditOrderController",[

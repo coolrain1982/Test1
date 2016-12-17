@@ -22,7 +22,7 @@
 								<th>商品描述</th>
 								<th width="15%">商品截图</th>
 								<th width="10%">商品链接</th>
-								<th width="10%">提交人</th>
+								<th ng-if="$ctrl.orderTable.isAdmin" width="10%">提交人</th>
 								<th width="12%">价格<label style="font-size:7px">(点击金额查看明细)</label></th>
 								<th class="hidden-xs" width="10%">创建时间</th>
 								<th class="hidden-xs" width="5%">状态</th>
@@ -37,7 +37,7 @@
 											width="40px" height="40px" /></a></td>
 									<td class="underline"><a href="{{item.link}}" target="_blank"
 										alt="{{item.link}}">{{$ctrl.getShowLink(item.link)}}</a></td>
-									<td class="underline"><a href="javascript:void(0);"
+									<td ng-if="$ctrl.orderTable.isAdmin" class="underline"><a href="javascript:void(0);"
                                         ng-click="$ctrl.showUserInfo(item.userName)">{{item.userName}}</a></td>
 									<td class="underline"><a href="javascript:void(0);" style="color:red" 
 										ng-click="$ctrl.showDetail(item)">￥{{$ctrl.commFunc.calcTotal(item).toFixed(2)}}</a></td>
@@ -45,7 +45,7 @@
 										{{$ctrl.commFunc.getDate($ctrl.commFunc.formatDate(item.create_date))}}&nbsp;&nbsp;
 										{{$ctrl.commFunc.getTime($ctrl.commFunc.formatDate(item.create_date))}}</td>
 									<td class="hidden-xs" style="text-align:center;"><a ng-disabled="$ctrl.orderTable.canClick(item)"
-										style="display: inline-block; line-height: 2; width: 60px;cursor:{{$ctrl.getCursor(item)}}"
+										style="display: inline-block; line-height: 2; width: 70px;cursor:{{$ctrl.getCursor(item)}}"
 										class="label {{$ctrl.getStatusClass(item.status)}}" 
 										ng-click="$ctrl.orderTable.statusClick(item)">
 											{{$ctrl.getStatus(item.status)}}</a></td>

@@ -4,7 +4,7 @@
 var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap', 'ngSanitize',
     'ui.router', 'order-home', 'new-order', 'image-upload', 'ui.slimscroll',
     'order-table', 'process-order', 'doing-order', 'new-notice', 'summernote', 
-    'profile', 'admin-process-order', 'admin-doing-order',
+    'profile', 'admin-process-order', 'admin-doing-order', 'change-password',
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -56,7 +56,10 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    	templateUrl: 'cs/allCsOrder.html'
 	    }).state('profile', {
 	    	url : '/profile',
-	    	templateUrl: 'profile.html'
+	    	templateUrl: 'angular/User/profile.html'
+	    }).state('changepassword', {
+	    	url : '/changepassword',
+	    	templateUrl: 'angular/User/changepassword.html'
 	    });
 });
 
@@ -135,6 +138,7 @@ mainpageApp.service('orderTable', function() {
     this.action1Dialog = null;
     this.showAction1 = function(item) {};
     this.showAction2 = function(item) {};
+    this.isAdmin = false;
     this.reset = function() {
     	this.title="";
     	this.detailDialog = null;
@@ -154,6 +158,7 @@ mainpageApp.service('orderTable', function() {
         this.action1Dialog = null;
         this.showAction1 = function(item) {};
         this.showAction2 = function(item) {};
+        this.isAdmin = false;
     }  
 });
 
