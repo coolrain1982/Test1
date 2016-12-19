@@ -89,7 +89,7 @@ angular.module('order-table').component('orderTable',{
 			case 2:
 				return "待支付";
 			case 3:
-				return "拒绝";
+				return "订单拒绝";
 			case 4:
 				return "已支付";
 			case 5:

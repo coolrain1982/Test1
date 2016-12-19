@@ -54,7 +54,12 @@ angular.module('profile').
     		$scope.complete();
     	});
     	
-    	$scope.profile_submit = function() {
+    	$scope.profile_submit = function(valid) {
+    		
+    		if (valid = false) {
+    			return;
+    		}
+    		
     		if ($scope.user.email == $scope.user.oldEmail &&
     			$scope.user.mobile == $scope.user.oldMobile &&
     			$scope.user.qq == $scope.user.oldQQ) {

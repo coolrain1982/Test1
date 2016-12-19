@@ -304,6 +304,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 				{  params:{
 			    status: item.auditPayStatus,
 			    orderid: item.order_id,
+			    payinfoid: item.payinfo_id,
 			    auditmark: item.auditPayContent
 				}
 		}).success(function(res) {
@@ -340,6 +341,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 				item.payInfos = res.payInfo;
 				if (item.payInfos.length > 0) {
 					item.auditPayInfoRemark = item.payInfos[0].auditRemark;
+					item.payinfo_id = item.payInfos[0].id;
 				}
 			} else if (res && res.status == 0) {
 				item.auditPayError = res.error;
@@ -354,7 +356,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 	
 	//详单表状态栏点击信息显示相关------------------------------------------------------------------
 	orderTable.canClick = function(item) {
-		if (item.status == 3 || item.status == 5 || item.status == 6) {
+		if (item.status == 3 || item.status == 4 || item.status == 5 || item.status == 6) {
 			return true;
 		}
 		return false;
@@ -371,6 +373,12 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 		show : false,
 		animation: 'am-fade-and-slide-top'
 	});
+	$scope.showPayInfoModal = $modal({
+		scope : $scope,
+		templateUrl : 'angular/Order/PayOrder/info.template.html',
+		show : false,
+		animation: 'am-fade-and-slide-top'
+	});
 	orderTable.statusClick = function(item) {
 		if (orderTable.canClick(item)) {
 			orderTable.selectItem = item;
@@ -378,10 +386,16 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 			case 3:
 				$scope.showAuditInfoModal.$promise.then($scope.showAuditInfoModal.show);
 				return;
+			case 4:
+				$scope.showPayInfoModal.$promise.then($scope.showPayInfoModal.show);
+				$scope.loadPayInfo(item);
+				return;
 			case 5:
 			case 6:
 				$scope.showAuditPayInfoModal.$promise.then($scope.showAuditPayInfoModal.show);
 				$scope.loadPayInfo(item);
+				return;
+			default:
 				return;
 			}
 		}

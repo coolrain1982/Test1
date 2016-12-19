@@ -11,5 +11,5 @@ public interface PayOrderService {
 
 	public List<PayInfo> getPayInfo(User user, long orderId) throws Exception;
 
-	void auditOrderPay(User user, long orderId, int result, int payResult, String auditRemark) throws Exception;
+	void auditOrderPay(User user, long orderId, int result, int payResult, long payInfoId, String auditRemark) throws Exception;
 }

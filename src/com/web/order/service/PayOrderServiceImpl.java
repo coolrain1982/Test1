@@ -46,7 +46,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 		if (order.getStatus() != Order.WAIT_PAY && order.getStatus() != Order.PAYED_FAIL) {
 			throw new Exception(String.format("订单[%s]不可支付！", orderId));
 		}
-
+		
 		// 保存payInfo信息
 		payInfo.setOrder(order);
 		payInfo.setPay_date(Calendar.getInstance());
@@ -82,7 +82,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void auditOrderPay(User user, long orderId, int result, int payResult, String auditRemark) throws Exception {
+	public void auditOrderPay(User user, long orderId, int result, int payResult, long payInfoId, String auditRemark) throws Exception {
 		
 		// 先用orderid取出order
 		Order order = orderDao.getOrderById(orderId);
@@ -104,18 +104,39 @@ public class PayOrderServiceImpl implements PayOrderService {
 
 		//取order的payinfo
 		Set<PayInfo> payInfos = order.getOrderPay();
+		if (payInfos.size() == 0) {
+			throw new Exception(String.format("订单[%s]无支付信息！", orderId));
+		}
+		
+		boolean hasPayInfo = false;
+		//只看最后一个
 		for(Iterator<PayInfo> it = payInfos.iterator(); it.hasNext();) {
 			PayInfo payinfo = it.next();
-			payinfo.setAuditor(user.getName());
-			payinfo.setAudit_date(Calendar.getInstance());
-			payinfo.setAuditRemark(String.format("%s[%s by %s]\n%s",
-					payinfo.getAuditRemark()==null?"":(payinfo.getAuditRemark()+"\n"), 
-							new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getCreate_date().getTime()),
-							user.getName(),
-							auditRemark));
-			payinfo.setStatus(payResult);
+			if (payinfo.getId() != payInfoId) {
+				continue;
+			}
 			
-			payDao.updatePayInfo(payinfo);
+			hasPayInfo = true;
+			
+			if (payinfo.getStatus() == PayInfo.INIT) {
+				payinfo.setAuditor(user.getName());
+				payinfo.setAudit_date(Calendar.getInstance());
+				payinfo.setAuditRemark(String.format("%s[%s by %s]\n%s",
+						payinfo.getAuditRemark()==null?"":(payinfo.getAuditRemark()+"\n"), 
+								new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()),
+								user.getName(),
+								auditRemark));
+				payinfo.setStatus(payResult);
+				
+				payDao.updatePayInfo(payinfo);
+			} else {
+				throw new Exception(String.format("订单[%s]支付信息[%s]状态有误！", orderId, payInfoId));
+			}
+		    break;
+		}
+		
+		if (!hasPayInfo) {
+			throw new Exception(String.format("订单[%s]支付信息[%s]不存在，请检查！", orderId, payInfoId));
 		}
 
 		// 更新order的状态

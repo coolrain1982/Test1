@@ -53,6 +53,13 @@ public class PayInfoCtrl {
 			List<PayInfo> payInfos = paySrv.getPayInfo(user, orderid);
 			rtnMap.put("payInfo", payInfos);
 			rtnMap.put("status", 1);
+			
+			if (payInfos != null && payInfos.size() > 0) {
+				for(int i = payInfos.size() - 1; i > 0; i --) {
+					payInfos.remove(i);
+				}
+			}
+			
 		} catch (Exception e) {
 			rtnMap.put("error", String.format("查询订单支付信息失败：%s!" ,
 					e.getMessage()));

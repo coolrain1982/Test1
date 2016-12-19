@@ -555,7 +555,7 @@ ul.sidebar-menu li.active a i {
 	margin-left: 180px;
 }
 
-.header, .footer {
+.header {
 	min-height: 60px;
 	padding: 0 15px;
 }
@@ -5968,4 +5968,16 @@ span.customSelect.changed {
 	 margin:10px 15px 15px 0;
 	 font-size:12px;
 	 text-align:right;
+}
+
+.information-title {
+	color:black;
+}
+
+.nav-label  {
+	font-size:13px;
+}
+
+.foot {
+	font-size:10px;
 }

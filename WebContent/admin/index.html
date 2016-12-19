@@ -97,15 +97,15 @@
 							<li><a class="J_menuItem" ui-sref-active="active"
 									ui-sref-active="active" ui-sref="adminProcessOrder" 
 									ui-sref-opts="{reload:'adminProcessOrder'}"> <i
-									class="icon_error-circle"></i> <span>待处理订单</span>
+									class="icon_error-circle"></i> <span class="nav-label">待处理订单</span>
 							</a></li>
 							<li><a class="J_menuItem" ui-sref-active="active"
 								ui-sref="adminDoingOrder" ui-sref-opts="{reload:'adminDoingOrder'}"> <i
-									class="arrow_carrot-2right_alt"></i> <span>进行中订单</span>
+									class="arrow_carrot-2right_alt"></i> <span class="nav-label">进行中订单</span>
 							</a></li>
 							<li><a class="J_menuItem" ui-sref-active="active"
 								ui-sref="adminAllOrder" ui-sref-opts="{reload:'adminAllOrder'}"> <i
-									class="icon_menu-circle_alt"></i> <span>所有订单</span>
+									class="icon_menu-circle_alt"></i> <span class="nav-label">所有订单</span>
 							</a></li>
 						</ul></li>
 				</ul>
@@ -135,6 +135,17 @@
 			style="overflow-y: auto">
 			<div ui-view></div>
 		</div>
+		<div class="footer">
+			<div class="pull-left" style="font-size:10px;color:#999">
+				Copyright © 2016 Shenzhen Jerry Creative Technology Co., LTD, All Rights Reserved
+				<p style="margin-top:5px">京公安网安备 11010502008968 京ICP备10214630</p>
+			</div>
+		</div>
+		<div id="small-chat">
+            <span class="badge badge-warning pull-right"></span>
+             <a ng-click="chartToCs()" >
+            <img src="img/qq.svg" width="32px" alt="联系客服" title="联系客服"></a>
+        </div>
 	</div>
 
 
@@ -142,7 +153,7 @@
 	<!-- container section start -->
 
 	<!-- javascripts -->
-	<script src="js/jquery-1.8.3.min.js"></script>
+	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery-ui-1.10.4.min.js"></script>
 	<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
 	<!-- bootstrap -->
@@ -162,7 +173,7 @@
 	<script src="angular/Component/loading-bar.js"></script>
 	<script src="angular/Component/summernote.min.js"></script>
 	<script src="angular/Component/angular-summernote.min.js"></script>
-	<script src="//cdn.bootcss.com/angular-sanitize/1.6.0/angular-sanitize.min.js"></script>
+	<script src="angular/Component/angular-sanitize.min.js"></script>
 	<script src="angular/Order/Common/table.module.js"></script>
 	<script src="angular/Order/Common/table.component.js"></script>
 	<script src="angular/Order/Home/home.module.js"></script>

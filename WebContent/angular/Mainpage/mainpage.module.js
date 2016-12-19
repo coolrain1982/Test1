@@ -63,7 +63,7 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    });
 });
 
-mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams, $scope, $http) {
+mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams, $scope, $http, $timeout) {
 	
 	$scope.userValid = false;
 	
@@ -114,6 +114,11 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 	$scope.getTime = function(str) {
 		return str.substring(11);
 	};
+	
+	$scope.chartToCs = function() { 
+		var win = window.open("http://wpa.qq.com/msgrd?v=3&uin=2789220168&site=qq&menu=yes");
+		$timeout(function() {win.close();}, 5000);
+	}
 
 	
 	$state.go('notice', {}, {reload:true});

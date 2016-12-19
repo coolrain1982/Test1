@@ -30,7 +30,7 @@ public class PayInfoDaoImpl implements PayInfoDao {
 	@Override
 	public List<PayInfo> getPayInfo(long orderId) {
 		String hql = 
-				String.format("select new com.web.entity.PayInfo(%s) from PayInfo p join p.order o where o.order_id = :orderId",
+				String.format("select new com.web.entity.PayInfo(%s) from PayInfo p join p.order o where o.order_id = :orderId order by p.pay_date desc",
 				"p.id,p.status,p.pay_type,p.sn,p.payer,p.pay_date,p.money,p.auditRemark");
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);

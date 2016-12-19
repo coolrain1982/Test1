@@ -277,6 +277,7 @@ public class AdminOrderCtrl {
 	@ResponseBody
 	public Map<String, Object> auditPay(@RequestParam int status, 
 			                            @RequestParam long orderid,
+			                            @RequestParam long payinfoid,
 			                            @RequestParam String auditmark) {
 		
 		Map<String, Object> rtnMap = new HashMap<>();
@@ -328,7 +329,7 @@ public class AdminOrderCtrl {
 		
 		//审核订单
 		try {
-			paySrv.auditOrderPay(user, orderid, status, payResult, auditmark);
+			paySrv.auditOrderPay(user, orderid, status, payResult, payinfoid, auditmark);
 			rtnMap.put("status", 1);
 		} catch (Exception e) {
 			rtnMap.put("error", String.format("审核支付信息时出错：%s" , e.getMessage()));

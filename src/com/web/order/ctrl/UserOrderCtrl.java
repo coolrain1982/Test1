@@ -232,7 +232,7 @@ public class UserOrderCtrl {
 	
 	@RequestMapping("/payOrder.do")
 	@ResponseBody
-	public Map<String, Object> getPayment(@RequestParam long orderId,
+	public Map<String, Object> payOrder(@RequestParam long orderId,
 			@RequestParam String payaccount, @RequestParam long paysn, @RequestParam double money) {
 		
 		Map<String, Object> rtnMap = new HashMap<>();

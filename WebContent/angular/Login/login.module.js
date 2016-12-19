@@ -9,7 +9,7 @@ loginApp.config(['$locationProvider', function($locationProvider){
 	$locationProvider.html5Mode(true);
 }]);
 
-loginApp.controller("userController", function($location, $scope, $http, md5) {
+loginApp.controller("userController", function($location, $scope, $http, md5, $timeout) {
 	
 	$scope.sumbitToServer = false;
 	$scope.user = {
@@ -39,6 +39,11 @@ loginApp.controller("userController", function($location, $scope, $http, md5) {
 	
 	$scope.complete = function() {
 		$scope.sumbitToServer = false;
+	}
+	
+	$scope.chartToCs = function() { 
+		var win = window.open("http://wpa.qq.com/msgrd?v=3&uin=2789220168&site=qq&menu=yes");
+		$timeout(function() {win.close();}, 5000);
 	}
 	
 	$scope.submit = function() {
