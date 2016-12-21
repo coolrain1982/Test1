@@ -38,7 +38,7 @@ public class Order {
 	// status:0-已取消；1-初始值；2-待支付；3-审核未通过；4-客户已支付；5-支付审核通过；6-支付审核失败；10-已经付中介；20-已完成；21-用户确认完成
 	// type:1-仅购买；2-购买+review；3-购买+review+feedback
 	private int status, discount, type, csid;
-	private String link, key_word, product_descript, product_photo_url, audit_remark;
+	private String link, key_word, product_descript, product_photo_url, audit_remark, product_asin;
 	private Double product_unit_price, product_unit_freight, product_total_price, product_unit_commission;
 	private Double exchange_rate, refunds, paypal_fee, paypal_rate, total;
 	private int product_quantity;
@@ -53,7 +53,7 @@ public class Order {
 
 	}
 
-	public Order(long id, int discount, String product_descript, String link, String product_photo_url,
+	public Order(long id, int discount, String product_descript, String link, String product_asin, String product_photo_url,
 			String audit_remark, Double product_unit_price, Double product_unit_freight, Double product_unit_commission,
 			Double exchange_rate, Double paypal_fee, Double paypal_rate, int product_quantity, Calendar create_date,
 			int status, int type, Calendar audit_date, String userName) {
@@ -75,6 +75,7 @@ public class Order {
 		setType(type);
 		setAudit_date(audit_date);
 		setUserName(userName);
+		setProduct_asin(product_asin);
 	}
 
 	@Id
@@ -379,4 +380,14 @@ public class Order {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
+	@Column
+	public String getProduct_asin() {
+		return product_asin;
+	}
+
+	public void setProduct_asin(String product_asin) {
+		this.product_asin = product_asin;
+	}
+
  }

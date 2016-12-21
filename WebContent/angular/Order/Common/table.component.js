@@ -35,7 +35,7 @@ angular.module('order-table').component('orderTable',{
 			var rtnArray = [];
 			for ( var i in urlArray) {
 				if (urlArray[i] != "") {
-					rtnArray.push("/MyWeb/upload/image/"
+					rtnArray.push("/MeiYabuy/upload/image/"
 							+ urlArray[i]);
 				}
 			}

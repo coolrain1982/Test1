@@ -30,7 +30,7 @@
 							<tbody>
 								<tr ng-repeat="item in $ctrl.orderList">
 									<td>{{$ctrl.commFunc.foo(item.order_id, 8)}}</td>
-									<td>{{item.product_descript}}</td>
+									<td>{{item.product_descript + '(ASIN:' + item.product_asin + ')'}}</td>
 									<td><a
 										ng-repeat="img in $ctrl.getUrlList(item.product_photo_url)"
 										href="{{img}}" target="_blank"><img ng-src="{{img}}"

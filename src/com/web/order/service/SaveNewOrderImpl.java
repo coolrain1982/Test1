@@ -18,6 +18,7 @@ import com.web.entity.Commision;
 import com.web.entity.Order;
 import com.web.entity.User;
 import com.web.order.dao.OrderDao;
+import com.web.scheduletask.OrderAssignment;
 import com.web.user.UserService;
 
 @Service
@@ -147,6 +148,14 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		} else {
 			throw new Exception("商品链接输入不正确！");
 		}
+		
+		String product_asin = "";
+		if (params.containsKey("asin") && params.get("asin").size() > 0 && 
+				!params.get("asin").get(0).toString().trim().equals("")) {
+			product_asin = params.get("asin").get(0).toString().trim();
+		} else {
+			throw new Exception("商品ASIN输入不正确！");
+		}
 
 		String productDescript = "";
 		if (params.containsKey("descript") && params.get("descript").size() > 0 &&
@@ -155,6 +164,8 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		} else {
 			throw new Exception("商品描述输入不正确！");
 		}
+		
+		OrderAssignment.log.info(String.format("[new order][productDescript=%s]", productDescript));
 
 		int quantity = 0;
 		if (params.containsKey("quantity")) {
@@ -218,6 +229,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		newOrder.setStatus(1);
 		newOrder.setType(srvtype);
 		newOrder.setCsid(csid);
+		newOrder.setProduct_asin(product_asin);
 		
 		orderDao.newOrder(newOrder);
 		

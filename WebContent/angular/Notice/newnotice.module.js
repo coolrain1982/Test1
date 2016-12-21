@@ -74,7 +74,7 @@ angular.module('new-notice').
     	
     	$scope.showNotice = function(url) {
     		if (url) {
-    			window.open("/MyWeb/upload/notice" + url + ".html", $scope.newnotice.title,
+    			window.open("/MeiYabuy/upload/notice" + url + ".html", $scope.newnotice.title,
     					"height=600,width=800, top=50%, left=50%");
     		}
     	}
@@ -236,7 +236,7 @@ controller("noticeController", ['$state', '$stateParams',
 		var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;
 		
 		if (url) {
-			window.open("/MyWeb/upload/notice" + url + ".html", url,
+			window.open("/MeiYabuy/upload/notice" + url + ".html", url,
 					"height=" + iHeight + ",width=" + iWidth+ ", top="+iTop+ ", left=" + iLeft);
 		}
 	}

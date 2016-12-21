@@ -346,7 +346,7 @@ public class OrderDaoImpl implements OrderDao {
 	
 	private String getOrderColumnStr() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("o.order_id, o.discount,o.product_descript,o.link,o.product_photo_url,o.audit_remark,o.product_unit_price,");
+		sb.append("o.order_id, o.discount,o.product_descript,o.link, o.product_asin,o.product_photo_url,o.audit_remark,o.product_unit_price,");
 		sb.append("o.product_unit_freight,o.product_unit_commission,o.exchange_rate,o.paypal_fee,o.paypal_rate,");
 		sb.append("o.product_quantity,o.create_date,o.status, o.type, o.audit_date, u.name ");
 		return sb.toString();

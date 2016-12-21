@@ -46,6 +46,20 @@
                                     </label>
                                 </div>
                             </div>
+                            
+                            <div class="form-group has-feedback">
+                                <label for="agree"
+                                    class="control-label col-lg-2 col-sm-1 col-md-3">商品ASIN<span
+                                    class="required">*</span>
+                                </label>
+                                <div class="col-lg-10 col-sm-9">
+                                    <input checked=""
+                                        value="0.00" id="neworder_asin"
+                                        name="neworder_asin" ng-model="neworder.asin" />
+                                    <span class="glyphicon glyphicon-ok for-control-feedback"
+                                        ng-show="neworder_form.neworder_asin.$dirty && neworder_form.neworder_asin.$valid"></span>
+                                </div>
+                            </div>
 
 							<div class="form-group has-feedback">
 								<label for="fullname" class="control-label col-lg-2 col-md-3">商品描述
@@ -282,7 +296,7 @@
                         <td>
                           #1
                         </td>
-                        <td ng-bind="neworder.descript"> 
+                        <td ng-bind="neworder.descript + '(ASIN:' + neworder.asin + ')' "> 
                         </td>
                         <td ng-bind="neworder.quantity">
                         </td>

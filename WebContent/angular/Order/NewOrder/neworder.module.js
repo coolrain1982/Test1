@@ -40,7 +40,8 @@ angular.module('new-order').
     	$scope.commision = [];
     	
     	$scope.neworder = {
-        		"descript":"",
+        		"asin": "",
+    			"descript":"",
         	    "link" : "",
         	    "quantity" : 0,
         	    "unit_price": 0,
@@ -147,6 +148,14 @@ angular.module('new-order').
     	    }	
     	});
     	
+    	$scope.$watch('neworder.asin', function(newVal, oldVal) {
+    	    if (newVal && newVal!=oldVal) {
+    	    	if (newVal.length >= 10) {
+    	    		$scope.neworder.asin = newVal.substr(0, 10);
+    	    	}
+    	    }	
+    	});
+    	
     	$scope.$watch('neworder.quantity', function(newVal, oldVal) {
     	    if (newVal && newVal!=oldVal) {
     	    	$scope.neworder.quantity = Math.round(newVal);
@@ -167,6 +176,7 @@ angular.module('new-order').
     			}
     			
     			var fd = new FormData();
+    			fd.append("asin", $scope.neworder.asin);
     			fd.append("descript", $scope.neworder.descript);
     			fd.append("link", $scope.neworder.link);
     			fd.append("quantity", $scope.neworder.quantity);
