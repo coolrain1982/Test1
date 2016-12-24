@@ -25,31 +25,15 @@
                
 	<context:annotation-config />
 	<mvc:annotation-driven />
+	
 	<context:component-scan base-package="com.web">
 	   <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+	   <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
 	</context:component-scan>
-	<context:property-placeholder location="/WEB-INF/config.properties"/>
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	   <property name="prefix" value="/" />
 	   <property name="suffix" value=".html" />
-	</bean>
-	
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-	    destroy-method="close" init-method="init">
-	    <property name="url" value="${jdbc.url}" />
-	    <property name="username" value="${jdbc.username}" />
-	    <property name="password" value="${jdbc.password}" />
-	    <property name="initialSize" value="1" />
-	    <property name="maxWait" value="60000" />
-	    <property name="filters" value="stat" />
-	    <property name="timeBetweenEvictionRunsMillis" value="60000" />
-	    <property name="minEvictableIdleTimeMillis" value="300000" />
-	    <property name="validationQuery" value="SELECT 'X'" />
-	    <property name="testWhileIdle" value="true" />
-	    <property name="testOnBorrow" value="true" />
-	    <property name="testOnReturn" value="true" />
-	    <property name="poolPreparedStatements" value="true" />
 	</bean>
 	
 	<!-- 自动装配 -->

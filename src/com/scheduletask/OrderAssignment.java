@@ -1,13 +1,13 @@
-package com.web.scheduletask;
+package com.scheduletask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.apache.logging.log4j.*;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
-@Component("OrderAssignment")
+@Controller("OrderAssignment")
 public class OrderAssignment {
 	
 	public static Logger log = LogManager.getRootLogger();

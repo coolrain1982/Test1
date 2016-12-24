@@ -25,6 +25,9 @@ public class User {
 	private Integer discount;
 	private Set<Order> orders;
 	private Set<Notice> notices;
+	private Set<ExchangeRate> exchangeRates;
+	private Set<Commision> commisions;
+	private Set<PaypalFee> paypalFees;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -114,5 +117,29 @@ public class User {
 	}
 	public void setNotices(Set<Notice> notices) {
 		this.notices = notices;
+	}
+	
+	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
+	public Set<ExchangeRate> getExchangeRates() {
+		return exchangeRates;
+	}
+	public void setExchangeRates(Set<ExchangeRate> exchangeRates) {
+		this.exchangeRates = exchangeRates;
+	}
+	
+	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
+	public Set<Commision> getCommisions() {
+		return commisions;
+	}
+	public void setCommisions(Set<Commision> commisions) {
+		this.commisions = commisions;
+	}
+	
+	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
+	public Set<PaypalFee> getPaypalFees() {
+		return paypalFees;
+	}
+	public void setPaypalFees(Set<PaypalFee> paypalFees) {
+		this.paypalFees = paypalFees;
 	}
 }

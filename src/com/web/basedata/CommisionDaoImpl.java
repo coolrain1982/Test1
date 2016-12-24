@@ -41,9 +41,36 @@ public class CommisionDaoImpl implements CommisionDao {
 	}
 
 	@Override
-	public void addCommision(int type,  List<Commision> commList) {
-		// TODO Auto-generated method stub
+	public void addCommision(Commision comm) {
+		sesssionFactory.getCurrentSession().save(comm);
 
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public long getCount() {
+		String hql = String.format(
+				"select count(c.id) from Commision c");
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+
+		List resultList = q.getResultList();
+		if (resultList.size() == 0) {
+			return 0;
+		}
+		return (long) resultList.get(0);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<Commision> getCommision(int startIdx, int size) {
+		String hql = String.format("from Commision c order by c.date desc");
+
+			Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+			q.setFirstResult(startIdx);
+			q.setMaxResults(size);
+
+			return q.getResultList();
 	}
 
 }

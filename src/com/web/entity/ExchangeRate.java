@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,6 +21,7 @@ public class ExchangeRate {
 	private int id;
 	private double rate;
 	private Calendar date;
+	private User user;
 	
 	public ExchangeRate(int type , double rate) {
 		this.type = type;
@@ -58,5 +61,15 @@ public class ExchangeRate {
 	}
 	public void setDate(Calendar date) {
 		this.date = date;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

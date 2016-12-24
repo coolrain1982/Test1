@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.web.entity.ExchangeRate;
 
@@ -18,6 +17,7 @@ public class ExchangeDaoImpl implements ExchangeDao {
 	@Resource
 	public SessionFactory sesssionFactory;
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Double getExchange(int type) {
 		String hql = "select new com.web.entity.ExchangeRate(e.type, e.rate) from ExchangeRate e where e.type = :type order by e.date desc";
@@ -39,9 +39,36 @@ public class ExchangeDaoImpl implements ExchangeDao {
 	}
 
 	@Override
-	public void addExchange(int type, double rate) {
-		// TODO Auto-generated method stub
+	public void addExchange(ExchangeRate ex) {
+		sesssionFactory.getCurrentSession().save(ex);
 
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public long getCount() {
+		String hql = String.format(
+				"select count(e.id) from ExchangeRate e");
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+
+		List resultList = q.getResultList();
+		if (resultList.size() == 0) {
+			return 0;
+		}
+		return (long) resultList.get(0);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<ExchangeRate> getExchange(int startIdx, int size) {
+		String hql = String.format("from ExchangeRate e order by e.date desc");
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setFirstResult(startIdx);
+		q.setMaxResults(size);
+
+		return q.getResultList();
 	}
 
 }

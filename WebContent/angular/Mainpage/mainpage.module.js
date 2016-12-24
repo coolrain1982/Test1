@@ -5,6 +5,7 @@ var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap', 
     'ui.router', 'order-home', 'new-order', 'image-upload', 'ui.slimscroll',
     'order-table', 'process-order', 'doing-order', 'new-notice', 'summernote', 
     'profile', 'admin-process-order', 'admin-doing-order', 'change-password',
+    'base-data',
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -60,6 +61,15 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    }).state('changepassword', {
 	    	url : '/changepassword',
 	    	templateUrl: 'angular/User/changepassword.html'
+	    }).state('exchangeMan', {
+	    	url : '/exchangeMan',
+	    	templateUrl: 'admin/Base/exchange.html'
+	    }).state('commisionMan', {
+	    	url : '/commisionMan',
+	    	templateUrl: 'admin/Base/commision.html'
+	    }).state('paypalMan', {
+	    	url : '/paypalMan',
+	    	templateUrl: 'admin/Base/paypal.html'
 	    });
 });
 

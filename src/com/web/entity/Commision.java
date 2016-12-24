@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,6 +22,7 @@ public class Commision {
 	private int id;
 	private double fee;
 	private Calendar date;
+	private User user;
 	
 	public Commision(int type, int srv_type, double fee, Calendar date) {
 		this.type = type;
@@ -70,6 +73,16 @@ public class Commision {
 
 	public void setSrv_type(int srv_type) {
 		this.srv_type = srv_type;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

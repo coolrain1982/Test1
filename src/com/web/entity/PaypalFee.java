@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,6 +22,7 @@ public class PaypalFee {
 	private double fee;
 	private double fee_rate;
 	private Calendar date;
+	private User user;
 	
 	public PaypalFee(int type, double fee, double fee_rate) {
 		this.type = type;
@@ -61,10 +64,22 @@ public class PaypalFee {
 	public void setDate(Calendar data) {
 		this.date = data;
 	}
+	
+	@Column
 	public double getFee_rate() {
 		return fee_rate;
 	}
 	public void setFee_rate(double fee_rate) {
 		this.fee_rate = fee_rate;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

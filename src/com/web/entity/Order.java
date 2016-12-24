@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tbl_order", schema = "meiyabuy")
@@ -373,6 +374,7 @@ public class Order {
 		return doingStatus;
 	}
 
+	@Transient
 	public String getUserName() {
 		return userName;
 	}

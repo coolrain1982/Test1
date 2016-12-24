@@ -7,5 +7,7 @@ import com.web.entity.Commision;
 public interface CommisionDao {
 	public List<Commision> getCommision(int type);
 	public List<Commision> getCommision(Calendar date);
-	public void addCommision(int type, List<Commision> commision);
+	public void addCommision(Commision commision);
+	public long getCount();
+	public List<Commision> getCommision(int startIdx, int size);
 }

@@ -22,5 +22,5 @@
                
 	<context:annotation-config />
 	<task:annotation-driven />
-	<context:component-scan base-package="com.web.scheduletask" />
+	<context:component-scan base-package="com.scheduletask" />
 </beans>

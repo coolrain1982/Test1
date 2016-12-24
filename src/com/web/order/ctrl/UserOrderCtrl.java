@@ -117,7 +117,7 @@ public class UserOrderCtrl {
 			rtnMap.put("list", orders);
 			rtnMap.put("status", 1);
 		} catch (Exception e) {
-			rtnMap.put("error", String.format("查询订单数据失败：%s! status[%s],page[%s],size[%s]" ,
+			rtnMap.put("error", String.format("查询订单数据失败：%s!" ,
 					e.getMessage()));
 		}
 		

@@ -1,0 +1,60 @@
+<section class="wrapper" ng-controller="baseDataController">
+	<div class="row" ng-show="showpage">
+		<div class="col-lg-12 col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2>
+						<i class="fa fa-exchange"></i>佣金管理
+					</h2>
+				</div>
+				<div class="widget-content padded clearfix" ng-if="recordSize==0">
+					未查询到佣金数据！</div>
+				<div class="widget-content padded clearfix" ng-if="dataError">
+					查询佣金数据时出错：{{dataError}}！</div>
+				<div class="widget-container fluid-height clearfix"
+					ng-if="recordSize>0">
+					<div class="widget-content padded clearfix">
+						<table class="table table-hover">
+							<thead>
+								<th width="9%">序号</th>
+								<th>类型</th>
+								<th>服务类型</th>
+								<th>金额</th>
+								<th>创建时间</th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in dataList">
+									<td>{{(p_current-1)*6 + $index +1}}</td>
+									<td>{{getExchangeTypeName(item)}}</td>
+									<td>{{getSrvType(item)}}</td>
+									<td>{{item.fee}}</td>
+									<td>{{commFunc.formatDate(item.date)}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<ul class="pagination pull-right"
+							style="margin: 0px; line-height: 29px;">
+							<span style="margin-left: 10px"
+								ng-bind="'共'+ recordSize + '条记录'"></span>
+							<li ng-class="{true:'disabled'}[p_current==1]"><a
+								href="javascript:void(0);" ng-click="p_index()">首页</a></li>
+							<li ng-repeat="page in pages"
+								ng-class="{true:'active'}[p_current==page]"><a
+								href="javascript:void(0);" ng-click="load_page(page)">{{
+									page }}</a></li>
+							<li
+								ng-class="{true:'disabled'}[p_current==p_all_page]"><a
+								href="javascript:void(0);" ng-click="p_last()">尾页</a></li>
+						</ul>
+					</div>
+					<div class="widget-content padded clearfix">
+                      <a class="btn btn-lg btn-block btn-submit"
+                         ng-click="addExchange()">
+                         新增佣金
+                      </a>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

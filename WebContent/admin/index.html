@@ -108,6 +108,26 @@
 									class="icon_menu-circle_alt"></i> <span class="nav-label">所有订单</span>
 							</a></li>
 						</ul></li>
+					<li><a href="#"><i class="icon_cogs"></i> <span
+                            class="nav-label">基础数据管理</span> <span class="fa arrow"></span> </a>
+                            <ul class="nav nav-second-level collapse">
+                                <li> <a class="J_menuItem" ui-sref-active="active"
+                                       ui-sref="exchangeMan" ui-sref-opts="{reload:'exchangeMan'}"> 
+                                       <i class="fa fa-exchange"></i> <span class="nav-label">汇率管理</span>
+                                       </a>
+                                </li>
+                                <li> <a class="J_menuItem" ui-sref-active="active"
+                                       ui-sref="commisionMan" ui-sref-opts="{reload:'commisionMan'}"> 
+                                       <i class="fa fa-dollar"></i> <span class="nav-label">佣金管理</span>
+                                       </a>
+                                </li>
+                                 <li> <a class="J_menuItem" ui-sref-active="active"
+                                       ui-sref="paypalMan" ui-sref-opts="{reload:'paypalMan'}"> 
+                                       <i class="fa fa-paypal"></i> <span class="nav-label">Paypal手续费管理</span>
+                                       </a>
+                                </li>
+                            </ul>
+                    </li>
 				</ul>
 			</div>
 			<div class="slimScrollBar"
@@ -188,6 +208,7 @@
 	<script src="angular/Notice/newnotice.module.js"></script>
 	<script src="angular/User/profile.module.js"></script>
 	<script src="angular/User/changepassword.module.js"></script>
+	<script src="admin/Base/data.module.js"></script>
 	<script src="angular/Mainpage/mainpage.module.js"></script>
 
 </body>
