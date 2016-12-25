@@ -26,6 +26,14 @@ public class ExchangeRate {
 	public ExchangeRate(int type , double rate) {
 		this.type = type;
 		this.rate = rate;
+		this.setUser(user);
+	}
+	
+	public ExchangeRate(int type , double rate, Calendar date) {
+		this.type = type;
+		this.rate = rate;
+		this.date = date;
+		this.setUser(user);
 	}
 	
 	public ExchangeRate() {}

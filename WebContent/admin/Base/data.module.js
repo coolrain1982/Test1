@@ -11,15 +11,29 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal',
 	
 	$scope.showpage = true;
 	$scope.commFunc = commFunc;
+	$scope.basedataerror = null;
+	$scope.isSuccess = false;
+	
+	$scope.refresh = function() {
+		$state.go($state.current, {}, {reload:true});
+	}
 	
 	$scope.start = function() {
 		cfpLoadingBar.start();
 		$scope.showpage = false;
+		$scope.doing = true;
 	};
 	
-	$scope.complete = function () {
+	$scope.complete = function (result) {
 		cfpLoadingBar.complete();
+		$scope.doing = false;
 		$scope.showpage = true;
+		if (result == 1) {
+			$scope.confirmModal.hide();
+			$scope.isSuccess = true;
+		} else if (result == 2) {
+			$scope.confirmCancel();
+		}
 	};
 	
 	$scope.getExchangeTypeName = function(item) {
@@ -31,14 +45,107 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal',
 		}
 	}
 	
+	//显示确认弹出窗口
+	$scope.confirmModal = $modal({
+		scope : $scope,
+		templateUrl : 'admin/Base/confirm.html',
+		show : false,
+		animation: 'am-fade-and-slide-top',
+		backdrop:'static',
+		keyboard:false,
+	});
+	
+	$scope.showConfirm = function() {
+		$scope.basedataerror = null;
+		if (!$scope.checkNewData()) {
+			return;
+		}
+		$scope.newModal.hide();
+		$scope.confirmModal.$promise.then($scope.confirmModal.show);
+	}
+	
+	//确认取消
+	$scope.confirmCancel = function() {
+		$scope.confirmModal.hide();
+		$scope.newModal.$promise.then($scope.newModal.show);
+	}
+	
+	//提交数据到服务器保存
+	$scope.confirmOK = function() {
+		$scope.basedataerror = null;
+		$scope.start();
+		
+		$http({
+			method:"POST",
+			url: $scope.postDataDo,
+			data: $scope.getFormData(),
+			headers: {"content-type":undefined},
+			transformRequest: angular.identity
+		}).success(function(data) {
+			if(data.status == 1) {
+		    	$scope.complete(1);
+			} else if(data.status == 0) {
+				$scope.basedataerror = data.error; 
+		    	$scope.complete(2);
+			} else {
+				alert("系统发生错误，请重新登录！");
+				window.location.href = "logout";
+			}
+		}).error(function(data){
+	    	$scope.complete(2);
+			alert("系统发生错误，请重新登录！");
+			window.location.href = "logout";
+		});
+	}
+	
 	//根据不同基础数据初始化不同参数
 	switch ($state.current.name) {
 	case "exchangeMan" :
 		$scope.getDataDo = "basedata/getExchange.do";
+		$scope.postDataDo = "basedata/newExchange.do";
+		$scope.newexchange = {
+				type: 1,
+		}
+		$scope.newModal = $modal({
+			scope : $scope,
+			templateUrl : 'admin/Base/newexchange.html',
+			show : false,
+			animation: 'am-fade-and-slide-top',
+			backdrop:'static',
+			keyboard:false,
+		});
+		
+		$scope.addExchange = function() {
+			$scope.basedataerror = null;
+			$scope.newModal.$promise.then($scope.newModal.show);
+		}
+		
+		$scope.confirmTitle = "数据增加后马上生效，确定增加汇率数据吗?";
+		
+		$scope.checkNewData = function() {
+			if (!$scope.newexchange.rate || $scope.newexchange.rate <= 0) {
+				$scope.basedataerror = "请输入正确的汇率值！";
+				return false;
+			}
+			
+			return true;
+		}
+		
+		$scope.getFormData = function() {
+			var fd = new FormData();
+			fd.append("type", $scope.newexchange.type);
+			fd.append("rate", $scope.newexchange.rate);
+			
+			return fd;
+		}
 		
 		break;
 	case "commisionMan" :
 		$scope.getDataDo = "basedata/getCommision.do";
+		$scope.postDataDo = "basedata/newCommision.do";
+		$scope.newcommision = {
+				srvtype: 1,
+		};
 		$scope.getSrvType = function(item) {
 			switch (item.srv_type) {
 			case 1:
@@ -51,12 +158,88 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal',
 				return "无效";
 			}
 		}
+		
+		$scope.newModal = $modal({
+			scope : $scope,
+			templateUrl : 'admin/Base/newcommision.html',
+			show : false,
+			animation: 'am-fade-and-slide-top',
+			backdrop:'static',
+			keyboard:false,
+		});
+		
+		$scope.addCommision = function() {
+			$scope.basedataerror = null;
+			$scope.newModal.$promise.then($scope.newModal.show);
+		}
+		
+		$scope.confirmTitle = "数据增加后马上生效，确定增加佣金数据吗?";
+		
+		$scope.checkNewData = function() {
+			if (!$scope.newcommision.fee || $scope.newcommision.fee <= 0) {
+				$scope.basedataerror = "请输入正确的佣金值！";
+				return false;
+			}
+			
+			return true;
+		}
+		
+		$scope.getFormData = function() {
+			var fd = new FormData();
+			fd.append("srv_type", $scope.newcommision.srvtype);
+			fd.append("fee", $scope.newcommision.fee);
+			
+			return fd;
+		}
+		
 		break;
 	case "paypalMan" :
-		$scope.getDataDo = "basedata/getPaypal.do";
+		$scope.getDataDo = "basedata/getPaypal.do";	
+		$scope.postDataDo = "basedata/newPaypal.do";
+		$scope.newpaypal = {};
+		$scope.newModal = $modal({
+			scope : $scope,
+			templateUrl : 'admin/Base/newpaypal.html',
+			show : false,
+			animation: 'am-fade-and-slide-top',
+			backdrop:'static',
+			keyboard:false,
+		});
+		
+		$scope.addPaypal = function() {
+			$scope.basedataerror = null;
+			$scope.newModal.$promise.then($scope.newModal.show);
+		}
+		
+		$scope.confirmTitle = "数据增加后马上生效，确定增加Paypal费用数据吗?";
+		
+		$scope.checkNewData = function() {
+			if (!$scope.newpaypal.fee || $scope.newpaypal.fee < 0) {
+				$scope.basedataerror = "请输入正确的Paypal费用值！";
+				return false;
+			}
+			
+			if (!$scope.newpaypal.feerate || $scope.newpaypal.feerate < 0 || $scope.newpaypal.feerate > 100) {
+				$scope.basedataerror = "请输入正确的Paypal费率值！";
+				return false;
+			}
+			
+			return true;
+		}
+		
+		$scope.getFormData = function() {
+			var fd = new FormData();
+			fd.append("fee", $scope.newpaypal.fee);
+			fd.append("fee_rate", $scope.newpaypal.feerate);
+			
+			return fd;
+		}
+		
 		break;
 	default :
 		$scope.showpage = false;
+		$scope.newModal = null;
+		$scope.addExchange = null;
 		return;
 	}
 	
@@ -130,9 +313,9 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal',
 			} else {
 				window.location.href = "logout";
 			}
-			$scope.complete();
+			$scope.complete(3);
 		}).error(function() {
-			$scope.complete();
+			$scope.complete(3);
 			alert("发生错误，请重新登录！");
 			window.location.href = "logout";
 		});

@@ -94,6 +94,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	}
 
 	@Override
+	@Transactional(rollbackFor=Exception.class)
 	public ExchangeRate addExchange(User user, MultiValueMap<String, Object> reqParams) throws Exception {
 		Map<String, List<Object>> params = reqParams;
 
@@ -135,6 +136,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	}
 
 	@Override
+	@Transactional(rollbackFor=Exception.class)
 	public Commision addCommision(User user, MultiValueMap<String, Object> reqParams) throws Exception {
 		
 		Map<String, List<Object>> params = reqParams;
@@ -174,6 +176,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 	}
 
 	@Override
+	@Transactional(rollbackFor=Exception.class)
 	public PaypalFee addPaypal(User user, MultiValueMap<String, Object> reqParams) throws Exception {
 		
 		Map<String, List<Object>> params = reqParams;

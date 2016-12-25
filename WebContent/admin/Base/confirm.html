@@ -4,14 +4,14 @@
 			<div class="modal-header">
 				<button type="button" class="close" ng-click="$hide()"
 					ng-disabled="doing">&times;</button>
-				<h4 class="modal-title">{{auditConfirmTitle}}</h4>
+				<h4 class="modal-title">{{confirmTitle}}</h4>
 			</div>
 			<div class="modal-body">
 				<div class="row" style="text-align: center">
 					<a class="btn btn-lg btn-important btn-important-red" ng-disabled="doing"
-						ng-click="auditConfirmOK(orderTable.selectItem)">确定 </a> <a
+						ng-click="confirmOK()">确定 </a> <a
 						class="btn btn-lg btn-important btn-important-blue" ng-disabled="doing"
-					    ng-click="auditConfirmCancel()">取消 </a>
+					    ng-click="confirmCancel()">取消 </a>
 				</div>
 			</div>
 		</div>

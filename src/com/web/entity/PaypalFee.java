@@ -28,6 +28,15 @@ public class PaypalFee {
 		this.type = type;
 		this.fee = fee;
 		this.fee_rate = fee_rate;
+		this.setUser(new User());
+	}
+	
+	public PaypalFee(int type, double fee, double fee_rate, Calendar date) {
+		this.type = type;
+		this.fee = fee;
+		this.fee_rate = fee_rate;
+		this.date = date;
+		this.setUser(new User());
 	}
 	
 	public PaypalFee() {}

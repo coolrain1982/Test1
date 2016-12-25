@@ -62,7 +62,7 @@ public class ExchangeDaoImpl implements ExchangeDao {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<ExchangeRate> getExchange(int startIdx, int size) {
-		String hql = String.format("from ExchangeRate e order by e.date desc");
+		String hql = String.format("select new com.web.entity.ExchangeRate(e.type, e.rate,e.date) from ExchangeRate e order by e.date desc");
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setFirstResult(startIdx);

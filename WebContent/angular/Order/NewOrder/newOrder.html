@@ -205,9 +205,9 @@
 										class="col-lg-offset-2 col-lg-12 col-sm-12"
 										ng-show="neworder.unit_commision>0 && neworder.quantity>0">
 										<label style="font-weight:normal">手续费：
-											${{(calc_product_sum()*0.039+0.3).toFixed(2)}} =
-											{{calc_product_sum().toFixed(2)}} x 3.9% + 0.3
-											(收费标准：每笔金额的3.9% + 0.3)</label>
+											${{(calc_product_sum()*paypal_fee_rate/100+paypal_fee).toFixed(2)}} =
+											{{calc_product_sum().toFixed(2)}} x {{paypal_fee_rate}}% + {{paypal_fee}}
+											(收费标准：每笔金额的{{paypal_fee_rate}}% + {{paypal_fee}})</label>
 									</div>
 									<div style="float: top"
 										class="col-lg-offset-2 col-lg-12 col-sm-12"
@@ -358,7 +358,7 @@
                         <td class="text-right" colspan="4">
                           <strong>手续费</strong>
                         </td>
-                        <td ng-bind="'$' + (calc_product_sum()*0.039+0.3).toFixed(2)">
+                        <td ng-bind="'$' + (calc_product_sum()*paypal_fee_rate/100+paypal_fee).toFixed(2)">
                         </td>
                       </tr>
                       <tr>

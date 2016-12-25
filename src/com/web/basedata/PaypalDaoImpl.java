@@ -62,7 +62,7 @@ public class PaypalDaoImpl implements PaypalDao {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<PaypalFee> getPaypal(int startIdx, int size) {
-		String hql = String.format("from PaypalFee p order by p.date desc");
+		String hql = String.format("select new com.web.entity.PaypalFee(p.type, p.fee, p.fee_rate, p.date) from PaypalFee p order by p.date desc");
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setFirstResult(startIdx);

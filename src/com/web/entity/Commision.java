@@ -29,6 +29,7 @@ public class Commision {
 		this.fee = fee;
 		this.date = date;
 		this.srv_type = srv_type;
+		this.setUser(new User());
 	}
 	
 	public Commision() {}

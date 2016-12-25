@@ -20,7 +20,8 @@ public class CommisionDaoImpl implements CommisionDao {
 	@Override
 	public List<Commision> getCommision(int type) {
 		String hql = "select new com.web.entity.Commision(e.type, e.srv_type, e.fee, e.date) from Commision "
-				+ "e where e.type = :type and e.date = (select max(date) from Commision f where e.type = f.type)";
+				+ "e where e.type = :type and e.date = (select max(date) from Commision f where e.type = f.type"
+				+ " and e.srv_type=f.srv_type group by e.srv_type,e.type)";
 		@SuppressWarnings("rawtypes")
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setParameter("type", type);
@@ -64,7 +65,7 @@ public class CommisionDaoImpl implements CommisionDao {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Commision> getCommision(int startIdx, int size) {
-		String hql = String.format("from Commision c order by c.date desc");
+		String hql = String.format("select new com.web.entity.Commision(c.type, c.srv_type, c.fee, c.date) from Commision c order by c.date desc");
 
 			Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 			q.setFirstResult(startIdx);

@@ -52,8 +52,7 @@ angular.module('new-order').
         	    "srvtype" : 1,
         	};
     	
-    	$scope.paypal_fee = 0.3;
-    	$scope.paypal_fee_rate = 3.9;
+    
     	
     	$scope.getLink = function() {
     		if ($scope.neworder.link == null) {
@@ -101,7 +100,7 @@ angular.module('new-order').
     	};
     	
     	$scope.calc_sum = function() {
-    		return $scope.calc_product_sum() * 1.039 + 0.3;
+    		return $scope.calc_product_sum() * (1 + $scope.paypal_fee_rate/100)  + $scope.paypal_fee;
     	};
     	
     	$scope.calc_sum_rmb = function() {

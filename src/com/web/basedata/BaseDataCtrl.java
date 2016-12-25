@@ -204,4 +204,112 @@ public class BaseDataCtrl {
 		
 		return rtnMap;
 	}
+	
+	@RequestMapping("/newExchange.do")
+	@ResponseBody
+	public Map<String, Object> saveNewExchange(@RequestParam MultiValueMap<String, Object> params) {
+		
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+		
+		String userName = "";
+		
+		try {
+			userName = UserOrderCtrl.getLoginName();
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+			return rtnMap;
+		}
+		
+		User user = userSrv.getUser(userName);
+		if (user == null) {
+			rtnMap.put("error", "未知用户：" + userName);
+			return rtnMap;
+		}
+	    if (!user.getRole().equalsIgnoreCase("role_admin")) {
+	    	rtnMap.put("error", "您无此操作权限！");
+			return rtnMap;
+	    }
+		
+		try {	
+			baseDataSrv.addExchange(user, params);
+			rtnMap.put("status", 1);
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+		}
+		
+		return rtnMap;
+	}
+	
+	@RequestMapping("/newCommision.do")
+	@ResponseBody
+	public Map<String, Object> saveNewCommision(@RequestParam MultiValueMap<String, Object> params) {
+		
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+		
+		String userName = "";
+		
+		try {
+			userName = UserOrderCtrl.getLoginName();
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+			return rtnMap;
+		}
+		
+		User user = userSrv.getUser(userName);
+		if (user == null) {
+			rtnMap.put("error", "未知用户：" + userName);
+			return rtnMap;
+		}
+	    if (!user.getRole().equalsIgnoreCase("role_admin")) {
+	    	rtnMap.put("error", "您无此操作权限！");
+			return rtnMap;
+	    }
+		
+		try {	
+			baseDataSrv.addCommision(user, params);
+			rtnMap.put("status", 1);
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+		}
+		
+		return rtnMap;
+	}
+	
+	@RequestMapping("/newPaypal.do")
+	@ResponseBody
+	public Map<String, Object> saveNewPaypal(@RequestParam MultiValueMap<String, Object> params) {
+		
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+		
+		String userName = "";
+		
+		try {
+			userName = UserOrderCtrl.getLoginName();
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+			return rtnMap;
+		}
+		
+		User user = userSrv.getUser(userName);
+		if (user == null) {
+			rtnMap.put("error", "未知用户：" + userName);
+			return rtnMap;
+		}
+	    if (!user.getRole().equalsIgnoreCase("role_admin")) {
+	    	rtnMap.put("error", "您无此操作权限！");
+			return rtnMap;
+	    }
+		
+		try {	
+			baseDataSrv.addPaypal(user, params);
+			rtnMap.put("status", 1);
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+		}
+		
+		return rtnMap;
+	}
 }
