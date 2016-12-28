@@ -173,7 +173,7 @@ angular.module('process-order').controller("processOrderController",[
 					$scope.payComplete(false);
 				} else {
 					$scope.payComplete(false);
-					window.location.href = res;
+					$state.go($state.current, {}, {reload:true});
 				}
 				
 			}).error(function(data) {
@@ -203,7 +203,7 @@ angular.module('process-order').controller("processOrderController",[
 			} else if (res && res.status == 0) {
 				item.auditPayError = res.error;
 			} else {
-				window.location.href = res;
+				$state.go($state.current, {}, {reload:true});
 			}
 	    }).error(function(data) {
 			alert("发生错误，请重新登录！");

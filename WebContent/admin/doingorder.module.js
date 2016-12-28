@@ -59,7 +59,7 @@ angular.module('admin-doing-order').controller(
 				} else if (res && res.status == 0) {
 					
 				} else {
-					window.location.href = res;
+					$state.go($state.current, {}, {reload:true});
 				}
 		    }).error(function(data) {
 				alert("发生错误，请重新登录！");

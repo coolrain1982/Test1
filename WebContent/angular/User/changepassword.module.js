@@ -8,7 +8,8 @@ changePwdApp.config(function(cfpLoadingBarProvider) {
 });
 
 changePwdApp.controller("changepasswordController", ['$scope', '$http', 'md5', '$timeout',
-	     'cfpLoadingBar',	function($scope, $http, md5, $timeout, cfpLoadingBar) {
+	     'cfpLoadingBar', '$state',	
+	     function($scope, $http, md5, $timeout, cfpLoadingBar, $state) {
 	
 	$scope.sumbitToServer = false;
 	$scope.user = {
@@ -59,6 +60,8 @@ changePwdApp.controller("changepasswordController", ['$scope', '$http', 'md5', '
 				$scope.isSuccess = true;	
 			} else if(data.status == 0) {
 				$scope.user.error = data.error; 
+			} else {
+				$state.go($state.current, {}, {reload:true});
 			}
 			$scope.complete();
 		}).error(function(data){

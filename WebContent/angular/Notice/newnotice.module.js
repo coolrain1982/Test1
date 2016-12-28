@@ -108,7 +108,7 @@ angular.module('new-notice').
         		    	$scope.complete();
         		    	$scope.toView("new_notice_submit");
     				} else {
-    					window.location.href = data;
+    					$state.go($state.current, {}, {reload:true});
     				}
     				
     			}).error(function(data){
@@ -211,7 +211,7 @@ controller("noticeController", ['$state', '$stateParams',
 				$scope.noticeError = res.error;
 				$scope.recordSize = res.count;
 			} else {
-				window.location.href = res;
+				$state.go($state.current, {}, {reload:true});
 			}
 			$scope.complete();
 		}).error(function() {

@@ -188,7 +188,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 				$scope.auditComplete(false);
 			} else {
 				$scope.auditComplete(false);
-				window.location.href = res;
+				$state.go($state.current, {}, {reload:true});
 			}
 		}).error(function(data) {
 			$scope.auditComplete(false);
@@ -316,7 +316,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 				$scope.auditPayComplete(false);
 			} else {
 				$scope.auditPayComplete(false);
-				window.location.href = res;
+				$state.go($state.current, {}, {reload:true});
 			}
 		}).error(function(data) {
 			$scope.auditPayComplete(false);
@@ -346,7 +346,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 			} else if (res && res.status == 0) {
 				item.auditPayError = res.error;
 			} else {
-				window.location.href = res;
+				$state.go($state.current, {}, {reload:true});
 			}
 	    }).error(function(data) {
 			alert("发生错误，请重新登录！");

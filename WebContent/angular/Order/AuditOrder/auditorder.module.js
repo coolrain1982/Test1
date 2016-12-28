@@ -156,7 +156,7 @@ angular.module('audit-order').controller("auditOrderController",[
 				$scope.auditComplete(false);
 			} else {
 				$scope.auditComplete(false);
-				window.location.href = res;
+				$state.go($state.current, {}, {reload:true});
 			}
 			
 		}).error(function() {

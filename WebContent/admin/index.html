@@ -111,8 +111,7 @@
 					<li><a href="#"><i class="icon_cogs"></i> <span
                             class="nav-label">基础数据管理</span> <span class="fa arrow"></span> </a>
                             <ul class="nav nav-second-level collapse">
-                                <li> <a class="J_menuItem" ui-sref-active="active"
-                                       ui-sref="exchangeMan" ui-sref-opts="{reload:'exchangeMan'}"> 
+                                <li> <a class="J_menuItem" ng-click="goto('exchangeMan')"> 
                                        <i class="fa fa-exchange"></i> <span class="nav-label">汇率管理</span>
                                        </a>
                                 </li>
@@ -124,6 +123,16 @@
                                  <li> <a class="J_menuItem" ui-sref-active="active"
                                        ui-sref="paypalMan" ui-sref-opts="{reload:'paypalMan'}"> 
                                        <i class="fa fa-paypal"></i> <span class="nav-label">Paypal手续费管理</span>
+                                       </a>
+                                </li>
+                            </ul>
+                    </li>
+                    <li><a href="#"><i class="icon_contacts"></i> <span
+                            class="nav-label">用户管理</span> <span class="fa arrow"></span> </a>
+                            <ul class="nav nav-second-level collapse">
+                                <li> <a class="J_menuItem" ui-sref-active="active"
+                                       ui-sref="userInfoMan" ui-sref-opts="{reload:'userInfoMan'}"> 
+                                       <i class="icon_id-2_alt"></i> <span class="nav-label">用户信息</span>
                                        </a>
                                 </li>
                             </ul>
@@ -143,7 +152,7 @@
 		<div class="row border-bottom">
 			<nav class="navbar navbar-static-top" role="navigation"
 				style="margin-bottom: 0">
-				<a href="index.do" class="logo">MeiYa <span class="lite">Buy</span></a>
+				<a href="" class="logo">MeiYa <span class="lite">Buy</span></a>
 				<ul class="nav navbar-top-links navbar-right">
 					<li class="dropdown"><a class="dropdown-toggle count-info"
 						data-toggle="dropdown" href="#"> <i class="fa fa-bell"></i> <span class="label label-primary"></span>
@@ -209,6 +218,7 @@
 	<script src="angular/User/profile.module.js"></script>
 	<script src="angular/User/changepassword.module.js"></script>
 	<script src="admin/Base/data.module.js"></script>
+	<script src="admin/User/userman.module.js"></script>
 	<script src="angular/Mainpage/mainpage.module.js"></script>
 
 </body>

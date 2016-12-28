@@ -28,6 +28,21 @@ public class User {
 	private Set<ExchangeRate> exchangeRates;
 	private Set<Commision> commisions;
 	private Set<PaypalFee> paypalFees;
+	
+	public User() {
+		
+	}
+	
+	public User(String name, String email, String role, 
+			    String mobile, String qq, Integer discount) {
+		
+		setName(name);
+		setEmail(email);
+		setRole(role);
+		setMobile(mobile);
+		setQq(qq);
+		setDiscount(discount);
+	}
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

@@ -234,7 +234,7 @@ angular.module('base-data').component('baseData',{
 					$scope.$ctrl.pageError = res.error;
 					$scope.$ctrl.recordSize = res.count;
 				} else {
-					window.location.href = res;
+					$state.go($state.current, {}, {reload:true});
 				}
 				$scope.$ctrl.complete();
 			}).error(function() {

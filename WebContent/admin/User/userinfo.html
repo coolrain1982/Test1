@@ -1,0 +1,89 @@
+<section class="wrapper" ng-controller=userManController>
+	<div class="row" ng-if="!isSuccess && showpage">
+		<div class="col-lg-12 col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2>
+						<i class="icon_id-2_alt"></i>用户信息查询
+					</h2>
+				</div>
+				<form role="search" class="navbar-form-custom" style="width:100%;padding-left:10px">
+                        <div class="form-group">
+                            <i class="icon_search"></i>
+                            <input type="text" placeholder="请输入您需要查找的内容 …"  
+                            style="width:90%;display:inline-block;padding-left:5px"
+                            ng-model="search.str"  ng-keyup="searchUser($event)" 
+                            class="form-control" name="top-search" id="top-search">
+                        </div>
+                </form>
+                <div class="widget-content padded clearfix" ng-if="userError">
+                    查询用户数据时出错：{{userError}}！</div>
+				<div class="widget-container fluid-height clearfix"
+					ng-if="recordSize>0">
+					<div class="widget-content padded clearfix">
+						<table class="table table-hover">
+							<thead>
+								<th width="100">序号</th>
+								<th>用户名</th>
+								<th width="100">佣金折扣</th>
+								<th width="150">移动电话</th>
+								<th width="300">Email</th>
+								<th width="150">QQ</th>
+								<th width="100">用户级别</th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="item in userList">
+									<td>{{(p_current-1)*6 + $index +1}}</td>
+									<td>{{item.name}}</td>
+									<td class="underline">
+                                    <a href="javascript:void(0)" ng-click="changeDiscount(item)">
+                                    {{item.discount}}%</a></td>
+									<td>{{item.mobile}}</td>
+									<td>{{item.email}}</td>
+									<td>{{item.qq}}</td>
+									<td>{{getRole(item)}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<ul class="pagination pull-right"
+							style="margin: 0px; line-height: 29px;">
+							<span style="margin-left: 10px"
+								ng-bind="'共'+ recordSize + '条记录'"></span>
+							<li ng-class="{true:'disabled'}[p_current==1]"><a
+								href="javascript:void(0);" ng-click="p_index()">首页</a></li>
+							<li ng-repeat="page in pages"
+								ng-class="{true:'active'}[p_current==page]"><a
+								href="javascript:void(0);" ng-click="load_page(page)">{{
+									page }}</a></li>
+							<li
+								ng-class="{true:'disabled'}[p_current==p_all_page]"><a
+								href="javascript:void(0);" ng-click="p_last()">尾页</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="widget-content padded clearfix"
+                    ng-if="recordSize==0">
+                    没有查询到相关用户信息！
+                </div>
+			</div>
+		</div>
+	</div>
+	<div ng-if="isSuccess"  style="margin-left:20px" >
+        <div class="row">
+            <div class="col-lg-12">
+                <h4 class="page-header">
+                    <i class="fa fa fa-check"></i> <strong class="information-title">佣金折扣修改成功！</strong>
+                </h4>
+                <p style="font-size:20px">{{selectItem.name}}</p>
+                <p>移动电话:{{selectItem.mobile}}</p>
+                <p>email:{{selectItem.email}}</p>
+                <p>qq:{{selectItem.email}}</p>
+                <p>用户级别:{{getRole(selectItem)}}</p>
+                <p>佣金折扣:{{selectItem.newdiscount}}%
+                   <small>(修改前为{{selectItem.discount}}%)</small>
+                </p>
+                <a href="javascript:void(0)" ng-click="backToUserInfo()"><small>返回</small></a>
+            </div>
+        </div>
+    </div>
+</section>

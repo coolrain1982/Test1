@@ -5,7 +5,7 @@ var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap', 
     'ui.router', 'order-home', 'new-order', 'image-upload', 'ui.slimscroll',
     'order-table', 'process-order', 'doing-order', 'new-notice', 'summernote', 
     'profile', 'admin-process-order', 'admin-doing-order', 'change-password',
-    'base-data',
+    'base-data', 'user-man'
 ]);
 
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -70,6 +70,9 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    }).state('paypalMan', {
 	    	url : '/paypalMan',
 	    	templateUrl: 'admin/Base/paypal.html'
+	    }).state('userInfoMan', {
+	    	url : '/userInfoMan',
+	    	templateUrl: 'admin/User/userinfo.html'
 	    });
 });
 
@@ -132,6 +135,10 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 
 	
 	$state.go('notice', {}, {reload:true});
+	
+	$scope.goto = function(url) {
+		$state.go(url, {}, {reload:true});
+	}
 });
 
 mainpageApp.service('orderTable', function() {

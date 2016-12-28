@@ -1,0 +1,44 @@
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" style="left: 0;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="$hide()" ng-disabled="doing">&times;</button>
+				<h4 class="modal-title">修改用户[{{selectItem.name}}]佣金折扣率</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<form role="form" class="form-validate form-horizontal table"
+                        novalidate>
+						<div class="form-group">
+                            <label class="control-label col-lg-3 col-md-5">原佣金折扣率<span
+                                class="required"></span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <p class="form-control-static">{{selectItem.discount}}%</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-3 col-md-5">现佣金折扣率<span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                               <select class="form-control m-b" ng-model="selectItem.newdiscount">
+                                   <option ng-repeat="x in discountList">{{x}}%</option>
+                               </select>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-lg-12"
+                        style="color: red; margin: 0 15px 15px 0; font-size: 12px; text-align: right;"
+                        nf-if="changeDiscounterror">
+                        {{changeDiscounterror}}
+                    </div>
+					<div style="float: right; margin-right:15px">
+						<a class="btn btn-lg btn-important btn-important-red" 
+						ng-click="showConfirm()">确定</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

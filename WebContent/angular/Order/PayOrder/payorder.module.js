@@ -179,7 +179,7 @@ angular.module('pay-order').controller("payOrderController",[
 							$scope.payComplete(false);
 						} else {
 							$scope.payComplete(false);
-							window.location.href = res;
+							$state.go($state.current, {}, {reload:true});
 						}
 						
 					}).error(function(data) {

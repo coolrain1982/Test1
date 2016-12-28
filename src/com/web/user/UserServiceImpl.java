@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
+import com.web.common.PageForQuery;
 import com.web.entity.User;
 
 @Service
@@ -219,4 +220,101 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	@Transactional
+	public List<User> getUserByName(String queryParam, PageForQuery pfg) throws Exception {
+		int startIdx = (pfg.getPage() - 1) * pfg.getSize();
+		return userDao.getUserByName(queryParam.trim(), startIdx, pfg.getSize());
+	}
+	
+	@Override
+	@Transactional
+	public long countUserByName(String queryParam) throws Exception {
+		return userDao.countUserByName(queryParam.trim());
+	}
+
+	@Override
+	@Transactional
+	public List<User> getUserByTel(String queryParam, PageForQuery pfg) throws Exception {
+		int startIdx = (pfg.getPage() - 1) * pfg.getSize();
+		return userDao.getUserByTel(queryParam.trim(), startIdx, pfg.getSize());
+	}
+	
+	@Override
+	@Transactional
+	public long countUserByTel(String queryParam) throws Exception {
+		return userDao.countUserByTel(queryParam.trim());
+	}
+
+	@Override
+	@Transactional
+	public List<User> getAllUser(PageForQuery pfg) throws Exception {
+		int startIdx = (pfg.getPage() - 1) * pfg.getSize();
+		return userDao.getAllUser(startIdx, pfg.getSize());
+	}
+
+	@Override
+	@Transactional
+	public long countAllUser() throws Exception {
+		return userDao.countAllUser();
+	}
+
+	@Override
+	@Transactional
+	public long countUserBySearch(String queryParam) throws Exception {
+		return userDao.countUserBySearch(queryParam);
+	}
+
+	@Override
+	@Transactional
+	public List<User> getUserBySearch(String queryParam, PageForQuery pfg) throws Exception {
+		int startIdx = (pfg.getPage() - 1) * pfg.getSize();
+		return userDao.getUserBySearch(queryParam, startIdx, pfg.getSize());
+	}
+
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public User changeDiscount(MultiValueMap<String, Object> params) throws Exception {
+		String userName, newDiscountStr;
+		int newDiscount = -1;
+		
+		if (params.containsKey("name") && params.get("name").size() > 0 &&
+				!params.get("name").get(0).toString().trim().equals("")) {
+			userName = params.get("name").get(0).toString().trim();
+		} else {
+			throw new Exception("请选择正确的用户！");
+		}
+		
+		if (params.containsKey("discount") && params.get("discount").size() > 0 &&
+				!params.get("discount").get(0).toString().trim().equals("")) {
+			newDiscountStr = params.get("discount").get(0).toString().trim();
+		} else {
+			throw new Exception("新的佣金折扣率输入不正确！");
+		}
+		
+		try {
+			newDiscount = Integer.parseInt(newDiscountStr.substring(0, newDiscountStr.length() - 1));
+		} catch (Exception e) {
+			throw new Exception("新的佣金折扣率输入不正确！");
+		}
+		
+		if (newDiscount > 100 || newDiscount < 0) {
+			throw new Exception("新的佣金折扣率输入不正确！");
+		}
+		
+		User user = userDao.getUser(userName);
+		if (user == null) {
+			throw new Exception(String.format("用户[%s]不存在", userName));
+		}
+		
+		//检查用户密码是否匹配
+		if (user.getDiscount() != newDiscount) {
+				user.setDiscount(newDiscount);
+				userDao.updateUser(user);	
+		} else {
+			throw new Exception("您输入的佣金折扣率与原有的折扣率相比没有发生改变！");
+		}
+		
+		return user;
+	}
 }

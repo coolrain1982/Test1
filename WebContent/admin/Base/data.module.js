@@ -5,9 +5,10 @@ var basedataModule = angular.module('base-data',['chieffancypants.loadingBar', '
     cfpLoadingBarProvider.includeSpinner = false;
   });
 
-basedataModule.controller("baseDataController", ['$state','$scope','$modal',
+basedataModule.controller("baseDataController", ['$state','$scope','$modal', '$location',
 	      '$http','cfpLoadingBar','$timeout','$popover','orderTable','commFunc',
-	      function($state, $scope, $modal,$http, cfpLoadingBar, $timeout, $popover, orderTable, commFunc) {
+	      function($state, $scope, $modal, $location, $http, cfpLoadingBar, 
+	    		   $timeout, $popover, orderTable, commFunc) {
 	
 	$scope.showpage = true;
 	$scope.commFunc = commFunc;
@@ -88,8 +89,8 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal',
 				$scope.basedataerror = data.error; 
 		    	$scope.complete(2);
 			} else {
-				alert("系统发生错误，请重新登录！");
-				window.location.href = "logout";
+//				$state.go($state.current, {}, {reload:true});
+				$location.path('/login.html');
 			}
 		}).error(function(data){
 	    	$scope.complete(2);
@@ -311,7 +312,8 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal',
 				$scope.dataError = res.error;
 				$scope.recordSize = res.count;
 			} else {
-				window.location.href = "logout";
+//				$state.go($state.current, {}, {reload:true});
+				window.location= '/login.html';
 			}
 			$scope.complete(3);
 		}).error(function() {

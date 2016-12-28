@@ -176,6 +176,8 @@ loginApp.controller("userController", function($location, $scope, $http, md5, $t
 				$scope.welcomWord = "创建新用户成功";
 			} else if(data.status == 0) {
 				$scope.user.error = data.error; 
+			} else {
+				
 			}
 			$scope.complete();
 		}).error(function(data){

@@ -1,6 +1,7 @@
 package com.web.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.web.common.PageForQuery;
 import com.web.entity.User;
 
 @Controller
@@ -169,6 +171,176 @@ public class UserController {
 		try {
 			userSrv.changePassword(loginUserName, params);
 			rtnMap.put("status", 1);
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+		}
+
+		return rtnMap;
+	}
+	
+	@RequestMapping("admin/getAllUser.do")
+	@ResponseBody
+	public Map<String, Object> getAllUserInfo(
+			    @RequestParam int queryType, 
+			    @RequestParam String queryParam, 
+	            @RequestParam int page, 
+	            @RequestParam int size) {
+
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+		String loginUserName;
+    	// 先取用户
+		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (UserDetails.class.isInstance(o)) {
+			loginUserName = ((UserDetails) o).getUsername();
+		} else {
+			rtnMap.put("error", "请先登录系统！");
+			return rtnMap;
+		}
+
+		User loginUser = userSrv.getUser(loginUserName);
+		if (loginUser == null) {
+			rtnMap.put("error", String.format("用户名[%s]不存在，请重新登录系统！", loginUserName));
+			return rtnMap;
+		}
+		
+		if (!loginUser.getRole().equalsIgnoreCase("role_admin")) {
+				rtnMap.put("error", "您没有权限进行此操作！");
+				return rtnMap;
+		}
+		
+		List<User> userInfoList = null;
+		long recordSize = 0;
+		
+		switch (queryType) {
+		case 1:
+			//根据用户名称查询
+			try {
+				recordSize = userSrv.countUserByName(queryParam);
+			} catch (Exception e) {
+				rtnMap.put("error", "根据用户名称查询用户总数失败" + e.getMessage());
+				return rtnMap;
+			}
+			
+			rtnMap.put("count", recordSize);
+			if (recordSize == 0) {
+				rtnMap.put("status", 1);
+				return rtnMap;
+			}
+			
+			try {
+				userInfoList = userSrv.getUserByName(queryParam, new PageForQuery(page, size));
+			} catch (Exception e) {
+				rtnMap.put("error", "根据用户名称查询用户信息失败" + e.getMessage());
+				return rtnMap;
+			}
+			break;
+		case 2:
+			
+			try {
+				recordSize = userSrv.countUserByTel(queryParam);
+			} catch (Exception e) {
+				rtnMap.put("error", "根据电话号码查询用户总数失败" + e.getMessage());
+				return rtnMap;
+			}
+			
+			rtnMap.put("count", recordSize);
+			if (recordSize == 0) {
+				rtnMap.put("status", 1);
+				return rtnMap;
+			}
+			
+			try {
+				userInfoList = userSrv.getUserByTel(queryParam, new PageForQuery(page, size));
+			} catch (Exception e) {
+				rtnMap.put("error", "根据电话号码查询用户信息失败" + e.getMessage());
+				return rtnMap;
+			}
+			//根据电话号码查询
+			break;
+		case 9:
+			//根据搜索内容查询
+			try {
+				recordSize = userSrv.countUserBySearch(queryParam);
+			} catch (Exception e) {
+				rtnMap.put("error", "根据搜索内容查询用户总数失败" + e.getMessage());
+				return rtnMap;
+			}
+			
+			rtnMap.put("count", recordSize);
+			if (recordSize == 0) {
+				rtnMap.put("status", 1);
+				return rtnMap;
+			}
+			
+			try {
+				userInfoList = userSrv.getUserBySearch(queryParam, new PageForQuery(page, size));
+			} catch (Exception e) {
+				rtnMap.put("error", "根据搜索内容查询用户信息失败" + e.getMessage());
+				return rtnMap;
+			}
+			
+			break;
+		default:
+			try {
+				recordSize = userSrv.countAllUser();
+			} catch (Exception e) {
+				rtnMap.put("error", "查询用户总数失败" + e.getMessage());
+				return rtnMap;
+			}
+			
+			rtnMap.put("count", recordSize);
+			if (recordSize == 0) {
+				return rtnMap;
+			}
+			
+			//查询所有的	
+			try {
+				userInfoList = userSrv.getAllUser(new PageForQuery(page, size));
+			} catch (Exception e) {
+				rtnMap.put("error", "查询用户信息失败" + e.getMessage());
+				return rtnMap;
+			}
+		}
+
+		rtnMap.put("list", userInfoList);
+		rtnMap.put("status", 1);
+
+		return rtnMap;
+	}
+	
+	@RequestMapping("admin/changediscount.do")
+	@ResponseBody
+	public Map<String, Object> changeDiscount(@RequestParam MultiValueMap<String, Object> params) {
+
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+
+		// 先取用户
+		Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String loginUserName = "";
+		if (UserDetails.class.isInstance(o)) {
+			loginUserName = ((UserDetails) o).getUsername();
+		} else {
+			rtnMap.put("error", "请先登录系统！");
+			return rtnMap;
+		}
+		
+		User loginUser = userSrv.getUser(loginUserName);
+		if (loginUser == null) {
+			rtnMap.put("error", String.format("用户名[%s]不存在，请重新登录系统！", loginUserName));
+			return rtnMap;
+		}
+		
+		if (!loginUser.getRole().equalsIgnoreCase("role_admin")) {
+			rtnMap.put("error", "您没有权限进行此操作！");
+			return rtnMap;
+		}
+		
+		try {
+			User user = userSrv.changeDiscount(params);
+			rtnMap.put("status", 1);
+			rtnMap.put("discount", user.getDiscount());
 		} catch (Exception e) {
 			rtnMap.put("error", e.getMessage());
 		}

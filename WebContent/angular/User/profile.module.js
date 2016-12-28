@@ -109,6 +109,8 @@ angular.module('profile').
     				$scope.isSuccess = true;
     			} else if(data.status == 0) {
     				$scope.user.error = data.error; 
+    			} else {
+    				$state.go($state.current, {}, {reload:true});
     			}
     			$scope.complete();
     		}).error(function(data){

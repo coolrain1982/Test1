@@ -55,7 +55,7 @@ angular.module('payment').controller("payController",[
 				$scope.fail = true;
 				$scope.failInfo = res.error;
 			} else {
-				window.location.href = "index.do";
+				$state.go($state.current, {}, {reload:true});
 			}
 			$scope.complete();
 		}).error(function(data) {

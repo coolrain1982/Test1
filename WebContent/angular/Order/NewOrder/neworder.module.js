@@ -208,7 +208,7 @@ angular.module('new-order').
         		    	$scope.complete();
         		    	$scope.toView("new_order_submit");
     				} else {
-    					window.location.href = data;
+    					$state.go($state.current, {}, {reload:true});
     				}
     				
     			}).error(function(data){
