@@ -5,11 +5,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                http://www.springframework.org/schema/beans/spring-beans.xsd
                http://www.springframework.org/schema/security
-               http://www.springframework.org/schema/security/spring-security.xsd">
+               http://www.springframework.org/schema/security/spring-security-4.2.xsd">
                
     <!-- <global-method-security jsr250-annotations="enabled" /> -->
 	
 	<http pattern="/register.html*" security="none"/>
+	<http pattern="/sessionexpired.html*" security="none"/>
 	<http pattern="/login.html*" security="none"/>
 	<http pattern="/loginFail.do" security="none"/>
 	<http pattern="/register.do" security="none"/>
@@ -31,7 +32,8 @@
          <intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN, ROLE_CS" />
 	     <access-denied-handler error-page="/access_denied.html" /> 
          <logout logout-success-url="/login.html" />
-         <csrf disabled="true" />
+         <csrf disabled="true" />       
+         <session-management invalid-session-url="/sessionexpired.html" />
 	</http>
 	
 	<b:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />

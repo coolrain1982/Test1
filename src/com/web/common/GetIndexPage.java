@@ -43,6 +43,11 @@ public class GetIndexPage {
 		return rtn;
 	}
 	
+	@RequestMapping("sessionexpired.do")
+	public String sessionExpired() {
+		return "sessionexpired";
+	}
+	
 	@RequestMapping("loginFail.do")
 	@ResponseBody
 	public Map<String, String> returnFailHtml() {
