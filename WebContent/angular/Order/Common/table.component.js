@@ -1,8 +1,14 @@
 'use strict';
 
+var orderTableModule = angular.module('order-table',['chieffancypants.loadingBar', 'ngAnimate']);
+
+orderTableModule.config(function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = false;
+  });
+
 // Register `phoneList` component, along with its associated controller and
 // template
-angular.module('order-table').component('orderTable',{
+orderTableModule.component('orderTable',{
 	templateUrl : 'angular/Order/Common/table.template.html',
 	controller : ['$state','$scope','$modal','$http','cfpLoadingBar','$timeout','$popover','orderTable','commFunc',
 	function TableController($state, $scope, $modal,$http, cfpLoadingBar, $timeout, $popover, orderTable, commFunc) {
@@ -51,8 +57,8 @@ angular.module('order-table').component('orderTable',{
 		};
 
 		this.getShowLink = function(temp) {
-			if (temp.length > 20) {
-				return temp.substring(0, 20) + "...";
+			if (temp.length > 100) {
+				return temp.substring(0, 100) + "...";
 			}
 			return temp;
 		};
@@ -113,6 +119,10 @@ angular.module('order-table').component('orderTable',{
 			} else {
 				return "default";
 			}
+		}
+		
+		this.getTypeDesc = function(item) {
+			return this.commFunc.getSrvMode(item.find_product_mode) + "+" + this.commFunc.getSrvType(item);
 		}
 		
 		//显示用户详细信息--------------------------------------------------------------------
@@ -234,7 +244,7 @@ angular.module('order-table').component('orderTable',{
 					$scope.$ctrl.pageError = res.error;
 					$scope.$ctrl.recordSize = res.count;
 				} else {
-					$state.go($state.current, {}, {reload:true});
+					window.location="/login.html";
 				}
 				$scope.$ctrl.complete();
 			}).error(function() {

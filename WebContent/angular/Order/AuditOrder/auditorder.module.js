@@ -1,11 +1,12 @@
 'use strict';
 
-angular.module('audit-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ])
-		.config(function(cfpLoadingBarProvider) {
+var auditOrderModule = angular.module('audit-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ]);
+
+auditOrderModule.config(function(cfpLoadingBarProvider) {
 			cfpLoadingBarProvider.includeSpinner = false;
 		});
 
-angular.module('audit-order').controller("auditOrderController",[
+auditOrderModule.controller("auditOrderController",[
  '$state','$stateParams','$modal','orderTable','$scope','$http','$timeout',
  'cfpLoadingBar','$location','$anchorScroll','commFunc',
 	function($state, $stateParams, $modal, orderTable,
@@ -156,7 +157,7 @@ angular.module('audit-order').controller("auditOrderController",[
 				$scope.auditComplete(false);
 			} else {
 				$scope.auditComplete(false);
-				$state.go($state.current, {}, {reload:true});
+				window.location="/login.html";
 			}
 			
 		}).error(function() {

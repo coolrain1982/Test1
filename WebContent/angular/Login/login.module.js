@@ -14,15 +14,21 @@ loginApp.controller("userController", function($location, $scope, $http, md5, $t
 	$scope.sumbitToServer = false;
 	$scope.user = {
 		error:"",
+		name:"",
+		pwdstr: "",
+		pwd:"",
+		inputpwd: "false",
 	};
 	$scope.errorLogin = null;
+	
+	var isChrome = window.navigator.userAgent.indexOf("Chrome") != -1;
 	
 	if ($location.search().error) {
 		$scope.errorLogin = "请输入正确的用户名和密码！";
 	}
 	
 	$scope.getMD5Psw = function() {
-		return md5.createHash($scope.pwd);
+		return md5.createHash($scope.user.pwd);
 	}
 	
 	$scope.register = function() {
@@ -42,16 +48,59 @@ loginApp.controller("userController", function($location, $scope, $http, md5, $t
 	}
 	
 	$scope.chartToCs = function() { 
-		var win = window.open("http://wpa.qq.com/msgrd?v=3&uin=2789220168&site=qq&menu=yes");
+		var win = window.open("http://wpa.qq.com/msgrd?v=3&uin=3458328673&site=qq&menu=yes");
 		$timeout(function() {win.close();}, 5000);
 	}
 	
+	$scope.$watch('user.pwdstr', function(newVal, oldVal) {
+		
+		if (!newVal) {
+			$scope.user.pwd = "";
+			return;
+		}
+		
+		if (!oldVal || oldVal=="") {
+			$scope.user.pwd = newVal;
+			return;
+		}
+		
+		if (newVal.length == oldVal.length) {
+			return;
+		}
+
+		if (newVal.length > oldVal.length) {
+			$scope.user.pwd += newVal.substr(newVal.length - 1);
+			var userPwdStr = "";
+			for(var i = 0; i < $scope.user.pwd.length - 1; i ++) {
+			    if (isChrome) {
+			    	userPwdStr += '\u2022';
+			    } else {
+			    	userPwdStr += "•";
+			    }
+			}
+		    userPwdStr += newVal.substr(newVal.length - 1);
+		    $scope.user.pwdstr = userPwdStr;
+		} else {
+			$scope.user.pwd = $scope.user.pwd.substr(0, $scope.user.pwd.length - 1);
+		}
+	});
+	
 	$scope.submit = function() {
+		
+		if (!$scope.user.name) {
+			$scope.errorLogin = "请输入用户名！";
+			return;
+		}
+		
+		if (!$scope.user.pwd) {
+			$scope.errorLogin = "请输入密码！";
+			return;
+		}
 		
 		$http({
 			method:"POST",
 			url:"login",
-			data: {username:$scope.name, password:$scope.getMD5Psw()},
+			data: {username:$scope.user.name, password:$scope.getMD5Psw()},
 			headers: {"content-type":'application/x-www-form-urlencoded'},
 			transformRequest: function(obj) {
 				var str=[];

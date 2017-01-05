@@ -38,12 +38,16 @@ public class ReleaseNoticeSrvImpl implements ReleaseNoticeService {
 	public Notice releaseNotice(String userName, MultiValueMap<String, Object> reqParams) throws Exception {
 		Map<String, List<Object>> params = reqParams;
 		
-		// 取用户信息并设置费率折扣
+		// 取用户信息
 		User user = null;
 		
 		user = userService.getUser(userName);
 		if (user == null) {
 			throw new Exception("未知用户：" + userName);
+		}
+		
+		if (!user.getRole().equalsIgnoreCase("role_admin")) {
+			throw new Exception("您没有此操作权限");
 		}
 		
 		//取标题，类型，内容
@@ -83,6 +87,8 @@ public class ReleaseNoticeSrvImpl implements ReleaseNoticeService {
 		notice.setTitle(title);
 		notice.setUrl(url);
 		notice.setUser(user);
+		notice.setFlag(1);
+		notice.setTop(0);
 		
 		noticeDao.newNotice(notice);
 		

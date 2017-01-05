@@ -51,11 +51,19 @@
                                             <td ng-bind="selectItem.exchange_rate"></td>
                                             <td></td>
                                         </tr>
-                                        <tr>
+                                        <tr ng-if="selectItem.find_product_mode==1">
                                             <td>#5</td>
-                                            <td>服务类型</td>
-                                            <td colspan="3" ng-bind="$ctrl.commFunc.getSrvType(selectItem)"></td> 
+                                            <td colspan="4" class="underline">商品链接：<a href="{{selectItem.link}}" target="_blank"
+                                            alt="{{selectItem.link}}">{{$ctrl.getShowLink(selectItem.link)}}</a></td>
                                         </tr>
+										<tr ng-if="selectItem.find_product_mode==2">
+											<td>#5</td>
+											<td colspan="4">搜索关键词：{{selectItem.key_word}}</td>
+										</tr>
+										<tr ng-if="selectItem.find_product_mode==2">
+											<td>#6</td>
+											<td colspan="4">店铺名称[{{selectItem.shop_name}}];商品所在页数[{{selectItem.search_page_idx}}]</td>
+										</tr>
 									</tbody>
 									<tfoot>
 										<tr>

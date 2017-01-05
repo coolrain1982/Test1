@@ -37,12 +37,14 @@ public class Order {
 
 	private long order_id;
 	// status:0-已取消；1-初始值；2-待支付；3-审核未通过；4-客户已支付；5-支付审核通过；6-支付审核失败；10-已经付中介；20-已完成；21-用户确认完成
-	// type:1-仅购买；2-购买+review；3-购买+review+feedback
+	// type:1-仅购买；2-购买+review；
 	private int status, discount, type, csid;
-	private String link, key_word, product_descript, product_photo_url, audit_remark, product_asin;
+	private Integer find_product_mode;  //1-链接;2-关键词搜索
+	private String link, key_word, product_descript, product_photo_url, audit_remark, product_asin, shop_name;
 	private Double product_unit_price, product_unit_freight, product_total_price, product_unit_commission;
 	private Double exchange_rate, refunds, paypal_fee, paypal_rate, total;
 	private int product_quantity;
+	private Integer search_page_idx;
 	private Calendar create_date, pay_date, audit_date, finish_date;
 	private User user;
 	private Set<OrderForReview> ordersForReview;
@@ -57,7 +59,8 @@ public class Order {
 	public Order(long id, int discount, String product_descript, String link, String product_asin, String product_photo_url,
 			String audit_remark, Double product_unit_price, Double product_unit_freight, Double product_unit_commission,
 			Double exchange_rate, Double paypal_fee, Double paypal_rate, int product_quantity, Calendar create_date,
-			int status, int type, Calendar audit_date, String userName) {
+			int status, int type, Calendar audit_date, String userName, Integer find_product_mode,
+			Integer search_page_idx, String shop_name, String key_word) {
 		setOrder_id(id);
 		setDiscount(discount);
 		setProduct_descript(product_descript);
@@ -77,6 +80,10 @@ public class Order {
 		setAudit_date(audit_date);
 		setUserName(userName);
 		setProduct_asin(product_asin);
+		setFind_product_mode(find_product_mode);
+		setSearch_page_idx(search_page_idx);
+		setShop_name(shop_name);
+		setKey_word(key_word);
 	}
 
 	@Id
@@ -390,6 +397,33 @@ public class Order {
 
 	public void setProduct_asin(String product_asin) {
 		this.product_asin = product_asin;
+	}
+
+	@Column
+	public Integer getFind_product_mode() {
+		return find_product_mode;
+	}
+
+	public void setFind_product_mode(Integer find_product_mode) {
+		this.find_product_mode = find_product_mode;
+	}
+
+	@Column
+	public String getShop_name() {
+		return shop_name;
+	}
+
+	public void setShop_name(String shop_name) {
+		this.shop_name = shop_name;
+	}
+
+	@Column
+	public Integer getSearch_page_idx() {
+		return search_page_idx;
+	}
+
+	public void setSearch_page_idx(Integer search_page_idx) {
+		this.search_page_idx = search_page_idx;
 	}
 
  }

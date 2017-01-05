@@ -140,8 +140,18 @@ public class BaseDataServiceImpl implements BaseDataService {
 	public Commision addCommision(User user, MultiValueMap<String, Object> reqParams) throws Exception {
 		
 		Map<String, List<Object>> params = reqParams;
-		int srv_type;
+		int srv_type, srv_mode;
 		Double fee;
+		
+		if (params.containsKey("srv_mode") && params.get("srv_mode").size() > 0) {
+			try {
+				srv_mode = Integer.parseInt(params.get("srv_mode").get(0).toString().trim());
+			} catch (Exception e) {
+				throw new Exception("请选择正确的商品业务模式！");
+			}
+		} else {
+			throw new Exception("请选择正确的商品业务模式！");
+		}
 
 		if (params.containsKey("srv_type") && params.get("srv_type").size() > 0) {
 			try {
@@ -170,6 +180,7 @@ public class BaseDataServiceImpl implements BaseDataService {
 		comm.setFee(fee);
 		comm.setSrv_type(srv_type);
 		comm.setType(1);
+		comm.setSrv_mode(srv_mode);
 		
 		comDao.addCommision(comm);
 		return comm;

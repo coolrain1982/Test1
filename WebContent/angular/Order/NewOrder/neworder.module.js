@@ -1,14 +1,18 @@
 'use strict';
 
-angular.module('new-order', ['chieffancypants.loadingBar', 'ngAnimate'])
-    .config(function(cfpLoadingBarProvider) {
+var neworderModule = angular.module('new-order', ['chieffancypants.loadingBar', 'ngAnimate']);
+
+
+neworderModule.config(function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
 });
 
-angular.module('new-order').
-    controller("newOrderController", ['$state', '$stateParams', 
-    	      '$scope', '$http', '$timeout', 'cfpLoadingBar','$location', '$anchorScroll',
-    	    function($state, $stateParams, $scope, $http, $timeout, cfpLoadingBar, $location, $anchorScroll) {
+neworderModule.controller("newOrderController", ['$state', '$stateParams', 
+    	      '$scope', '$http', '$timeout', 'cfpLoadingBar','$location', '$anchorScroll', 'commFunc',
+    	    function($state, $stateParams, $scope, $http, $timeout,
+    	    		  cfpLoadingBar, $location, $anchorScroll, commFunc) {
+	
+		$scope.commFunc = commFunc;
     	
     	$scope.start = function() {
 			cfpLoadingBar.start();
@@ -50,6 +54,7 @@ angular.module('new-order').
         	    "fee_discount": 100,
         	    "exchange" : 1,
         	    "srvtype" : 1,
+        	    "srvmode": 1,
         	};
     	
     
@@ -119,11 +124,15 @@ angular.module('new-order').
     	$scope.getCommision = function() {
     		for(var temp in $scope.commision) {
     			if ($scope.neworder.exchange == $scope.commision[temp].type &&
-    					$scope.neworder.srvtype == $scope.commision[temp].srv_type) {
+    					$scope.neworder.srvtype == $scope.commision[temp].srv_type &&
+    					$scope.neworder.srvmode == $scope.commision[temp].srv_mode) {
     				$scope.neworder.unit_commision = $scope.commision[temp].fee;
     				return $scope.neworder.unit_commision;
     			}
     		}
+    		//没有找到
+    		$scope.neworder.unit_commision = "";
+    		return "无对应业务服务费数据，请联系管理员";
     	}
     	
     	$scope.getSrvType = function(type) {
@@ -176,13 +185,22 @@ angular.module('new-order').
     			
     			var fd = new FormData();
     			fd.append("asin", $scope.neworder.asin);
-    			fd.append("descript", $scope.neworder.descript);
-    			fd.append("link", $scope.neworder.link);
+    			fd.append("descript", $scope.neworder.descript);    			
     			fd.append("quantity", $scope.neworder.quantity);
     			fd.append("unit_price", $scope.neworder.unit_price);
     			fd.append("unit_freight", $scope.neworder.unit_freight);
     			fd.append("exchange", $scope.neworder.exchange);
     			fd.append("srvtype", $scope.neworder.srvtype);
+    			fd.append("srvmode",$scope.neworder.srvmode);
+    			
+    			if ($scope.neworder.srvmode == 1) {
+    				fd.append("link", $scope.neworder.link);
+    			} else if ($scope.neworder.srvmode == 2) {	    			
+	    			fd.append("keyword",$scope.neworder.keyword);
+	    			fd.append("shopname",$scope.neworder.shopname);
+	    			fd.append("pageidx",$scope.neworder.pageidx);
+    			}
+    			
     			for(var item in $scope.thumb) {
     				fd.append("files", $scope.thumb[item].file);
     			}
@@ -208,7 +226,7 @@ angular.module('new-order').
         		    	$scope.complete();
         		    	$scope.toView("new_order_submit");
     				} else {
-    					$state.go($state.current, {}, {reload:true});
+    					window.location="/login.html";
     				}
     				
     			}).error(function(data){

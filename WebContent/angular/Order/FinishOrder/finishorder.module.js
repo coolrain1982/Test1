@@ -1,12 +1,11 @@
 'use strict';
 
-angular.module('finish-order', ['chieffancypants.loadingBar', 'ngAnimate'])
-    .config(function(cfpLoadingBarProvider) {
+var finishOrderModule = angular.module('finish-order', ['chieffancypants.loadingBar', 'ngAnimate']);
+finishOrderModule.config(function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
 });
 
-angular.module('finish-order').
-    controller("finishOrderController", [
+finishOrderModule.controller("finishOrderController", [
 	 '$state','$stateParams','$modal','orderTable','$scope','$http','$timeout',
 	 'cfpLoadingBar','$location','$anchorScroll','commFunc',
 		function($state, $stateParams, $modal, orderTable,

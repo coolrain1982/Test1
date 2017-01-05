@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('admin-process-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ])
-		.config(function(cfpLoadingBarProvider) {
+var adminProcessOrderModule = angular.module('admin-process-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ]);
+adminProcessOrderModule.config(function(cfpLoadingBarProvider) {
 			cfpLoadingBarProvider.includeSpinner = false;
 		});
 
-angular.module('admin-process-order').controller("adminProcessOrderController",[
+adminProcessOrderModule.controller("adminProcessOrderController",[
  '$state','$stateParams','$modal','orderTable','$scope','$http','$timeout',
  'cfpLoadingBar','$location','$anchorScroll','commFunc',
 	function($state, $stateParams, $modal, orderTable,
@@ -188,7 +188,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 				$scope.auditComplete(false);
 			} else {
 				$scope.auditComplete(false);
-				$state.go($state.current, {}, {reload:true});
+				window.location="/login.html";
 			}
 		}).error(function(data) {
 			$scope.auditComplete(false);
@@ -316,7 +316,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 				$scope.auditPayComplete(false);
 			} else {
 				$scope.auditPayComplete(false);
-				$state.go($state.current, {}, {reload:true});
+				window.location="/login.html";
 			}
 		}).error(function(data) {
 			$scope.auditPayComplete(false);
@@ -346,7 +346,7 @@ angular.module('admin-process-order').controller("adminProcessOrderController",[
 			} else if (res && res.status == 0) {
 				item.auditPayError = res.error;
 			} else {
-				$state.go($state.current, {}, {reload:true});
+				window.location="/login.html";
 			}
 	    }).error(function(data) {
 			alert("发生错误，请重新登录！");

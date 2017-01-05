@@ -1,14 +1,15 @@
 'use strict';
 
-angular.module('new-notice', ['chieffancypants.loadingBar', 'ngAnimate'])
-    .config(function(cfpLoadingBarProvider) {
+var newNotoceModule = angular.module('new-notice', ['chieffancypants.loadingBar', 'ngAnimate']);
+
+newNotoceModule.config(function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
 });
 
-angular.module('new-notice').
-    controller("newNoticeController", ['$state', '$stateParams', 
+newNotoceModule.controller("newNoticeController", ['$state', '$stateParams', '$modal',
     	      '$scope', '$http', '$timeout', 'cfpLoadingBar','$location', '$anchorScroll', 'commFunc',
-    	    function($state, $stateParams, $scope, $http, $timeout, cfpLoadingBar, $location, $anchorScroll, commFunc) {
+    	    function($state, $stateParams, $modal, $scope, $http, $timeout, 
+    	    		cfpLoadingBar, $location, $anchorScroll, commFunc) {
     	
     	$scope.commFunc = commFunc;
     	
@@ -108,7 +109,7 @@ angular.module('new-notice').
         		    	$scope.complete();
         		    	$scope.toView("new_notice_submit");
     				} else {
-    					$state.go($state.current, {}, {reload:true});
+    					window.location="/login.html";
     				}
     				
     			}).error(function(data){
@@ -122,10 +123,9 @@ angular.module('new-notice').
     	};
     }]);
 
-angular.module('new-notice').
-controller("noticeController", ['$state', '$stateParams', 
+newNotoceModule.controller("noticeController", ['$state', '$stateParams', '$modal',
 	      '$scope', '$http', '$timeout', 'cfpLoadingBar','$location', '$anchorScroll', 'commFunc',
-	    function($state, $stateParams, $scope, $http, $timeout, cfpLoadingBar, $location, $anchorScroll, commFunc) {
+	    function($state, $stateParams, $modal, $scope, $http, $timeout, cfpLoadingBar, $location, $anchorScroll, commFunc) {
 	
 	$scope.commFunc = commFunc;
 	
@@ -211,7 +211,7 @@ controller("noticeController", ['$state', '$stateParams',
 				$scope.noticeError = res.error;
 				$scope.recordSize = res.count;
 			} else {
-				$state.go($state.current, {}, {reload:true});
+				window.location="/login.html";
 			}
 			$scope.complete();
 		}).error(function() {
@@ -238,6 +238,77 @@ controller("noticeController", ['$state', '$stateParams',
 		if (url) {
 			window.open("/MeiYabuy/upload/notice" + url + ".html", url,
 					"height=" + iHeight + ",width=" + iWidth+ ", top="+iTop+ ", left=" + iLeft);
+		}
+	}
+	
+	//公告操作确认弹出窗口
+	$scope.confirmDialog = $modal({
+		scope : $scope,
+		templateUrl : 'admin/Notice/confirm.html',
+		show : false,
+		animation: 'am-fade-and-slide-top',
+		backdrop:'static',
+		keyboard:false,
+	});
+	
+	
+	//置顶相关//////////////////////////////////////////////////////////////////////////////////////////////////
+	//置顶操作
+	$scope.noticeActionStart = function() {
+		$scope.noticeOpError = null;
+		$scope.doing = true;
+		cfpLoadingBar.start();
+	}
+	
+	$scope.noticeActionFinish = function() {
+		$scope.doing = false;
+		$scope.confirmDialog.hide();
+		cfpLoadingBar.complete();
+	}
+	
+	$scope.setTop = function(item, istop) {
+		$scope.selectItem = item;
+		if (istop) {
+			$scope.confirmTitle = "确定将该条公告置顶吗？";
+			$scope.settopaction="1";
+		} else {
+			$scope.confirmTitle = "确定将该条公告取消置顶吗？";
+			$scope.settopaction="0";
+		}
+		//确认置顶或取消置顶
+		$scope.confirmOK = function() {
+		   $scope.noticeActionStart();
+		   $http.get("admin/setNoticeTop.do",
+				{ params:{
+			        id: $scope.selectItem.id,
+			        settopaction: $scope.settopaction,
+			    }
+			}).success(function(res) {
+				$scope.noticeActionFinish();
+				if (res && res.status == 1) {
+					$state.go($state.current, {}, {reload:true});
+				} else if (res && res.status == 0) {
+					$scope.noticeOpError = res.error;
+				} else {
+					window.location="/login.html";
+				}
+			}).error(function() {
+				$scope.auditComplete(false);
+				alert("发生错误，请重新登录！");
+				window.location.href = "logout";
+			});
+		}
+		//取消对应操作
+		$scope.confirmCancel = function() {
+			$scope.confirmDialog.hide();
+		}
+		
+		$scope.confirmDialog.$promise.then($scope.confirmDialog.show);
+	}
+	
+	$scope.isTop = function(item) {
+		if (item.top && item.top > 0) {
+			return "[置顶]";
 		}
 	}
 }]);

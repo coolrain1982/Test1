@@ -1,9 +1,4 @@
-'use strict';
 
-angular.module('order-table',['chieffancypants.loadingBar', 'ngAnimate'])
-    .config(function(cfpLoadingBarProvider) {
-    cfpLoadingBarProvider.includeSpinner = false;
-  });
 
 //angular.module('order-table').controller('ModalInstanceCtrl', 
 //		    ['$scope', '$modalInstance', function($scope, $modalInstance, item) {

@@ -1,11 +1,12 @@
 'use strict';
 
-angular.module('doing-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ])
-		.config(function(cfpLoadingBarProvider) {
+var doingOrderModule = angular.module('doing-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ]);
+
+doingOrderModule.config(function(cfpLoadingBarProvider) {
 			cfpLoadingBarProvider.includeSpinner = false;
 		});
 
-angular.module('doing-order').controller(
+doingOrderModule.controller(
 		"doingOrderController",
 		[		'$state',
 				'$stateParams',
@@ -54,7 +55,7 @@ angular.module('doing-order').controller(
 				} else if (res && res.status == 0) {
 					
 				} else {
-					$state.go($state.current, {}, {reload:true});
+					window.location="/login.html";
 				}
 		    }).error(function(data) {
 				alert("发生错误，请重新登录！");

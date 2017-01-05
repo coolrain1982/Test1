@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.scheduletask.OrderAssignment;
+import com.scheduletask.OrderSync;
 import com.web.basedata.BaseDataService;
 import com.web.entity.Commision;
 import com.web.entity.Order;
@@ -44,7 +44,6 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 
 		// 取用户信息并设置费率折扣
 		User user = null;
-		int feeDiscount = 100;
 
 		user = userService.getUser(userName);
 		if (user == null) {
@@ -59,7 +58,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 
 		// 取当前汇率、佣金、paypal手续费（固定部分+比例）
 		double exchangeRate = 0.00, commision = 0.00;
-		int exchangeType = 0, srvtype = 1;
+		int exchangeType = 0, srvtype = 1, srvmode = 1;
 		double paypalFee = 0.3, paypalRate = 3.9;
 
 		if (params.containsKey("exchange") && params.get("exchange").size() > 0) {
@@ -95,6 +94,16 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 			throw new Exception("请选择正确的服务类型！");
 		}
 		
+		if (params.containsKey("srvmode") && params.get("srvmode").size() > 0) {
+			try {
+				srvmode = Integer.parseInt(params.get("srvmode").get(0).toString().trim());
+			} catch (Exception e) {
+				throw new Exception("请选择正确的商品查找模式！");
+			}
+		} else {
+			throw new Exception("请选择正确的商品查找模式！");
+		}
+		
 		if (bsDataMap.containsKey("commision")) {
 			List<Commision> comList = null;
 			boolean comExist = false;
@@ -106,7 +115,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 			}
 			
 			for (Commision com : comList) {
-				if (com.getSrv_type() == srvtype) {
+				if (com.getSrv_type() == srvtype && com.getSrv_mode() == srvmode) {
 					commision = com.getFee();
 					comExist = true;
 				}
@@ -141,18 +150,65 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		}
 
 		//
-		String link = "";
-		if (params.containsKey("link") && params.get("link").size() > 0 && 
-				!params.get("link").get(0).toString().trim().equals("")) {
-			link = params.get("link").get(0).toString().trim();
-		} else {
-			throw new Exception("商品链接输入不正确！");
+		String link = "",keyword="", shopname="";
+		int productPageIdx = 0;
+		
+		if (srvmode == 1) {  //链接模式
+			if (params.containsKey("link") && params.get("link").size() > 0 && 
+					!params.get("link").get(0).toString().trim().equals("")) {
+				link = params.get("link").get(0).toString().trim();
+				if (link.length() > 2000) {
+					throw new Exception("商品链接不能超过2000个字符！");
+				}
+			} else {
+				throw new Exception("商品链接输入不正确！");
+			}
+		} else if (srvmode == 2) {  //搜索模式
+			if (params.containsKey("keyword") && params.get("keyword").size() > 0 && 
+					!params.get("keyword").get(0).toString().trim().equals("")) {
+				keyword = params.get("keyword").get(0).toString().trim();
+				
+				if (keyword.length() > 30) {
+					throw new Exception("商品关键词不能超过30个字符！");
+				}
+			} else {
+				throw new Exception("商品关键词不正确！");
+			}
+			
+			if (params.containsKey("shopname") && params.get("shopname").size() > 0 && 
+					!params.get("shopname").get(0).toString().trim().equals("")) {
+				shopname = params.get("shopname").get(0).toString().trim();
+				
+				if (shopname.length() > 50) {
+					throw new Exception("店铺名称不能超过50个字符！");
+				}
+			} else {
+				throw new Exception("店铺名称不正确！");
+			}
+			
+			if (params.containsKey("pageidx")) {
+				try {
+					productPageIdx = Integer.parseInt(params.get("pageidx").get(0).toString().trim());
+				} catch (Exception e) {
+					throw new Exception("商品所在页输入不正确：" + e.getMessage());
+				}
+				
+				if (productPageIdx > 99) {
+					throw new Exception("商品所在页不能大于99");
+				}
+				
+			} else {
+				throw new Exception("商品所在页输入不正确！");
+			}
 		}
 		
 		String product_asin = "";
 		if (params.containsKey("asin") && params.get("asin").size() > 0 && 
 				!params.get("asin").get(0).toString().trim().equals("")) {
 			product_asin = params.get("asin").get(0).toString().trim();
+			if (product_asin.length() > 30) {
+				throw new Exception("商品ASIN不能超过30个字符！");
+			}
 		} else {
 			throw new Exception("商品ASIN输入不正确！");
 		}
@@ -161,16 +217,20 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		if (params.containsKey("descript") && params.get("descript").size() > 0 &&
 				!params.get("descript").get(0).toString().trim().equals("")) {
 			productDescript = params.get("descript").get(0).toString().trim();
+			if (productDescript.length() > 140) {
+				throw new Exception("商品描述不能超过140个字符！");
+			}
 		} else {
 			throw new Exception("商品描述输入不正确！");
 		}
-		
-		OrderAssignment.log.info(String.format("[new order][productDescript=%s]", productDescript));
 
 		int quantity = 0;
 		if (params.containsKey("quantity")) {
 			try {
 				quantity = Integer.parseInt(params.get("quantity").get(0).toString().trim());
+				if (quantity > 999) {
+					throw new Exception("商品数量不能大于999个！");
+				}
 			} catch (Exception e) {
 				throw new Exception("商品数量输入不正确：" + e.getMessage());
 			}
@@ -182,6 +242,9 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		if (params.containsKey("unit_freight")) {
 			try {
 				unitFreight = Double.parseDouble(params.get("unit_freight").get(0).toString().trim());
+				if (unitFreight > 999) {
+					throw new Exception("运费单价不能超过999！");
+				}
 			} catch (Exception e) {
 				throw new Exception("运费单价输入不正确：" + e.getMessage());
 			}
@@ -193,6 +256,9 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		if (params.containsKey("unit_price")) {
 			try {
 				unitPrice = Double.parseDouble(params.get("unit_price").get(0).toString().trim());
+				if (unitPrice > 9999) {
+					throw new Exception("商品单价不能超过9999！");
+				}
 			} catch (Exception e) {
 				throw new Exception("商品单价输入不正确：" + e.getMessage());
 			}
@@ -213,7 +279,6 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 
 		Order newOrder = new Order();
 		newOrder.setCreate_date(Calendar.getInstance());
-		newOrder.setDiscount(feeDiscount);
 		newOrder.setExchange_rate(exchangeRate);
 		newOrder.setLink(link);
 		newOrder.setProduct_photo_url(productPhotoUrl);
@@ -230,12 +295,41 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		newOrder.setType(srvtype);
 		newOrder.setCsid(csid);
 		newOrder.setProduct_asin(product_asin);
+		newOrder.setFind_product_mode(srvmode);
+		newOrder.setKey_word(keyword);
+		newOrder.setShop_name(shopname);
+		newOrder.setSearch_page_idx(productPageIdx);
 		
 		orderDao.newOrder(newOrder);
 		
 		Order rtnOrder = new Order();
 		rtnOrder.setOrder_id(newOrder.getOrder_id());
 		rtnOrder.setCreate_date(newOrder.getCreate_date());
+		
+		//在日志中记录一下成功的新订单
+		StringBuffer sb = new StringBuffer();
+		sb.append(String.format("[orderid=%s]", newOrder.getOrder_id()));
+		sb.append(String.format("[discount=%s]", newOrder.getDiscount()));
+		sb.append(String.format("[exchange=%s]", exchangeRate));
+		sb.append(String.format("[link=%s]", link));
+		sb.append(String.format("[productPhotoUrl=%s]", productPhotoUrl));
+		sb.append(String.format("[productDescript=%s]", productDescript));
+		sb.append(String.format("[quantity=%s]", quantity));
+		sb.append(String.format("[commision=%s]", commision));
+		sb.append(String.format("[unitFreight=%s]", unitFreight));
+		sb.append(String.format("[unitPrice=%s]", unitPrice));
+		sb.append(String.format("[paypalFee=%s]", paypalFee));
+		sb.append(String.format("[paypalRate=%s]", paypalRate));
+		sb.append(String.format("[user=%s]", newOrder.getUser().getName()));
+		sb.append(String.format("[srvtype=%s]", srvtype));
+		sb.append(String.format("[csid=%s]", csid));
+		sb.append(String.format("[product_asin=%s]", product_asin));
+		sb.append(String.format("[srvmode=%s]", srvmode));
+		sb.append(String.format("[keyword=%s]", keyword));
+		sb.append(String.format("[shopname=%s]", shopname));
+		sb.append(String.format("[productPageIdx=%s]", productPageIdx));
+		
+		OrderSync.log.info(String.format("[new order success]%s", sb.toString()));
 
 		return rtnOrder;
 	}

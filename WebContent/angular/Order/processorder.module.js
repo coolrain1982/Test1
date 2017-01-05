@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('process-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ])
-		.config(function(cfpLoadingBarProvider) {
+var processOrderModule = angular.module('process-order', [ 'chieffancypants.loadingBar', 'ngAnimate' ]);
+processOrderModule.config(function(cfpLoadingBarProvider) {
 			cfpLoadingBarProvider.includeSpinner = false;
 		});
 
-angular.module('process-order').controller("processOrderController",[
+processOrderModule.controller("processOrderController",[
  '$state','$stateParams','$modal','orderTable','$scope','$http','$timeout',
  'cfpLoadingBar','$location','$anchorScroll','commFunc',
 	function($state, $stateParams, $modal, orderTable,
@@ -173,7 +173,7 @@ angular.module('process-order').controller("processOrderController",[
 					$scope.payComplete(false);
 				} else {
 					$scope.payComplete(false);
-					$state.go($state.current, {}, {reload:true});
+					window.location="/login.html";
 				}
 				
 			}).error(function(data) {
@@ -203,7 +203,7 @@ angular.module('process-order').controller("processOrderController",[
 			} else if (res && res.status == 0) {
 				item.auditPayError = res.error;
 			} else {
-				$state.go($state.current, {}, {reload:true});
+				window.location="/login.html";
 			}
 	    }).error(function(data) {
 			alert("发生错误，请重新登录！");

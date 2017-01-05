@@ -1,12 +1,11 @@
 'use strict';
 
-angular.module('reject-order', ['chieffancypants.loadingBar', 'ngAnimate'])
-    .config(function(cfpLoadingBarProvider) {
+var rejectOrderModule = angular.module('reject-order', ['chieffancypants.loadingBar', 'ngAnimate']);
+rejectOrderModule.config(function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
 });
 
-angular.module('reject-order').
-    controller("rejectOrderController", [
+rejectOrderModule.controller("rejectOrderController", [
 	 '$state','$stateParams','$modal','orderTable','$scope','$http','$timeout',
 	 'cfpLoadingBar','$location','$anchorScroll','commFunc',
 		function($state, $stateParams, $modal, orderTable,

@@ -36,6 +36,16 @@
       <script src="js/respond.min.js"></script>
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
+    
+
+<script>
+    if (window.name != "meiyabuy") {
+    	location.reload();
+    	window.name = "meiyabuy";
+    } else {
+    	window.name = "";
+    }
+</script>
 
 
 </head>
@@ -63,40 +73,32 @@
 							</span>
 							</a>
 							<ul class="dropdown-menu animated fadeInRight m-t-xs">
-								<li><a class="J_menuItem" hui-sref-active="active"
-									ui-sref="profile" ui-sref-opts="{reload:'profile'}"><i
+								<li><a class="J_menuItem" ng-click="goto('profile')"><i
 										class="fa fa-list-alt"></i> 个人资料</a></li>
 								<li class="divider"></li>
-								<li><a class="J_menuItem" hui-sref-active="active"
-                                    ui-sref="changepassword" ui-sref-opts="{reload:'changepassword'}"><i
+								<li><a class="J_menuItem" ng-click="goto('changepassword')"><i
                                         class="fa fa-key"></i> 更改密码</a></li>
                                 <li class="divider"></li>
 								<li><a href="logout"><i class="fa fa-sign-out"></i>安全退出</a></li>
 							</ul>
 						</div>
 					</li>
-					<li><a class="J_menuItem" ui-sref-active="active"
-						ui-sref="notice" ui-sref-opts="{reload:'notice'}"> <i
+					<li><a class="J_menuItem" ng-click="goto('notice')"> <i
 							class="icon_volume-high_alt"></i> <span class="nav-label">公告</span>
 					</a></li>
 					<li><a href="#"><i class="icon_document_alt"></i> <span
 							class="nav-label">订单管理</span> <span class="fa arrow"></span> </a>
 						<ul class="nav nav-second-level collapse">
-							<li><a class="J_menuItem" ui-sref-active="active"
-								ui-sref="newOrder" ui-sref-opts="{reload:'newOrder'}"> <i
+							<li><a class="J_menuItem" ng-click="goto('newOrder')"> <i
 									class="icon_plus_alt"></i> <span class="nav-label">新的订单</span>
 							</a></li>
-							<li><a class="J_menuItem" ui-sref-active="active"
-								ui-sref="processOrder"
-								ui-sref-opts="{reload:'processOrder'}"> <i
+							<li><a class="J_menuItem" ng-click="goto('processOrder')"> <i
 									class="icon_error-circle"></i> <span class="nav-label">待我处理的订单</span>
 							</a></li>
-							<li><a class="J_menuItem" ui-sref-active="active"
-                                ui-sref="doingOrder" ui-sref-opts="{reload:'doingOrder'}"> <i
+							<li><a class="J_menuItem" ng-click="goto('doingOrder')"> <i
                                     class="arrow_carrot-2right_alt"></i> <span class="nav-label">进行中的订单</span>
                             </a></li>
-							<li><a class="J_menuItem" ui-sref-active="active"
-								ui-sref="allOrder" ui-sref-opts="{reload:'allOrder'}"> <i
+							<li><a class="J_menuItem" ng-click="goto('allOrder')"> <i
 									class="icon_menu-circle_alt"></i> <span class="nav-label">我的所有订单</span>
 							</a></li>
 						</ul></li>
@@ -129,8 +131,10 @@
 		</div>
 		<div class="footer">
             <div class="pull-left" style="font-size:10px;color:#999">
-                Copyright © 2016 Shenzhen Jerry Creative Technology Co., LTD, All Rights Reserved
-                <p style="margin-top:5px">京公安网安备 11010502008968 京ICP备10214630</p>
+                Copyright © 2016-2017 Shenzhen Jerry Creative Technology Co., LTD, All Rights Reserved
+                <p style="margin-top:5px">
+                <a style="font-size:10px;color:#999" 
+                    target="_blank" href="http://www.miitbeian.gov.cn">粤ICP备17001274号</a></p>
             </div>
         </div>
         <div id="small-chat">
@@ -155,7 +159,7 @@
 	<script src="js/bootstrap.js"></script>
 	<script src="js/myjs.js"></script>
 
-	<script src="angular/Component/angular.min.js"></script>
+	<script src="angular/Component/angular.js"></script>
 	<script src="angular/Component/angular-slimscroll.js"></script>
 	<script src="angular/Component/angular-ui-router.js"></script>
 	<script src="angular/Component/angular-strap.min.js"></script>
@@ -166,7 +170,6 @@
 	<script src="angular/Component/loading-bar.js"></script>
 	<script src="angular/Component/summernote.min.js"></script>
 	<script src="angular/Component/angular-summernote.min.js"></script>
-	<script src="angular/Order/Common/table.module.js"></script>
 	<script src="angular/Order/Common/table.component.js"></script>
 	<script src="angular/Order/Home/home.module.js"></script>
 	<script src="angular/Order/Home/home.component.js"></script>

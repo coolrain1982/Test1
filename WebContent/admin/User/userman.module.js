@@ -1,5 +1,7 @@
-var usermanModule = angular.module('user-man',['chieffancypants.loadingBar', 'ngAnimate'])
-    .config(function(cfpLoadingBarProvider) {
+var usermanModule = angular.module('user-man',['chieffancypants.loadingBar', 'ngAnimate']);
+
+
+usermanModule.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
   });
 
@@ -246,7 +248,7 @@ usermanModule.controller("userManController", ['$state','$scope','$modal',
 				$scope.userError = res.error;
 				$scope.recordSize = res.count;
 			} else {
-				$state.go($state.current, {}, {reload:true});
+				window.location="/login.html";
 			}
 			$scope.complete(1);
 		}).error(function() {

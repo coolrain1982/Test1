@@ -1,7 +1,8 @@
 'use strict';
 
-var basedataModule = angular.module('base-data',['chieffancypants.loadingBar', 'ngAnimate'])
-    .config(function(cfpLoadingBarProvider) {
+var basedataModule = angular.module('base-data',['chieffancypants.loadingBar', 'ngAnimate']);
+
+basedataModule.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
   });
 
@@ -89,8 +90,7 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal', '$l
 				$scope.basedataerror = data.error; 
 		    	$scope.complete(2);
 			} else {
-//				$state.go($state.current, {}, {reload:true});
-				$location.path('/login.html');
+     			window.location="/login.html";
 			}
 		}).error(function(data){
 	    	$scope.complete(2);
@@ -146,6 +146,7 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal', '$l
 		$scope.postDataDo = "basedata/newCommision.do";
 		$scope.newcommision = {
 				srvtype: 1,
+				srvmode: 1,
 		};
 		$scope.getSrvType = function(item) {
 			switch (item.srv_type) {
@@ -187,6 +188,7 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal', '$l
 		
 		$scope.getFormData = function() {
 			var fd = new FormData();
+			fd.append("srv_mode", $scope.newcommision.srvmode);
 			fd.append("srv_type", $scope.newcommision.srvtype);
 			fd.append("fee", $scope.newcommision.fee);
 			
@@ -312,8 +314,7 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal', '$l
 				$scope.dataError = res.error;
 				$scope.recordSize = res.count;
 			} else {
-//				$state.go($state.current, {}, {reload:true});
-				window.location= '/login.html';
+				window.location="/login.html";
 			}
 			$scope.complete(3);
 		}).error(function() {

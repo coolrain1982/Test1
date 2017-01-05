@@ -16,24 +16,27 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="tbl_notice", schema="meiyabuy")
 public class Notice {
-	private Integer status;
+	private Integer status, top;
 	private Long id;
 	private Calendar release_date;
 	private User user;
 	private String url;
 	private String title;
+	private Integer flag; //0-无效,其他为有效
 	
 	public Notice() {
 		
 	}
 	
-	public Notice(Integer status, Calendar releasedata, String url, String title, String name) {
+	public Notice(Long id, Integer status, Calendar releasedata, String url, String title, String name, Integer top) {
 		this.status = status;
 		this.release_date = releasedata;
 		this.url = url;
 		this.title = title;
 		this.user = new User();
 		this.user.setName(name);
+		this.top = top;
+		this.id = id;
 	}
 	
 	@Column
@@ -84,5 +87,23 @@ public class Notice {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	@Column
+	public Integer getTop() {
+		return top;
+	}
+
+	public void setTop(Integer top) {
+		this.top = top;
+	}
+
+	@Column
+	public Integer getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Integer flag) {
+		this.flag = flag;
 	}
 }

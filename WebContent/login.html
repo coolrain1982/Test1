@@ -32,20 +32,20 @@
 			<div></div>
 			<h2>欢迎使用 MeiYaBuy</h2>
 
-			<form class="form-horizontal" role="form" style="margin-top: 20px">
+			<form class="form-horizontal" role="form" style="margin-top: 20px" autocomplete="off">
 				<div class="form-group">
 					<label class="col-sm-3 control-label">用户名</label>
 					<div class="col-sm-9">
 
-						<input class="form-control" placeholder="用户名" required=""
-							ng-model="name">
+						<input class="form-control" placeholder="用户名" required="" name=nm"
+							ng-model="user.name">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">密码</label>
 					<div class="col-sm-9">
-						<input type="password" class="form-control" placeholder="密码"
-							required="" ng-model="pwd">
+						<input type="text" class="form-control" placeholder="密码"
+							required="" ng-model="user.pwdstr" name="pd">
 					</div>
 				</div>
 				<div class="input-group" ng-show="errorLogin">
@@ -67,7 +67,7 @@
 	<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
 	<!-- bootstrap -->
 	<script src="js/bootstrap.js"></script>
-	<script src="angular/Component/angular.min.js"></script>
+	<script src="angular/Component/angular.js"></script>
 	<script src="angular/Component/angular-md5.js"></script>
 	<script src="angular/Login/login.module.js"></script>
 </body>

@@ -10,6 +10,9 @@
 				<div class="widget-content padded clearfix"
                     ng-if="noticeError">
                     获取系统公告数据时出错：{{noticeError}}！</div>
+                <div class="widget-content padded clearfix"
+                    ng-if="noticeOpError">
+                    {{noticeOpError}}！</div>
 				<div class="widget-container fluid-height clearfix">
 					<div class="widget-content padded clearfix">
 						<table class="table table-hover">
@@ -17,14 +20,23 @@
 								<th width="9%"></th>
 								<th>系统公告</th>
 								<th width="9%">发布人</th>
-								<th class="hidden-xs" width="15%">发布时间</th>
+								<th width="15%">发布时间</th>
+								<th width="10%">操作</th>
 							</thead>
 							<tbody>
 								<tr ng-repeat="item in noticeList">
 									<td>{{(p_current-1)*6 + $index +1}}</td>
 									<td><a href="javascript:void(0);" target="_black" ng-click="showNotice(item.url)">{{isTop(item)}}{{item.title}}</a></td>
 									<td>{{item.user.name}}</td>
-									<td class="hidden-xs">{{commFunc.formatDate(item.release_date)}}</td>
+									<td>{{commFunc.formatDate(item.release_date)}}</td>
+									<td><a ng-if="isTop(item)" data-toggle="tooltip" data-placement="top"
+                                         title="取消置顶" ng-click="top(item, false)" tooltip><i class="arrow_carrot-2down"></i></a>
+                                         <a data-toggle="tooltip" data-placement="top"
+                                         title="置顶" ng-click="top(item, true)" tooltip><i class="arrow_carrot-2up"></i></a>
+                                         <a data-toggle="tooltip" data-placement="top"
+                                         title="删除" ng-click="delete(item)" tooltip><i class="icon_close_alt2"></i></a>
+                                         <a data-toggle="tooltip" data-placement="top"
+                                         title="修改" ng-click="modify(item)" tooltip><i class="icon_pencil-edit"></i></a></td>
 								</tr>
 							</tbody>
 						</table>

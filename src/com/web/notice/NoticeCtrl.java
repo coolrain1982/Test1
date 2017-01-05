@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.web.common.PageForQuery;
 import com.web.entity.Notice;
+import com.web.entity.User;
 import com.web.notice.serivce.GetNoticeService;
 import com.web.notice.serivce.ReleaseNoticeService;
 import com.web.order.ctrl.UserOrderCtrl;
+import com.web.user.UserService;
 
 @Controller
 public class NoticeCtrl {
@@ -27,6 +29,9 @@ public class NoticeCtrl {
 	
 	@Resource
 	public GetNoticeService getNoticeSrv;
+	
+	@Resource
+	public UserService userService;
 	
 	@RequestMapping("admin/notice/release.do")
 	@ResponseBody
@@ -87,6 +92,47 @@ public class NoticeCtrl {
 		} catch (Exception e) {
 			rtnMap.put("error", String.format("获取公告失败：%s! status[%s],page[%s],size[%s]" ,
 					e.getMessage(), status, page, size));
+		}
+		
+		return rtnMap;
+	}
+	
+	@RequestMapping("admin/setNoticeTop.do")
+	@ResponseBody
+	public Map<String, Object> topNotice(@RequestParam long id, 
+			                            @RequestParam int settopaction) {
+		
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+				
+		String userName = "";
+		
+		try {
+			userName = UserOrderCtrl.getLoginName();
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+			return rtnMap;
+		}
+		
+		// 取用户信息
+		User user = null;
+		
+		user = userService.getUser(userName);
+		if (user == null) {
+			rtnMap.put("error","未知用户：" + userName);
+			return rtnMap;
+		}
+		
+		if (!user.getRole().equalsIgnoreCase("role_admin")) {
+			rtnMap.put("error","您没有此操作权限");
+			return rtnMap;
+		}
+		
+		try {
+			
+		} catch (Exception e) {
+			rtnMap.put("error", String.format("公告置顶相关操作失败: %s" ,
+					e.getMessage()));
 		}
 		
 		return rtnMap;

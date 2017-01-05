@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('payment', ['chieffancypants.loadingBar', 'ngAnimate'])
-    .config(function(cfpLoadingBarProvider) {
+var paymentModule = angular.module('payment', ['chieffancypants.loadingBar', 'ngAnimate']);
+paymentModule.config(function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
 });
 
-angular.module('payment').controller("payController",[
+paymentModule.controller("payController",[
 	 '$state','$stateParams','$modal','orderTable','$scope','$http','$timeout',
 	 'cfpLoadingBar','$location','$anchorScroll','commFunc',
 		function($state, $stateParams, $modal, orderTable,
@@ -55,7 +55,7 @@ angular.module('payment').controller("payController",[
 				$scope.fail = true;
 				$scope.failInfo = res.error;
 			} else {
-				$state.go($state.current, {}, {reload:true});
+				window.location="/login.html";
 			}
 			$scope.complete();
 		}).error(function(data) {

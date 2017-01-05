@@ -21,7 +21,7 @@
 								<th width="9%">订单号</th>
 								<th>商品描述</th>
 								<th width="15%">商品截图</th>
-								<th width="10%">商品链接</th>
+								<th width="15%">服务类型</th>
 								<th ng-if="$ctrl.orderTable.isAdmin" width="10%">提交人</th>
 								<th width="12%">价格<label style="font-size:7px">(点击金额查看明细)</label></th>
 								<th class="hidden-xs" width="10%">创建时间</th>
@@ -35,8 +35,8 @@
 										ng-repeat="img in $ctrl.getUrlList(item.product_photo_url)"
 										href="{{img}}" target="_blank"><img ng-src="{{img}}"
 											width="40px" height="40px" /></a></td>
-									<td class="underline"><a href="{{item.link}}" target="_blank"
-										alt="{{item.link}}">{{$ctrl.getShowLink(item.link)}}</a></td>
+									<!--  -->
+									<td>{{$ctrl.getTypeDesc(item)}}</td>
 									<td ng-if="$ctrl.orderTable.isAdmin" class="underline"><a href="javascript:void(0);"
                                         ng-click="$ctrl.showUserInfo(item.userName)">{{item.userName}}</a></td>
 									<td class="underline"><a href="javascript:void(0);" style="color:red" 

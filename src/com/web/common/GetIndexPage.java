@@ -4,14 +4,24 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class GetIndexPage {
+	
+	protected HttpServletRequest request;
+	
+	@ModelAttribute
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
 
 	@RequestMapping("index.do")
 	@ResponseBody
@@ -45,6 +55,9 @@ public class GetIndexPage {
 	
 	@RequestMapping("sessionexpired.do")
 	public String sessionExpired() {
+		
+		request.getRequestURI();
+		
 		return "sessionexpired";
 	}
 	

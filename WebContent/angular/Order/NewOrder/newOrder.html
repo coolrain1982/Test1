@@ -30,6 +30,24 @@
 							</div>
 							
 							<div class="form-group">
+                                <label for="fullname" class="control-label col-lg-2 col-md-3">商品查找模式
+                                    <span class="required">*</span>
+                                </label>
+                                <div>
+                                    <label class="checkbox-inline"> <input
+                                        name="srvmode" style="margin-right: 10px;" type="radio"
+                                        ng-value="1" ng-model="neworder.srvmode" ng-checked="true" /> 
+                                        亚马逊链接
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input name="srvmode" style="margin-right: 10px;" type="radio"
+                                        ng-value="2" ng-model="neworder.srvmode" />
+                                            关键词搜索
+                                    </label>
+                                </div>
+                            </div>
+							
+							<div class="form-group">
                                 <label for="fullname" class="control-label col-lg-2 col-md-3">服务类型
                                     <span class="required">*</span>
                                 </label>
@@ -52,12 +70,16 @@
                                     class="control-label col-lg-2 col-sm-1 col-md-3">商品ASIN<span
                                     class="required">*</span>
                                 </label>
-                                <div class="col-lg-10 col-sm-9">
-                                    <input checked=""
-                                        value="0.00" id="neworder_asin"
-                                        name="neworder_asin" ng-model="neworder.asin" />
-                                    <span class="glyphicon glyphicon-ok for-control-feedback"
-                                        ng-show="neworder_form.neworder_asin.$dirty && neworder_form.neworder_asin.$valid"></span>
+                                <div class="col-lg-8">
+                                    <div style="float: left; padding-left: 0px;" class="col-lg-6">
+	                                    <input checked="" class="form-control" required
+	                                        value="0.00" id="neworder_asin"
+	                                        name="neworder_asin" ng-model="neworder.asin" placeholder="请填写商品的十位ASIN码" />
+	                                </div>
+	                                <div style="float: left;">
+	                                    <span class="glyphicon glyphicon-ok"
+	                                        ng-show="neworder_form.neworder_asin.$dirty && neworder_form.neworder_asin.$valid"></span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -69,21 +91,12 @@
 									<div style="float: left; padding-left: 0px;" class="col-lg-6">
 										<textarea class="form-control" rows="4" required
 											id="neworder_desp" name="neworder_desp"
-											ng-model="neworder.descript" />
+											ng-model="neworder.descript" placeholder="请用简洁的文字描述商品信息" />
 									</div>
 									<div style="float: left;">
 										<span class="glyphicon glyphicon-ok"
 											ng-show="neworder_form.neworder_desp.$dirty && neworder_form.neworder_desp.$valid"></span>
 									</div>
-								</div>
-							</div>
-							<div class="form-group " style="display: none">
-								<label for="address" class="control-label col-lg-2">Keywords
-									<span class="required">*</span>
-								</label>
-								<div class="col-lg-8">
-									<input name="tagsinput" id="tagsinput" class="tagsinput"
-										value="Cell phone" />
 								</div>
 							</div>
 
@@ -94,7 +107,7 @@
 								<image-upload></image-upload>
 							</div>
 
-							<div class="form-group has-feedback">
+							<div class="form-group has-feedback" ng-if="neworder.srvmode==1">
 								<label for="address" class="control-label col-lg-2 col-md-3">
 									<a href="javascript:void(0);" target="_blank"
 									ng-click="getLink()">商品链接</a> <span class="required">*</span>
@@ -103,7 +116,7 @@
 									<div style="float: left; padding-left: 0px;" class="col-lg-7 ">
 										<input class=" form-control" id="neworder_link"
 											name="neworder_link" type="url" required value=""
-											ng-model="neworder.link" />
+											ng-model="neworder.link" placeholder="请填写商品的亚马逊网址链接" />
 									</div>
 									<div style="float: left;">
 										<span class="glyphicon glyphicon-ok"
@@ -113,20 +126,78 @@
 									</div>
 								</div>
 							</div>
+							
+							<div class="form-group has-feedback" ng-if="neworder.srvmode==2">
+                                <label class="control-label col-lg-2 col-md-3">
+                                    商品关键词 <span class="required">*</span>
+                                </label>
+                                <div class="col-lg-8">
+                                    <div style="float: left; padding-left: 0px;" class="col-lg-7 ">
+                                        <input class=" form-control" required name="neworder_keyword"  id="neworder_keyword"
+                                            ng-model="neworder.keyword" placeholder="请填写搜索商品的关键词" />
+                                    </div>
+                                    <div style="float: left;">
+                                        <span class="glyphicon glyphicon-ok"
+                                            ng-show="neworder_form.neworder_keyword.$dirty && neworder_form.neworder_keyword.$valid"></span>
+                                        <span class="glyphicon glyphicon-remove"
+                                            ng-show="neworder_form.neworder_keyword.$dirty && neworder_form.neworder_keyword.$invalid"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group has-feedback" ng-if="neworder.srvmode==2">
+                                <label class="control-label col-lg-2 col-md-3">
+                                    店铺名<span class="required">*</span>
+                                </label>
+                                <div class="col-lg-8">
+                                    <div style="float: left; padding-left: 0px;" class="col-lg-7 ">
+                                        <input class=" form-control" required name="neworder_shopname"  id="neworder_shopname"
+                                            ng-model="neworder.shopname" placeholder="请填写Listing页面Sold by后面的那个名字" />
+                                    </div>
+                                    <div style="float: left;">
+                                        <span class="glyphicon glyphicon-ok"
+                                            ng-show="neworder_form.neworder_shopname.$dirty && neworder_form.neworder_shopname.$valid"></span>
+                                        <span class="glyphicon glyphicon-remove"
+                                            ng-show="neworder_form.neworder_shopname.$dirty && neworder_form.neworder_shopname.$invalid"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group has-feedback" ng-if="neworder.srvmode==2">
+                                <label class="control-label col-lg-2 col-md-3">
+                                    商品所在页数<span class="required">*</span>
+                                </label>
+                                <div class="col-lg-6">
+                                    <div style="float: left; padding-left: 0px;" class="col-lg-6">
+                                        <input class=" form-control" type="number" required name="neworder_pageidx"  id="neworder_pageidx"
+                                            ng-model="neworder.pageidx" placeholder="请填写商品处于搜索页的第几页" />
+                                    </div>
+                                    <div style="float: left;">
+                                        <span class="glyphicon glyphicon-ok"
+                                            ng-show="neworder_form.neworder_pageidx.$dirty && neworder_form.neworder_pageidx.$valid"></span>
+                                        <span class="glyphicon glyphicon-remove"
+                                            ng-show="neworder_form.neworder_pageidx.$dirty && neworder_form.neworder_pageidx.$invalid"></span>
+                                    </div>
+                                </div>
+                            </div>
 
 							<div class="form-group has-feedback">
 								<label for="agree"
 									class="control-label col-lg-2 col-sm-1 col-md-3">商品单价($)<span
 									class="required">*</span>
 								</label>
-								<div class="col-lg-10 col-sm-9">
-									<input type="number" checked="" data-toggle="switch"
-										value="0.00" id="neworder_unit_price"
-										name="neworder_unit_price" ng-model="neworder.unit_price" />
-									<span class="glyphicon glyphicon-ok for-control-feedback"
-										ng-show="neworder_form.neworder_unit_price.$dirty && neworder_form.neworder_unit_price.$valid && neworder.unit_price>0"></span>
-									<span class="glyphicon glyphicon-remove for-control-feedback"
-										ng-show="neworder_form.neworder_unit_price.$dirty && neworder.unit_price<=0"></span>
+								<div class="col-lg-6 col-sm-4">
+								    <div style="float: left; padding-left: 0px;" class="col-lg-6 ">
+										<input type="number" checked="" data-toggle="switch"
+											value="0.00" id="neworder_unit_price" class="form-control"
+											name="neworder_unit_price" ng-model="neworder.unit_price" />
+								    </div>
+								    <div style="float: left;">
+										<span class="glyphicon glyphicon-ok"
+											ng-show="neworder_form.neworder_unit_price.$dirty && neworder_form.neworder_unit_price.$valid && neworder.unit_price>0"></span>
+										<span class="glyphicon glyphicon-remove"
+											ng-show="neworder_form.neworder_unit_price.$dirty && neworder.unit_price<=0"></span>
+									</div>
 								</div>
 							</div>
 
@@ -134,14 +205,18 @@
 								<label for="agree"
 									class="control-label col-lg-2 col-sm-1 col-md-3">运费单价($)<span
 									class="required">*</span></label>
-								<div class="col-lg-10 col-sm-9">
-									<input type="number" checked="" data-toggle="switch"
-										value="0.00" id="neworder_unit_freight"
-										name="neworder_unit_freight" ng-model="neworder.unit_freight" />
-									<span class="glyphicon glyphicon-ok for-control-feedback"
-										ng-show="neworder_form.neworder_unit_freight.$dirty && neworder_form.neworder_unit_freight.$valid && neworder.unit_freight>0"></span>
-									<span class="glyphicon glyphicon-remove for-control-feedback"
-										ng-show="neworder_form.neworder_unit_freight.$dirty && neworder.unit_freight<=0"></span>
+								<div class="col-lg-6 col-sm-4">
+								    <div style="float: left; padding-left: 0px;" class="col-lg-6 ">
+										<input type="number" checked="" data-toggle="switch" class="form-control"
+											value="0.00" id="neworder_unit_freight"
+											name="neworder_unit_freight" ng-model="neworder.unit_freight" />
+								    </div>
+								    <div style="float: left;">
+										<span class="glyphicon glyphicon-ok"
+											ng-show="neworder_form.neworder_unit_freight.$dirty && neworder_form.neworder_unit_freight.$valid && neworder.unit_freight>0"></span>
+										<span class="glyphicon glyphicon-remove"
+											ng-show="neworder_form.neworder_unit_freight.$dirty && neworder.unit_freight<=0"></span>
+									</div>
 								</div>
 							</div>
 
@@ -149,20 +224,25 @@
 								<label for="agree"
 									class="control-label col-lg-2 col-sm-1 col-md-3">商品数量<span
 									class="required">*</span></label>
-								<div class="col-lg-10 col-sm-9">
-									<input type="number" required data-toggle="switch" value="1"
-										id="neworder_quantity" name="neworder_quantity"
-										ng-model="neworder.quantity" /> <span
-										class="glyphicon glyphicon-ok for-control-feedback"
-										ng-show="neworder_form.neworder_quantity.$dirty && neworder_form.neworder_quantity.$valid && neworder.quantity>0"></span>
-									<span class="glyphicon glyphicon-remove for-control-feedback"
-										ng-show="neworder_form.neworder_quantity.$dirty && neworder.quantity<1"></span>
+								<div class="col-lg-6 col-sm-4">
+								     <div style="float: left; padding-left: 0px;" class="col-lg-6 ">
+										<input type="number" required data-toggle="switch" value="1"
+											id="neworder_quantity" name="neworder_quantity" class="form-control"
+											ng-model="neworder.quantity" />
+									</div>
+									<div style="float: left;">
+										 <span
+											class="glyphicon glyphicon-ok"
+											ng-show="neworder_form.neworder_quantity.$dirty && neworder_form.neworder_quantity.$valid && neworder.quantity>0"></span>
+										<span class="glyphicon glyphicon-remove"
+											ng-show="neworder_form.neworder_quantity.$dirty && neworder.quantity<1"></span>
+									</div>
 								</div>
 							</div>
 
 							<div class="form-group ">
 								<label for="agree"
-									class="control-label col-lg-2 col-sm-1 col-md-3">手续费单价($)<span
+									class="control-label col-lg-2 col-sm-1 col-md-3">服务费单价($)<span
 									class="required"></span></label>
 								<div class="col-lg-10 col-sm-9">
 									<p class="form-control-static"
@@ -267,8 +347,8 @@
 	        <div class="col-lg-12" style="line-height:25px">
 	            <p>订单遍号：{{foo(orderid, 8)}}
 	            <br>提交时间：{{getDate(createdate)}}&nbsp;&nbsp;&nbsp;&nbsp;{{getTime(createdate)}}
-	            <br>商品链接：<a href="javascript:void(0);" target="_blank"
-                                    ng-click="getLink()">请点击查看</a>
+	            <br><p ng-show="neworder.srvmode==1">商品链接：<a href="javascript:void(0);" target="_blank"
+                                    ng-click="getLink()">请点击查看</a><p>
 	            </p>
 	        </div>
 	    </div>
@@ -343,9 +423,19 @@
 					<tr>
 						<td>#5</td>
 						<td>服务类型</td>
-						<td colspan="3" ng-bind="getSrvType(neworder.srvtype)"></td>
+						<td colspan="3" ng-bind="commFunc.getSrvMode(neworder.srvmode) + '+' + getSrvType(neworder.srvtype)"></td>
 					</tr>
-							</tbody>
+					<tr ng-show="neworder.srvmode==2">
+                        <td>#6</td>
+                        <td>搜索关键词</td>
+                        <td colspan="3" ng-bind="neworder.keyword"></td>
+                    </tr>
+                    <tr ng-show="neworder.srvmode==2">
+                        <td>#7</td>
+                        <td>其他搜索信息</td>
+                        <td colspan="3" ng-bind="'店铺名称[' + neworder.shopname+'];商品所在页数[' + neworder.pageidx + ']'"></td>
+                    </tr>
+					</tbody>
                     <tfoot>
                       <tr>
                         <td class="text-right" colspan="4">

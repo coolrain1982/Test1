@@ -25,7 +25,7 @@ public class NoticeDaoImpl implements NoticeDao {
 	@Override
 	public long getNoticeCount(int status) {
 		String hql = String.format(
-				"select count(n.id) from Notice n where n.status=:status");
+				"select count(n.id) from Notice n where n.status=:status and n.flag<>0");
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setParameter("status", status);
@@ -41,8 +41,8 @@ public class NoticeDaoImpl implements NoticeDao {
 	@Override
 	public List<Notice> getNotices(int status, int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Notice(%s) from Notice n join n.user u where n.status=:status order by n.release_date desc", 
-				"n.status, n.release_date, n.url, n.title, u.name");
+				"select new com.web.entity.Notice(%s) from Notice n join n.user u where n.status=:status and n.flag<>0 order by n.top desc, n.release_date desc", 
+				"n.id,n.status, n.release_date, n.url, n.title, u.name, n.top");
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setParameter("status", status);

@@ -61,7 +61,7 @@ changePwdApp.controller("changepasswordController", ['$scope', '$http', 'md5', '
 			} else if(data.status == 0) {
 				$scope.user.error = data.error; 
 			} else {
-				$state.go($state.current, {}, {reload:true});
+				window.location="/login.html";
 			}
 			$scope.complete();
 		}).error(function(data){

@@ -1,12 +1,11 @@
 'use strict';
 
-angular.module('profile', ['chieffancypants.loadingBar', 'ngAnimate'])
-    .config(function(cfpLoadingBarProvider) {
+var profileModule = angular.module('profile', ['chieffancypants.loadingBar', 'ngAnimate']);
+profileModule.config(function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
 });
 
-angular.module('profile').
-    controller("profileController", ['$state', '$stateParams', 
+profileModule.controller("profileController", ['$state', '$stateParams', 
     	      '$scope', '$http', '$timeout', 'cfpLoadingBar','$location', '$anchorScroll', 'commFunc',
     	    function($state, $stateParams, $scope, $http, $timeout, cfpLoadingBar, $location, $anchorScroll, commFunc) {
     	
@@ -110,7 +109,7 @@ angular.module('profile').
     			} else if(data.status == 0) {
     				$scope.user.error = data.error; 
     			} else {
-    				$state.go($state.current, {}, {reload:true});
+    				window.location="/login.html";
     			}
     			$scope.complete();
     		}).error(function(data){

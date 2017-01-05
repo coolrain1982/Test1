@@ -38,6 +38,14 @@
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
 
+<script>
+    if (window.name != "meiyabuy") {
+        location.reload();
+        window.name = "meiyabuy";
+    } else {
+        window.name = "";
+    }
+</script>
 
 </head>
 
@@ -64,12 +72,10 @@
                             </span>
 							</a>
 							<ul class="dropdown-menu animated fadeInRight m-t-xs">
-								<li><a class="J_menuItem" hui-sref-active="active"
-									ui-sref="profile" ui-sref-opts="{reload:'profile'}"><i
-										class="fa fa-list-alt"></i> 个人资料</a></li>
+								<li><a class="J_menuItem" ng-click="goto('profile')"><i
+                                        class="fa fa-list-alt"></i>个人资料</a></li>
 								<li class="divider"></li>
-								<li><a class="J_menuItem" hui-sref-active="active"
-                                    ui-sref="changepassword" ui-sref-opts="{reload:'changepassword'}"><i
+								<li><a class="J_menuItem" ng-click="goto('changepassword')"><i
                                         class="fa fa-key"></i> 更改密码</a></li>
                                 <li class="divider"></li>
 								<li><a href="logout"><i class="fa fa-sign-out"></i>安全退出</a></li>
@@ -79,13 +85,11 @@
 					<li><a href="#"><i class="icon_volume-high_alt"></i> <span
                             class="nav-label">公告管理</span> <span class="fa arrow"></span> </a>
                             <ul class="nav nav-second-level collapse">
-	                            <li> <a class="J_menuItem" ui-sref-active="active"
-							           ui-sref="notice" ui-sref-opts="{reload:'notice'}"> 
+	                            <li> <a class="J_menuItem" ng-click="goto('adminNotice')"> 
 							           <i class="icon_check_alt"></i> <span class="nav-label">已发布公告</span>
 							           </a>
 							    </li>
-							    <li> <a class="J_menuItem" ui-sref-active="active"
-                                       ui-sref="releaseNotice" ui-sref-opts="{reload:'releaseNotice'}"> 
+							    <li> <a class="J_menuItem" ng-click="goto('releaseNotice')"> 
                                        <i class="icon_plus_alt"></i> <span class="nav-label">发布新公告</span>
                                        </a>
                                 </li>
@@ -94,17 +98,13 @@
 					<li><a href="#"><i class="icon_document_alt"></i> <span
 							class="nav-label">订单管理</span> <span class="fa arrow"></span> </a>
 						<ul class="nav nav-second-level collapse">
-							<li><a class="J_menuItem" ui-sref-active="active"
-									ui-sref-active="active" ui-sref="adminProcessOrder" 
-									ui-sref-opts="{reload:'adminProcessOrder'}"> <i
+							<li><a class="J_menuItem" ng-click="goto('adminProcessOrder')"> <i
 									class="icon_error-circle"></i> <span class="nav-label">待处理订单</span>
 							</a></li>
-							<li><a class="J_menuItem" ui-sref-active="active"
-								ui-sref="adminDoingOrder" ui-sref-opts="{reload:'adminDoingOrder'}"> <i
+							<li><a class="J_menuItem" ng-click="goto('adminDoingOrder')"> <i
 									class="arrow_carrot-2right_alt"></i> <span class="nav-label">进行中订单</span>
 							</a></li>
-							<li><a class="J_menuItem" ui-sref-active="active"
-								ui-sref="adminAllOrder" ui-sref-opts="{reload:'adminAllOrder'}"> <i
+							<li><a class="J_menuItem" ng-click="goto('adminAllOrder')"> <i
 									class="icon_menu-circle_alt"></i> <span class="nav-label">所有订单</span>
 							</a></li>
 						</ul></li>
@@ -115,13 +115,11 @@
                                        <i class="fa fa-exchange"></i> <span class="nav-label">汇率管理</span>
                                        </a>
                                 </li>
-                                <li> <a class="J_menuItem" ui-sref-active="active"
-                                       ui-sref="commisionMan" ui-sref-opts="{reload:'commisionMan'}"> 
+                                <li> <a class="J_menuItem" ng-click="goto('commisionMan')"> 
                                        <i class="fa fa-dollar"></i> <span class="nav-label">佣金管理</span>
                                        </a>
                                 </li>
-                                 <li> <a class="J_menuItem" ui-sref-active="active"
-                                       ui-sref="paypalMan" ui-sref-opts="{reload:'paypalMan'}"> 
+                                 <li> <a class="J_menuItem" ng-click="goto('paypalMan')"> 
                                        <i class="fa fa-paypal"></i> <span class="nav-label">Paypal手续费管理</span>
                                        </a>
                                 </li>
@@ -130,8 +128,7 @@
                     <li><a href="#"><i class="icon_contacts"></i> <span
                             class="nav-label">用户管理</span> <span class="fa arrow"></span> </a>
                             <ul class="nav nav-second-level collapse">
-                                <li> <a class="J_menuItem" ui-sref-active="active"
-                                       ui-sref="userInfoMan" ui-sref-opts="{reload:'userInfoMan'}"> 
+                                <li> <a class="J_menuItem" ng-click="goto('userInfoMan')"> 
                                        <i class="icon_id-2_alt"></i> <span class="nav-label">用户信息</span>
                                        </a>
                                 </li>
@@ -165,11 +162,13 @@
 			<div ui-view></div>
 		</div>
 		<div class="footer">
-			<div class="pull-left" style="font-size:10px;color:#999">
-				Copyright © 2016 Shenzhen Jerry Creative Technology Co., LTD, All Rights Reserved
-				<p style="margin-top:5px">京公安网安备 11010502008968 京ICP备10214630</p>
-			</div>
-		</div>
+            <div class="pull-left" style="font-size:10px;color:#999">
+                Copyright © 2016-2017 Shenzhen Jerry Creative Technology Co., LTD, All Rights Reserved
+                <p style="margin-top:5px">
+                <a style="font-size:10px;color:#999" 
+                    target="_blank" href="http://www.miitbeian.gov.cn">粤ICP备17001274号</a></p></p>
+            </div>
+        </div>
 		<div id="small-chat">
             <span class="badge badge-warning pull-right"></span>
              <a ng-click="chartToCs()" >
@@ -192,7 +191,7 @@
 	<script src="js/bootstrap.js"></script>
 	<script src="js/myjs.js"></script>
 
-	<script src="angular/Component/angular.min.js"></script>
+	<script src="angular/Component/angular.js"></script>
 	<script src="angular/Component/angular-slimscroll.js"></script>
 	<script src="angular/Component/angular-ui-router.js"></script>
 	<script src="angular/Component/angular-strap.min.js"></script>
@@ -203,7 +202,6 @@
 	<script src="angular/Component/summernote.min.js"></script>
 	<script src="angular/Component/angular-summernote.min.js"></script>
 	<script src="angular/Component/angular-sanitize.min.js"></script>
-	<script src="angular/Order/Common/table.module.js"></script>
 	<script src="angular/Order/Common/table.component.js"></script>
 	<script src="angular/Order/Home/home.module.js"></script>
 	<script src="angular/Order/Home/home.component.js"></script>

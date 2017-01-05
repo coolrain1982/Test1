@@ -8,12 +8,32 @@ var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap', 
     'base-data', 'user-man'
 ]);
 
+mainpageApp.factory('httpInterceptor', ['$log', '$q', function($log, $q) {
+	return {
+		response: function(response) {
+			if (response.data.toString().indexOf("登录超时") > -1) {
+				window.location.href = "sessionexpired.html";
+				return;
+			}
+	
+			return $q.resolve(response);
+		},
+	};
+}]);
+
+mainpageApp.config(['$httpProvider', function($httpProvider) {
+	$httpProvider.interceptors.push('httpInterceptor');
+}]);
+
 mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvider) {
 //	$locationProvider.html5Mode(true);
 	$stateProvider
 	    .state('notice', {
 	    	url : '/notice',
 	    	templateUrl: 'notice.html'
+	    }).state('adminNotice', {
+	    	url : '/adminNotice',
+	    	templateUrl: 'admin/notice.html'
 	    })
 	    .state('releaseNotice', {
 	    	url : '/releaseNotice',
@@ -129,7 +149,7 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 	};
 	
 	$scope.chartToCs = function() { 
-		var win = window.open("http://wpa.qq.com/msgrd?v=3&uin=2789220168&site=qq&menu=yes");
+		var win = window.open("http://wpa.qq.com/msgrd?v=3&uin=3458328673&site=qq&menu=yes");
 		$timeout(function() {win.close();}, 5000);
 	}
 
@@ -252,6 +272,17 @@ mainpageApp.service('commFunc', function() {
 			return "购买商品+review+feedback";
 		default:
 			return "无效";
+		}
+	}
+	
+	this.getSrvMode = function(mode) {
+		switch (mode) {
+		case 1:
+			return "亚马逊链接";
+		case 2:
+			return "关键词搜索";
+		default:
+			return "亚马逊链接";
 		}
 	}
 });
