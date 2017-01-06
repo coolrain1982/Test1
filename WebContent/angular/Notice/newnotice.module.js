@@ -128,6 +128,7 @@ newNotoceModule.controller("noticeController", ['$state', '$stateParams', '$moda
 	    function($state, $stateParams, $modal, $scope, $http, $timeout, cfpLoadingBar, $location, $anchorScroll, commFunc) {
 	
 	$scope.commFunc = commFunc;
+	$scope.isModify = false;
 	
 	// 分页////////////////////////////////////////////////////
 	$scope.count = 0;
@@ -266,7 +267,12 @@ newNotoceModule.controller("noticeController", ['$state', '$stateParams', '$moda
 		cfpLoadingBar.complete();
 	}
 	
-	$scope.setTop = function(item, istop) {
+	//取消对应操作
+	$scope.confirmCancel = function() {
+		$scope.confirmDialog.hide();
+	}
+	
+	$scope.top = function(item, istop) {
 		$scope.selectItem = item;
 		if (istop) {
 			$scope.confirmTitle = "确定将该条公告置顶吗？";
@@ -293,17 +299,93 @@ newNotoceModule.controller("noticeController", ['$state', '$stateParams', '$moda
 					window.location="/login.html";
 				}
 			}).error(function() {
-				$scope.auditComplete(false);
+				$scope.noticeActionFinish();
 				alert("发生错误，请重新登录！");
 				window.location.href = "logout";
 			});
 		}
-		//取消对应操作
-		$scope.confirmCancel = function() {
-			$scope.confirmDialog.hide();
-		}
 		
 		$scope.confirmDialog.$promise.then($scope.confirmDialog.show);
+	}
+	
+	//删除公告相关//////////////////////////////////////////////////////////////////
+	$scope.delete = function(item, istop) {
+		$scope.selectItem = item;
+		$scope.confirmTitle = "确定删除该条公告吗？";
+		//确认置顶或取消置顶
+		$scope.confirmOK = function() {
+		   $scope.noticeActionStart();
+		   $http.get("admin/deleteNotice.do",
+				{ params:{
+			        id: $scope.selectItem.id,
+			    }
+			}).success(function(res) {
+				$scope.noticeActionFinish();
+				if (res && res.status == 1) {
+					$state.go($state.current, {}, {reload:true});
+				} else if (res && res.status == 0) {
+					$scope.noticeOpError = res.error;
+				} else {
+					window.location="/login.html";
+				}
+			}).error(function() {
+				$scope.noticeActionFinish();
+				alert("发生错误，请重新登录！");
+				window.location.href = "logout";
+			});
+		}
+		$scope.confirmDialog.$promise.then($scope.confirmDialog.show);
+	}
+	
+	//修改公告相关//////////////////////////////////////////////////////////////////
+	$scope.modify = function(item, istop) {
+		$scope.selectItem = item;
+		$scope.isModify = true;
+		
+		$scope.modifySubmit = function() {
+			$scope.modifyerror = null;
+			$scope.confirmTitle = "确定提交该条公告的修改内容吗？";
+			$scope.confirmDialog.$promise.then($scope.confirmDialog.show);
+		}
+		
+		$scope.confirmOK = function() {			   
+		   if (!$scope.selectItem.newcontent || $scope.selectItem.newcontent.length > 10*1000) {
+			   $scope.modifyerror = "请正确输入公告内容，内容字数必须为1-10K之间";
+			   $scope.confirmDialog.hide();
+			   return;
+		   }
+		   
+		   $scope.noticeActionStart();
+		   
+		   var fd = new FormData();
+		   fd.append("id", $scope.selectItem.id);
+		   fd.append("newcontent", $scope.selectItem.newcontent);
+		   
+		   $http({
+				method:"POST",
+				url:"admin/modifyNotice.do",
+				data: fd,
+				headers: {"content-type":undefined},
+				transformRequest: angular.identity
+			}).success(function(res) {
+				$scope.noticeActionFinish();
+				if (res && res.status == 1) {
+					$state.go($state.current, {}, {reload:true});
+				} else if (res && res.status == 0) {
+					$scope.modifyerror = res.error;
+				} else {
+					window.location="/login.html";
+				}
+			}).error(function() {
+				$scope.noticeActionFinish();
+				alert("发生错误，请重新登录！");
+				window.location.href = "logout";
+			});
+		}
+	}
+	
+	$scope.cancelModify = function() {
+		$scope.isModify = false;
 	}
 	
 	$scope.isTop = function(item) {

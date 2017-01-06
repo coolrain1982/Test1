@@ -52,4 +52,41 @@ public class NoticeDaoImpl implements NoticeDao {
 		return q.getResultList();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Notice getNoticeById(long id) {
+		String hql = "from Notice n where n.id=:id";
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setParameter("id", id);
+
+		List<Notice> notList = q.getResultList();
+		if (notList == null || notList.size() == 0) {
+			return null;
+		}
+		
+		return notList.get(0);
+	}
+
+	@Override
+	public void update(Notice notice) {
+		
+		sesssionFactory.getCurrentSession().update(notice);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public int getMaxTop() {
+		String hql = String.format(
+				"select max(n.top) from Notice n where n.status=1 and n.flag<>0");
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+
+		List resultList = q.getResultList();
+		if (resultList.size() == 0) {
+			return 0;
+		}
+		return (int) resultList.get(0);
+	}
+
 }

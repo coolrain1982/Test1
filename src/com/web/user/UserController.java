@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.web.common.PageForQuery;
 import com.web.entity.User;
+import com.web.order.ctrl.UserOrderCtrl;
 
 @Controller
 public class UserController {
@@ -346,5 +347,27 @@ public class UserController {
 		}
 
 		return rtnMap;
+	}
+	
+	//检查登录用户是否为管理员
+	public static boolean checkIsAdmin(UserService uSrv) throws Exception {
+				
+		String userName = "";
+		
+		userName = UserOrderCtrl.getLoginName();
+		
+		// 取用户信息
+		User user = null;
+		
+		user = uSrv.getUser(userName);
+		if (user == null) {
+			throw new Exception("未知用户：" + userName);
+		}
+		
+		if (!user.getRole().equalsIgnoreCase("role_admin")) {
+			return false;
+		}
+		
+		return true;
 	}
 }

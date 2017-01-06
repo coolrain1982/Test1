@@ -74,12 +74,15 @@ public class ReleaseNoticeSrvImpl implements ReleaseNoticeService {
 		if (params.containsKey("content") && params.get("content").size() > 0 &&
 				!params.get("content").get(0).toString().trim().equals("")) {
 			content = params.get("content").get(0).toString().trim();
+			if (content.length() > 10*1000) {
+				throw new Exception("公告内容不能超过10k个字符！");
+			}
 		} else {
-			throw new Exception("公告 内容输入不正确！");
+			throw new Exception("公告内容输入不正确！");
 		}
 		
 		//把内容存为文件
-		String url = saveNotice(content);
+		String url = saveNotice(content, uploadBase, true);
 		
 		Notice notice = new Notice();
 		notice.setRelease_date(Calendar.getInstance());
@@ -95,7 +98,7 @@ public class ReleaseNoticeSrvImpl implements ReleaseNoticeService {
 		return notice;
 	}
 	
-	private String saveNotice(String content) throws Exception {
+	public static String saveNotice(String content, String uploadBase, boolean forceEncode) throws Exception {
 		Calendar c = Calendar.getInstance();
 		String fileSavePath = String.format("%s%s%s", 
 				File.separatorChar, c.get(Calendar.YEAR), File.separatorChar) ;
@@ -115,9 +118,13 @@ public class ReleaseNoticeSrvImpl implements ReleaseNoticeService {
 		}
 		
 		try {
-			bw.append("<html><head><meta charset='utf-8'></head><body>");
+			if (forceEncode) {
+				bw.append("<html><head><meta charset='utf-8'></head><body>");
+			}
 			bw.append(content);
-			bw.append("</body></html>");
+			if (forceEncode) {
+				bw.append("</body></html>");
+			}
 			bw.flush();
 		} catch (IOException ioe) {
 			throw new Exception("写入公告文件失败：" + ioe.getMessage());

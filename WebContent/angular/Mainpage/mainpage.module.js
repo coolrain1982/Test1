@@ -111,12 +111,15 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 				switch (data.authorities[0].authority) {
 				case "ROLE_USER": 
 					$scope.loginUserRole = "VIP用户<b class='caret'></b>";
+					$state.go('notice', {}, {reload:true});
 					break;
 				case "ROLE_CS":
 					$scope.loginUserRole = "客服<b class='caret'></b>";
+					$state.go('notice', {}, {reload:true});
 					break;
 				case "ROLE_ADMIN":
 					$scope.loginUserRole = "管理员<b class='caret'></b>";
+					$state.go('adminNotice', {}, {reload:true});
 					break;
 				}
 			}
@@ -152,9 +155,6 @@ mainpageApp.controller("mainpageCtrl", function($location, $state, $stateParams,
 		var win = window.open("http://wpa.qq.com/msgrd?v=3&uin=3458328673&site=qq&menu=yes");
 		$timeout(function() {win.close();}, 5000);
 	}
-
-	
-	$state.go('notice', {}, {reload:true});
 	
 	$scope.goto = function(url) {
 		$state.go(url, {}, {reload:true});
