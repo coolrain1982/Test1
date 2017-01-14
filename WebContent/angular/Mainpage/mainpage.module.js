@@ -5,7 +5,7 @@ var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap', 
     'ui.router', 'order-home', 'new-order', 'image-upload', 'ui.slimscroll',
     'order-table', 'process-order', 'doing-order', 'new-notice', 'summernote', 
     'profile', 'admin-process-order', 'admin-doing-order', 'change-password',
-    'base-data', 'user-man'
+    'base-data', 'user-man', 'refund-man'
 ]);
 
 mainpageApp.factory('httpInterceptor', ['$log', '$q', function($log, $q) {
@@ -93,6 +93,12 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    }).state('userInfoMan', {
 	    	url : '/userInfoMan',
 	    	templateUrl: 'admin/User/userinfo.html'
+	    }).state('noreviewRefund', {
+	    	url : '/noreviewRefund',
+	    	templateUrl: 'admin/Refund/noreview.html'
+	    }).state('uncompleteRefund', {
+	    	url : '/uncompleteRefund',
+	    	templateUrl: 'admin/Refund/noreview.html'
 	    });
 });
 
@@ -299,4 +305,18 @@ mainpageApp.directive('tooltip', function(){
 				});
 		}
 	};
+});
+
+mainpageApp.directive('toggleclass', function(){
+    return {
+        restrict: 'A',
+        scope: {
+            toggleclass: '@'
+        },
+        link: function($scope, element, attrs){
+            $(element).click(function(){
+                $(element).toggleClass($scope.toggleclass);
+            });
+        }
+    };
 });

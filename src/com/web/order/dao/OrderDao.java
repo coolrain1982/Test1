@@ -17,6 +17,7 @@ public interface OrderDao {
 	public long getProcessOrderCount();
 	public long getDoingOrderCount(Integer userId);
 	public long getDoingOrderCount();
+	public long getOrderCountForSearchByID(long orderid);
 	
 	public Order getOrderById(long orderId);
 	public Order getOrder(Integer userId, long orderId);
@@ -30,5 +31,5 @@ public interface OrderDao {
 	public List<Order> getProcessOrders(Integer userId, int startIdx, int size);
 	public List<Order> getDoingOrders(int startIdx, int size);
 	public List<Order> getDoingOrders(Integer userId, int startIdx, int size);
-
+    public List<Order> getOrdersForSearchByID(long orderid);
 }

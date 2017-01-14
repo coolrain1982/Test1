@@ -28,6 +28,7 @@ public class User {
 	private Set<ExchangeRate> exchangeRates;
 	private Set<Commision> commisions;
 	private Set<PaypalFee> paypalFees;
+	private Set<RefundInfo> refundInfos;
 	
 	public User() {
 		
@@ -156,5 +157,14 @@ public class User {
 	}
 	public void setPaypalFees(Set<PaypalFee> paypalFees) {
 		this.paypalFees = paypalFees;
+	}
+
+	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
+	public Set<RefundInfo> getRefundInfos() {
+		return refundInfos;
+	}
+
+	public void setRefundInfos(Set<RefundInfo> refundInfos) {
+		this.refundInfos = refundInfos;
 	}
 }

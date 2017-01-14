@@ -353,4 +353,33 @@ public class OrderDaoImpl implements OrderDao {
 		return sb.toString();
 	}
 
+	@SuppressWarnings("rawtypes")
+	@Override
+	public long getOrderCountForSearchByID(long orderid) {
+		String hql = String.format(
+				"select count(o.order_id) from Order o where o.order_id=:orderid");
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setParameter("orderid", orderid);
+
+		List resultList = q.getResultList();
+		if (resultList.size() == 0) {
+			return 0;
+		}
+		return (long) resultList.get(0);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<Order> getOrdersForSearchByID(long orderid) {
+		String hql = String.format(
+				"select new com.web.entity.Order(%s) from Order o join o.user u where o.order_id =:orderid", 
+				getOrderColumnStr());
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setParameter("orderid", orderid);
+
+		return q.getResultList();
+	}
+
 }

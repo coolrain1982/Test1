@@ -81,13 +81,15 @@
 								<div class="col-lg-offset-1 col-offset-2  col-lg-10"
 									style="color: red; padding-bottom: 10px;"
 									ng-show="modifyerror">修改失败：{{modifyerror}}</div>
-								<div style="float: left; margin-left: 15px">
-									<a class="btn-back" ng-click="cancelModify()"
-										ng-show="!doing"> <i class="fa fa-reply"
-										style="padding-right: 0" />返回
-									</a> <a class="btn btn-lg btn-important btn-important-red"
-										ng-click="modifySubmit()">提交修改
-									</a>
+								<div class="col-lg-offset-1 col-offset-2  col-lg-10">
+									<div style="float: left;">
+									<a style="margin-right:15px" class="btn-back" ng-click="cancelModify()"
+                                            ng-show="!doing"> <i class="fa fa-reply"
+                                            style="padding-right: 0" />返回
+										</a> <a class="btn btn-lg btn-important btn-important-red"
+											ng-click="modifySubmit()">提交修改
+										</a>
+									</div>
 								</div>
 							</div>
                         </form>

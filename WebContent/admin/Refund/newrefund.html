@@ -1,0 +1,116 @@
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" style="left: 0;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="$hide()"
+					ng-disabled="doing">&times;</button>
+				<h4 class="modal-title">
+					新增退款信息
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row" style="margin-top:10px">
+					<form role="form" class="form-validate form-horizontal table"
+						novalidate>
+						<div class="form-group" style="border-bottom-width:0">
+							<label class="control-label col-lg-3 col-md-5">佣金单价<span
+								class="required">*</span>
+							</label>
+							<div class="col-lg-8 col-md-6">
+								<p class="form-control-static"
+                                        ng-bind="selectItem.product_unit_commission*selectItem.discount/100"></p>
+							</div>
+						</div>
+						<div class="form-group" style="border-bottom-width:0" ng-if="refundtype==2">
+                            <label class="control-label col-lg-3 col-md-5">商品单价<span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <p class="form-control-static"
+                                        ng-bind="selectItem.product_unit_price"></p>
+                            </div>
+                        </div>
+                        <div class="form-group" style="border-bottom-width:0" ng-if="refundtype==2">
+                            <label class="control-label col-lg-3 col-md-5">运费单价<span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <p class="form-control-static"
+                                        ng-bind="selectItem.product_unit_freight"></p>
+                            </div>
+                        </div>
+						<div class="form-group" style="border-bottom-width:0">
+                            <label class="control-label col-lg-3 col-md-5">汇率<span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <p class="form-control-static"
+                                        ng-bind="selectItem.exchange_rate"></p>
+                            </div>
+                        </div>
+						<div class="form-group" style="border-bottom-width:0">
+                            <label class="control-label col-lg-3 col-md-5">{{quanityShow}}<span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                               <input class="form-control" required type="number"
+                                    ng-model="newrefund.quanity" />
+                            </div>
+                        </div>
+                        <div class="form-group" style="border-bottom-width:0">
+                            <label class="control-label col-lg-3 col-md-5">退款金额<span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <p class="form-control-static"
+                                        ng-bind="'￥' + calcRefund()"></p>
+                            </div>
+                        </div>
+						<div class="form-group" style="border-bottom-width:0">
+                            <label class="control-label col-lg-3 col-md-5">退款支付宝账号 <span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <input class="form-control" required
+                                    ng-model="newrefund.account" />
+                            </div>
+                        </div>
+						<div class="form-group">
+                            <label class="control-label col-lg-3 col-md-5">退款订单号后8位 <span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <input class="form-control" required type="tel"
+                                    ng-model="newrefund.sn" />
+                            </div>
+                            <a data-toggle="tooltip" data-html="true" data-placement="left"
+                               title="{{showHelp()}}" tooltip><i class="fa fa-question-circle"></i></a>
+                        </div>
+                        <div class="form-group" style="border-bottom-width:0">
+                            <label class="control-label col-lg-3 col-md-5">备注<span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <input class="form-control" required
+                                    ng-model="newrefund.remark" />
+                            </div>
+                        </div>
+					</form>
+					<div class="col-lg-12"
+						style="color: red; margin: 10px 15px 15px 0; font-size: 12px; text-align: right;">
+						{{newrefund.error}}</div>
+					<div style="float: right; margin-right: 15px">
+						<a
+							style="color: #36c; line-height: 34px; margin-right: 20px; font-size: 12px; cursor: pointer"
+							ng-click="refundCancel()" ng-show="!doing"> <i
+							class="fa fa-reply" style="padding-right: 6px" />返回
+						</a> <a
+							class="btn btn-lg"
+							style="background-color: #f40; height: 39px; width: 120px; vertical-align: middle; border-radius: 0; color: white; font-size: 14px;"
+							ng-click="showRefundConfirm()">提交 </a>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+</div>

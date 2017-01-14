@@ -1,0 +1,145 @@
+<section class="wrapper" ng-controller=refundManController>
+	<div class="row" ng-if="!isSuccess && showpage">
+		<div class="col-lg-12 col-md-12">
+			<div class="panel panel-default" style="margin-bottom:0">
+				<div class="panel-heading">
+					<h2>
+						<i class="iconfont {{stateicon}}"></i>{{statetitle}}
+					</h2>
+				</div>
+				<form role="search" class="navbar-form-custom" style="width:100%;padding-left:10px">
+                        <div class="form-group">
+                            <i class="icon_search"></i>
+                            <input type="text" placeholder="请输入需要退款的订单号 …"  
+                            style="width:90%;display:inline-block;padding-left:5px"
+                            ng-model="search.str"  ng-keyup="searchOrderForRefund($event)" 
+                            class="form-control" name="top-search" id="top-search">
+                        </div>
+                </form>
+                <div class="widget-content padded clearfix" ng-if="refunderror">
+                    查询订单时出错：{{refunderror}}！</div>
+				<div class="widget-container fluid-height clearfix"
+					ng-if="orderList.length>0">
+					<div class="widget-content padded clearfix">
+                        <table class="table table-hover">
+                            <thead>
+                                <th width="9%">订单号</th>
+                                <th>商品描述</th>
+                                <th width="10%">商品截图</th>
+                                <th width="12%">服务类型</th>
+                                <th width="8%">提交人</th>
+                                <th width="10%">价格</th>
+                                <th width="10%">创建时间</th>
+                                <th width="5%">状态</th>
+                                <th width="5%"></th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in orderList">
+                                    <td>{{commFunc.foo(item.order_id, 8)}}</td>
+                                    <td>{{item.product_descript + '(ASIN:' + item.product_asin + ')'}}</td>
+                                    <td><a
+                                        ng-repeat="img in getUrlList(item.product_photo_url)"
+                                        href="{{img}}" target="_blank"><img ng-src="{{img}}"
+                                            width="40px" height="40px" /></a></td>
+                                    <!--  -->
+                                    <td>{{getTypeDesc(item)}}</td>
+                                    <td class="underline"><a href="javascript:void(0);"
+                                        ng-click="showUserInfo(item.userName)">{{item.userName}}</a></td>
+                                    <td class="underline"><a href="javascript:void(0);" style="color:red" 
+                                        ng-click="showDetail(item)">￥{{commFunc.calcTotal(item).toFixed(2)}}</a></td>
+                                    <td>
+                                        {{commFunc.getDate(commFunc.formatDate(item.create_date))}}&nbsp;&nbsp;
+                                        {{commFunc.getTime(commFunc.formatDate(item.create_date))}}</td>
+                                    <td style="text-align:center;"><a ng-disabled="true"
+                                        style="display: inline-block; line-height: 2;cursor:default"
+                                        class="label {{getStatusClass(item.status)}}">
+                                            {{getStatus(item.status)}}</a></td>
+                                    <td class="underline"><a ng-if="canRefund(item)" ng-click="toRefundPage(item)">
+                                          <small>退款</small>
+                                        </a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-if="showRefundUI">
+		<div class="col-lg-12 col-md-12">
+			<div class="panel panel-default" style="margin-bottom:0">
+				<div class="panel-heading">
+					<h5 class="panel-title" style="background:0;line-height:30px;font-size:10px;font-style:italic;">
+						<a data-toggle="collapse" data-parent="#accordion"
+							href="tabs_panels.html#collapseOne" aria-expanded="false"
+							class="collapsed">支付信息</a>
+					</h5>
+				</div>
+				<div id="collapseOne" class="panel-collapse collapse in"
+					aria-expanded="true">
+					<div class="panel-body">
+					    <table class="table table-hover">
+                            <thead>
+                                <th width="10%"></th>
+                                <th>付款账户</th>
+                                <th>付款金额</th>
+                                <th width="20%">流水号后8位</th>
+                                <th width="20%">提交时间</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in selectItem.payInfos">
+                                    <td ng-bind="$index +1"></td>
+                                    <td ng-bind="item.payer"></td>
+                                    <td ng-bind="'￥'+ calcPayMoney(selectItem)"></td>
+                                    <td ng-bind="item.sn"></td>
+                                    <td class="hidden-xs" ng-bind="commFunc.formatDate(item.pay_date)"></td>
+                                </tr>
+                            </tbody>
+                    </table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-12 col-md-12">
+            <div class="panel panel-default" style="margin-bottom:0">
+                <div class="panel-heading">
+                    <h5 class="panel-title" style="background:0;line-height:30px;font-size:10px;font-style:italic;">
+                        <a data-toggle="collapse" data-parent="#accordion"
+                            href="tabs_panels.html#collapseTwo" aria-expanded="false"
+                            class="collapsed">退款信息</a>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse in"
+                    aria-expanded="true">
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <th width="5%"></th>
+                                <th width="20%">退款账户</th>
+                                <th width="10%">退款金额</th>
+                                <th width="10%">流水号后8位</th>
+                                <th width="10%">退款类型</th>
+                                <th width="10%">退款操作人</th>
+                                <th>备注</th>
+                                <th width="15%">提交时间</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in selectItem.refundInfos">
+                                    <td ng-bind="$index +1"></td>
+                                    <td ng-bind="item.payee"></td>
+                                    <td ng-bind="item.money"></td>
+                                    <td ng-bind="item.sn"></td>
+                                    <td ng-bind="getRefundType(item.refund_type)"></td>
+                                    <td ng-bind="item.userName"></td>
+                                    <td ng-bind="item.remark"></td>
+                                    <td ng-bind="commFunc.formatDate(item.refund_date)"></td>
+                                </tr>
+                            </tbody>
+                    </table>
+                    <a class="btn btn-lg btn-block btn-submit" ng-click="addRefund(selectItem)">
+                    新增退款 </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>

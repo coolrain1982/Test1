@@ -30,6 +30,7 @@
 <link href="css/summernote.css" rel="stylesheet" />
 <link href="css/style.min.css" rel="stylesheet" />
 <link href="css/style.css" rel="stylesheet" />
+<link href="css/iconfont.css" rel="stylesheet" />
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
 <!--[if lt IE 9]>
@@ -98,7 +99,7 @@
 					<li><a href="#"><i class="icon_document_alt"></i> <span
 							class="nav-label">订单管理</span> <span class="fa arrow"></span> </a>
 						<ul class="nav nav-second-level collapse">
-							<li><a class="J_menuItem" ng-click="goto('adminProcessOrder')"> <i
+							<li ><a class="J_menuItem" ng-click="goto('adminProcessOrder')"> <i
 									class="icon_error-circle"></i> <span class="nav-label">待处理订单</span>
 							</a></li>
 							<li><a class="J_menuItem" ng-click="goto('adminDoingOrder')"> <i
@@ -108,6 +109,17 @@
 									class="icon_menu-circle_alt"></i> <span class="nav-label">所有订单</span>
 							</a></li>
 						</ul></li>
+					<li><a href="#"><i class="iconfont icon-refund"></i> <span
+                            class="nav-label">退款管理</span> <span class="fa arrow"></span> </a>
+                        <ul class="nav nav-second-level collapse">
+                            <li><a class="J_menuItem" ng-click="goto('noreviewRefund')"> <i
+                                    class="iconfont icon-noreview"></i> <span class="nav-label">未留评退款</span>
+                            </a></li>
+                            <li><a class="J_menuItem" ng-click="goto('uncompleteRefund')"> <i
+                                    class="iconfont icon-uncomplete"></i> <span class="nav-label">未完成退款</span>
+                            </a></li>
+                        </ul>
+                    </li>
 					<li><a href="#"><i class="icon_cogs"></i> <span
                             class="nav-label">基础数据管理</span> <span class="fa arrow"></span> </a>
                             <ul class="nav nav-second-level collapse">
@@ -217,6 +229,7 @@
 	<script src="angular/User/changepassword.module.js"></script>
 	<script src="admin/Base/data.module.js"></script>
 	<script src="admin/User/userman.module.js"></script>
+	<script src="admin/Refund/refund.module.js"></script>
 	<script src="angular/Mainpage/mainpage.module.js"></script>
 
 </body>

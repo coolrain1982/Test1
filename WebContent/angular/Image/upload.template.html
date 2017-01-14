@@ -11,8 +11,8 @@
     <div ng-repeat="item in $ctrl.thumb_default" style="display:inline-block;float:left" ng-if="$ctrl.index < 3" >
         <a class="btn_addPic" href="javascript:void(0);">
 	        <label>
-	            <input class="filePrew" type="file" id="one-input" accept="image/*" ng-model="$ctrl.files"
-	                onchange="angular.element(this).scope().$ctrl.img_upload(this.files)" />
+	            <input class="filePrew" type="file" id="one-input" accept="image/*" ng-model="$ctrl.loadfile.files"
+	                onchange="angular.element(this).scope().$ctrl.img_upload(this)" />
 	        </label>
         </a>
     </div>

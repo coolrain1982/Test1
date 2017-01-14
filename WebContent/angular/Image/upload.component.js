@@ -11,14 +11,15 @@ angular.
     	this.thumb_default={
     			1111:{},
     	};
+    	this.loadfile = {files:""};
     	
     	$scope.$emit("thumb_change", this.thumb);
     	
     	this.index = 0;
     	
-    	this.img_upload = function(files) {
+    	this.img_upload = function(inputObj) {
     		this.fileError = "";
-    		if (files[0].size > 300 * 1024) {
+    		if (inputObj.files[0].size > 300 * 1024) {
     			$scope.$apply(function() {
     				$scope.$ctrl.fileError = "上传的图片大小不能超过300k！";
     			});
@@ -27,8 +28,8 @@ angular.
     		}
     		
     		this.guid = (new Date()).valueOf();
-    		this.reader.readAsDataURL(files[0]);
-    		this.onloadFile = files[0];
+    		this.reader.readAsDataURL(inputObj.files[0]);
+    		this.onloadFile = inputObj.files[0];
     		this.reader.onload=function(ev) {
     			$scope.$apply(function() {
     				$scope.$ctrl.thumb[$scope.$ctrl.guid] = {
@@ -37,6 +38,7 @@ angular.
     					file: $scope.$ctrl.onloadFile,
     				};
     			});
+    			inputObj.value="";
     		};
     		
 //    		var data = new FormData();

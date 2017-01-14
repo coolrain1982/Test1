@@ -5981,3 +5981,7 @@ span.customSelect.changed {
 .foot {
 	font-size:10px;
 }
+
+.menuactive {
+	color: #fff !important;
+}

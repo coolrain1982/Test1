@@ -1,4 +1,4 @@
-package com.web.notice.serivce;
+package com.web.notice.serivce.implement;
 
 import javax.annotation.Resource;
 
@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.web.entity.Notice;
 import com.web.notice.dao.NoticeDao;
+import com.web.notice.serivce.OperateNotice;
 
 @Service
 public class OperateNoticeImpl implements OperateNotice {

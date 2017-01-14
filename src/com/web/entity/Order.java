@@ -31,6 +31,7 @@ public class Order {
 	public static final int PAYED_SUCCESS = 5;
 	public static final int WAIT_ASSIGNMENT = 5;
 	public static final int PAYED_FAIL = 6;
+	public static final int IN_REVIEW = 7;
 	public static final int PAY_TO_AGENT = 10;
 	public static final int WAIT_FINISH = 20;
 	public static final int FINISH = 21;
@@ -51,6 +52,7 @@ public class Order {
 	private Set<PayInfo> orderPay;
 	private Set<RefundInfo> orderRefund;
 	private String userName;
+	private Integer hasRefund;
 
 	public Order() {
 
@@ -84,6 +86,37 @@ public class Order {
 		setSearch_page_idx(search_page_idx);
 		setShop_name(shop_name);
 		setKey_word(key_word);
+	}
+	
+	public Order(long id, int discount, String product_descript, String link, String product_asin, String product_photo_url,
+			String audit_remark, Double product_unit_price, Double product_unit_freight, Double product_unit_commission,
+			Double exchange_rate, Double paypal_fee, Double paypal_rate, int product_quantity, Calendar create_date,
+			int status, int type, Calendar audit_date, String userName, Integer find_product_mode,
+			Integer search_page_idx, String shop_name, String key_word, Integer hasRefund) {
+		setOrder_id(id);
+		setDiscount(discount);
+		setProduct_descript(product_descript);
+		setLink(link);
+		setProduct_photo_url(product_photo_url);
+		setAudit_remark(audit_remark);
+		setProduct_unit_price(product_unit_price);
+		setProduct_unit_freight(product_unit_freight);
+		setProduct_unit_commission(product_unit_commission);
+		setExchange_rate(exchange_rate);
+		setPaypal_fee(paypal_fee);
+		setPaypal_rate(paypal_rate);
+		setProduct_quantity(product_quantity);
+		setCreate_date(create_date);
+		setStatus(status);
+		setType(type);
+		setAudit_date(audit_date);
+		setUserName(userName);
+		setProduct_asin(product_asin);
+		setFind_product_mode(find_product_mode);
+		setSearch_page_idx(search_page_idx);
+		setShop_name(shop_name);
+		setKey_word(key_word);
+		setHasRefund(hasRefund);
 	}
 
 	@Id
@@ -424,6 +457,15 @@ public class Order {
 
 	public void setSearch_page_idx(Integer search_page_idx) {
 		this.search_page_idx = search_page_idx;
+	}
+
+	@Transient
+	public Integer getHasRefund() {
+		return hasRefund;
+	}
+
+	public void setHasRefund(Integer hasRefund) {
+		this.hasRefund = hasRefund;
 	}
 
  }

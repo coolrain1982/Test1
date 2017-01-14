@@ -1,4 +1,4 @@
-package com.web.notice.serivce;
+package com.web.notice.serivce.implement;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.web.common.PageForQuery;
 import com.web.entity.Notice;
 import com.web.notice.dao.NoticeDao;
+import com.web.notice.serivce.GetNoticeService;
 
 @Service
 public class GetNoticeSrvImpl implements GetNoticeService {

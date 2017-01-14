@@ -1,4 +1,4 @@
-package com.web.basedata;
+package com.web.basedata.service;
 
 import java.util.List;
 import java.util.Map;

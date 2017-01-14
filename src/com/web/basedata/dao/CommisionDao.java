@@ -1,4 +1,4 @@
-package com.web.basedata;
+package com.web.basedata.dao;
 
 import java.util.Calendar;
 import java.util.List;
