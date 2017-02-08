@@ -1,0 +1,60 @@
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" style="left: 0;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="$hide()"
+					ng-disabled="doing">&times;</button>
+				<h4 class="modal-title">
+					新增Review信息
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row" style="margin-top:10px">
+					<form role="form" class="form-validate form-horizontal table"
+						novalidate>						
+						<div class="form-group" style="border-bottom-width:0">
+                            <label class="control-label col-lg-3 col-md-5">留评账号 <span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <input class="form-control" required
+                                    ng-model="newreview.reviewer" />
+                            </div>
+                        </div>
+						<div class="form-group">
+                            <label class="control-label col-lg-3 col-md-5">亚马逊订单号 <span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <input class="form-control" required type="tel"
+                                    ng-model="newreview.sn" />
+                            </div>
+                        </div>
+                        <div class="form-group" style="border-bottom-width:0">
+                            <label class="control-label col-lg-3 col-md-5">留评内容<span
+                                class="required">*</span>
+                            </label>
+                            <div class="col-lg-8 col-md-6">
+                                <textarea class="form-control" required rows="10"
+                                    ng-model="newreview.remark" />
+                            </div>
+                        </div>
+					</form>
+					<div class="col-lg-12"
+						style="color: red; margin: 10px 15px 15px 0; font-size: 12px; text-align: right;">
+						{{newreview.error}}</div>
+					<div style="float: right; margin-right: 15px">
+						<a
+							style="color: #36c; line-height: 34px; margin-right: 20px; font-size: 12px; cursor: pointer"
+							ng-click="reviewCancel()" ng-show="!doing"> <i
+							class="fa fa-reply" style="padding-right: 6px" />返回
+						</a> <a
+							class="btn btn-lg"
+							style="background-color: #f40; height: 39px; width: 120px; vertical-align: middle; border-radius: 0; color: white; font-size: 14px;"
+							ng-click="showReviewConfirm()">提交 </a>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+</div>

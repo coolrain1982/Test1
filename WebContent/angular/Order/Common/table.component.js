@@ -77,6 +77,8 @@ orderTableModule.component('orderTable',{
 				return "label-primary";
 			case 6:
 				return "label-danger";
+			case 7:
+				return "label-warning";
 			case 10:
 				return "label-info";
 			case 20:
@@ -102,6 +104,8 @@ orderTableModule.component('orderTable',{
 				return "支付成功";
 			case 6:
 				return "支付失败";
+			case 7:
+				return "进行中";
 			case 10:
 				return "已拨付";
 			case 20:

@@ -5,7 +5,7 @@ var mainpageApp = angular.module('mainpageApp', ['ngAnimate', 'mgcrea.ngStrap', 
     'ui.router', 'order-home', 'new-order', 'image-upload', 'ui.slimscroll',
     'order-table', 'process-order', 'doing-order', 'new-notice', 'summernote', 
     'profile', 'admin-process-order', 'admin-doing-order', 'change-password',
-    'base-data', 'user-man', 'refund-man'
+    'base-data', 'user-man', 'refund-man', 'review-man'
 ]);
 
 mainpageApp.factory('httpInterceptor', ['$log', '$q', function($log, $q) {
@@ -99,6 +99,9 @@ mainpageApp.config(function($locationProvider, $stateProvider, $urlRouterProvide
 	    }).state('uncompleteRefund', {
 	    	url : '/uncompleteRefund',
 	    	templateUrl: 'admin/Refund/noreview.html'
+	    }).state('reviewInput', {
+	    	url : '/reviewInput',
+	    	templateUrl: 'admin/Review/reviewinput.html'
 	    });
 });
 

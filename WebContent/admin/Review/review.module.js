@@ -1,11 +1,11 @@
-var refundmanModule = angular.module('refund-man', [
+var reviewmanModule = angular.module('review-man', [
 		'chieffancypants.loadingBar', 'ngAnimate' ]);
 
-refundmanModule.config(function(cfpLoadingBarProvider) {
+reviewmanModule.config(function(cfpLoadingBarProvider) {
 	cfpLoadingBarProvider.includeSpinner = false;
 });
 
-refundmanModule.controller("refundManController", [
+reviewmanModule.controller("reviewManController", [
 		'$state',
 		'$scope',
 		'$modal',
@@ -20,41 +20,18 @@ refundmanModule.controller("refundManController", [
 
 			$scope.showpage = true;
 			$scope.commFunc = commFunc;
-			$scope.refunderror = null;
+			$scope.reviewerror = null;
 			$scope.isSuccess = false;
 			$scope.search = {
 				str : "",
 			};
 			
 			switch ($state.current.name) {
-			case "noreviewRefund":
-				$scope.statetitle="未留评退款";
-				$scope.refundtype = 1;
-				$scope.stateicon="icon-noreview";
-				$scope.quanityShow = "退回佣金数量";
-				$scope.postURL = "admin/addNoreviewRefund.do";
-				$scope.calcRefund = function() {
-					return ($scope.selectItem.exchange_rate*
-							$scope.selectItem.product_unit_commission*
-							$scope.selectItem.discount/100*
-							$scope.newrefund.quanity).toFixed(2);
-				}
+			case "reviewInput":
+				$scope.statetitle="数据录入";
+				$scope.stateicon="fa fa-save";
+				$scope.postURL = "admin/addReviewInfo.do";
 
-				break;
-			case "uncompleteRefund":
-				$scope.refundtype = 2;
-				$scope.statetitle="未完成退款";
-				$scope.stateicon="icon-uncomplete";
-				$scope.quanityShow = "未完成数量";
-				$scope.postURL = "admin/addUncompleteRefund.do";
-				
-				$scope.calcRefund = function() {
-					return (($scope.selectItem.product_unit_price + 
-							$scope.selectItem.product_unit_commission*$scope.selectItem.discount/100 +
-							$scope.selectItem.product_unit_freight)*
-							$scope.newrefund.quanity*$scope.selectItem.exchange_rate).toFixed(2);
-				}
-				
 				break;
 			default:
 				return;
@@ -62,11 +39,10 @@ refundmanModule.controller("refundManController", [
 			
 			$scope.createFD = function() {
 				var fd = new FormData();
-    			fd.append("orderid", $scope.selectItem.order_id);
-    			fd.append("money", $scope.calcRefund());
-    			fd.append("sn", $scope.newrefund.sn);
-    			fd.append("payee", $scope.newrefund.account);
-    			fd.append("remark", $scope.newrefund.remark);
+    			fd.append("orderid", $scope.newreview.orderid);
+    			fd.append("reviewer", $scope.newreview.reviewer);
+    			fd.append("sn", $scope.newreview.sn);
+    			fd.append("remark", $scope.newreview.remark);
     			
     			return fd;
 			}
@@ -81,7 +57,7 @@ refundmanModule.controller("refundManController", [
 				cfpLoadingBar.start();
 				$scope.showpage = false;
 				$scope.doing = true;
-				$scope.refunderror = null;
+				$scope.reviewerror = null;
 			};
 
 			$scope.complete = function(result) {
@@ -91,11 +67,11 @@ refundmanModule.controller("refundManController", [
 			};
 
 			$scope.queryParams = {
-				url : "admin/getRefundOrderById.do",
+				url : "admin/searchOrderByID.do",
 				str : "",
 			};
 
-			$scope.searchOrderForRefund = function(event) {
+			$scope.searchOrder = function(event) {
 				var keycode = window.event ? event.keyCode : event.which;
 				if (keycode == 13) {
 					$scope.search.str = $scope.search.str.replace(
@@ -105,7 +81,7 @@ refundmanModule.controller("refundManController", [
 					}
 					$scope.queryParams.str = $scope.search.str;
 					// 查询订单
-					$scope.showRefundUI = false;
+					$scope.showReviewUI = false;
 					$scope.start();
 					$scope.orderList = null;
 					$http.get($scope.queryParams.url, {
@@ -114,9 +90,12 @@ refundmanModule.controller("refundManController", [
 						}
 					}).success(function(res) {
 						if (res && res.status == 1) {
+							if (res.list.length == 0) {
+								$scope.reviewerror = "未找到订单信息";
+							}
 							$scope.orderList = res.list;
 						} else if (res && res.status == 0) {
-							$scope.refunderror = res.error;
+							$scope.reviewerror = res.error;
 						} else {
 							window.location = "/login.html";
 						}
@@ -127,11 +106,6 @@ refundmanModule.controller("refundManController", [
 						window.location.href = "logout";
 					});
 				}
-			}
-
-			// 返回订单列表
-			$scope.backToOrderList = function() {
-				$scope.isSuccess = false;
 			}
 			
 			$scope.modelDialog = $modal({
@@ -269,61 +243,40 @@ refundmanModule.controller("refundManController", [
 		    	});	
 			}
 			
-			//获取付款成功的账号信息，填入退款账户栏中作为默认值
-			$scope.getPaySuccessAccount = function(item) {
-				if (!item.payInfos) {
-					return;
-				}
-				for (var idx in item.payInfos) {
-					if (item.payInfos[idx].status == 2) {
-						return item.payInfos[idx].payer;
-					}
-				}
-				return;
-			}
-			
-			//退款状态判断//////////////////////////////////////////////////////////////////////////
-			$scope.canRefund = function(item) {
-				if (item.status < 5) {
-					return false;
+			//录入状态判断//////////////////////////////////////////////////////////////////////////
+			$scope.canReview = function(item) {
+				if (item.status == 7) {
+					return true;
 				}
 				
-				return true;
+				return false;
 			}
 			
-			$scope.toRefundPage = function(item) {
-				$scope.showRefundUI = true;
+			$scope.toReviewPage = function(item) {
+				$scope.showReviewUI = true;
 				$scope.selectItem = item;
-				$scope.loadPayInfo(item);
-				$scope.loadRefundInfo(item);
+				$scope.loadReviewInfo(item);
 			}
 			
-			//显示退款流水号帮助tip/////////////////////////////////////////////////////////////////
-			$scope.showHelp = function() {
-				return "<p align='left'>1、手机支付宝打开【账单】" +
-						"<br/>2、选中转款记录点击进入【账单详情】" +
-						"<br/>3、点击【创建时间】后可以看到【订单号】</p>"
-			}
-			
-			//显示付款信息///////////////////////////////////////////////////////////////////////////////
+			//显示review信息///////////////////////////////////////////////////////////////////////////////
 			$scope.calcPayMoney = function(item) {
 				return (commFunc.calcTotal(item).toFixed(2) * (1 + 0.001)).toFixed(2);
 			}
-			$scope.loadPayInfo = function(item) { 
-				if (item.payInfos) {
+			$scope.loadReviewInfo = function(item) { 
+				if (item.reviewInfos) {
 					return;
 				}
 				
-				item.loadPayInfoError = null;
-				$http.get("payinfo/getPayInfo.do",
+				item.loadReviewInfoError = null;
+				$http.get("reviewinfo/getReviewInfo.do",
 					    { params:{
 					        orderid: item.order_id,
 					    }
 				}).success(function(res) {
 					if (res && res.status == 1) {
-						item.payInfos = res.payInfo;
+						item.reviewInfos = res.reviewInfos;
 					} else if (res && res.status == 0) {
-						item.loadPayInfoError = res.error;
+						item.loadReviewInfoError = res.error;
 					} else {
 						window.location="/login.html";
 					}
@@ -368,57 +321,32 @@ refundmanModule.controller("refundManController", [
 				}
 			}
 			
-			//增加退款信息//////////////////////////////////////////////////////////////////
-			$scope.newrefundModal = $modal({
+			//增加review信息//////////////////////////////////////////////////////////////////
+			$scope.newreviewModal = $modal({
 				scope : $scope,
-				templateUrl : 'admin/Refund/newrefund.html',
+				templateUrl : 'admin/Review/newreview.html',
 				show : false,
 				animation: 'am-fade-and-slide-top',
 				keyboard:false,
 				backdrop:'static',
 			});
-			$scope.refundCancel = function() {
-				$scope.newrefundModal.hide();
+			$scope.reviewCancel = function() {
+				$scope.newreviewModal.hide();
 			}
 			
-			$scope.addRefund = function(item) {
-				$scope.newrefund={
-						quanity:0, 
-						account:$scope.getPaySuccessAccount(item),
+			$scope.addReview = function(item) {
+				$scope.newreview={
+						sn:null,
+						reviewer:null,
+						remark:null,
+						orderid:item.order_id,
+						error:null,
 				};
-				$scope.newrefundModal.$promise.then($scope.newrefundModal.show);
+				$scope.newreviewModal.$promise.then($scope.newreviewModal.show);
 			}
 			
-			//防止填入的退款数量比订单数量还大
-			$scope.$watch('newrefund.quanity', function(newVal, oldVal) {
-				if (!newVal && !oldVal) {
-					return;
-				}
-				if (!newVal || newVal < 0) {
-					$scope.newrefund.quanity = 0;
-				}
-				if (newVal > $scope.selectItem.product_quantity) {
-					$scope.newrefund.quanity = $scope.selectItem.product_quantity;
-				}
-			});
-			
-			//确保流水号只有后8位
-			$scope.$watch('newrefund.sn', function(newVal, oldVal) {
-	    	    if (newVal && newVal!=oldVal) {
-	    	    	if (newVal.length >= 8) {
-	    	    		$scope.newrefund.sn = newVal.substr(0, 8);
-	    	    	}
-	    	    }	
-	    	    
-	    	    if (newVal && newVal!=oldVal) {
-	    	    	if (parseInt(newVal) != newVal) {
-	    	    		$scope.newrefund.sn = oldVal;
-	    	    	}
-	    	    }
-	    	});
-			
-			//提交退款信息//////////////////////////////////////////////////////////////
-			$scope.newrefundConfirmModal = $modal({
+			//提交review信息//////////////////////////////////////////////////////////////
+			$scope.newreviewConfirmModal = $modal({
 				scope : $scope,
 				templateUrl : 'admin/Refund/confirm.html',
 				show : false,
@@ -427,37 +355,32 @@ refundmanModule.controller("refundManController", [
 				backdrop:'static',
 			});
 			
-			$scope.showRefundConfirm = function() {
-				$scope.newrefund.error = null;
+			$scope.showReviewConfirm = function() {
+				$scope.newreview.error = null;
 				//检查信息是否填写完整
-				if (!$scope.newrefund.quanity || $scope.newrefund.quanity == 0) {
-					$scope.newrefund.error = "退款佣金数量至少为1";
+				if (!$scope.newreview.reviewer) {
+					$scope.newreview.error = "请输入留评账号";
 					return;
 				}
 				
-				if (!$scope.newrefund.account) {
-					$scope.newrefund.error = "请输入退款账号";
+				if (!$scope.newreview.sn) {
+					$scope.newreview.error = "请输入亚马逊订单号";
 					return;
 				}
 				
-				if (!$scope.newrefund.sn) {
-					$scope.newrefund.error = "请输入退款流水号";
+				if (!$scope.newreview.remark) {
+					$scope.newreview.error = "请输入留评内容";
 					return;
 				}
 				
-				if (!$scope.newrefund.remark) {
-					$scope.newrefund.error = "请输入备注";
-					return;
-				}
-				
-				$scope.confirmTitle = "确定提交该退款信息吗?";
-				$scope.newrefundModal.hide();
-				$scope.newrefundConfirmModal.$promise.then($scope.newrefundConfirmModal.show);
+				$scope.confirmTitle = "确定提交该Review信息吗?";
+				$scope.newreviewModal.hide();
+				$scope.newreviewConfirmModal.$promise.then($scope.newreviewConfirmModal.show);
 			}
 			
 			$scope.confirmCancel = function() {
-				$scope.newrefundConfirmModal.hide();
-				$scope.newrefundModal.$promise.then($scope.newrefundModal.show);
+				$scope.newreviewConfirmModal.hide();
+				$scope.newreviewModal.$promise.then($scope.newreviewModal.show);
 			}
 			
 			$scope.confirmOK = function() {
@@ -469,16 +392,16 @@ refundmanModule.controller("refundManController", [
     				headers: {"content-type":undefined},
     				transformRequest: angular.identity
     			}).success(function(data) {
-    				$scope.newrefundConfirmModal.hide();
+    				$scope.newreviewConfirmModal.hide();
     				$scope.complete();
     				if(data.status == 1) {
-    					if (!$scope.selectItem.refundInfos) {
-    						$scope.selectItem.refundInfos = [];
+    					if (!$scope.selectItem.reviewInfos) {
+    						$scope.selectItem.reviewInfos = [];
     					} 
-    					$scope.selectItem.refundInfos.push(data.refundinfo);
+    					$scope.selectItem.reviewInfos.push(data.reviewinfo);
     				} else if(data.status == 0) {
-    					$scope.newrefund.error = data.error;
-    					$scope.newrefundModal.$promise.then($scope.newrefundModal.show);
+    					$scope.newreview.error = data.error;
+    					$scope.newreviewModal.$promise.then($scope.newreviewModal.show);
     				} else {
     					window.location="/login.html";
     				}	

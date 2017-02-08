@@ -394,6 +394,7 @@ public class Order {
 		List<Integer> doingStatus = new ArrayList<>();
 		doingStatus.add(Order.PAYED_SUCCESS);
 		doingStatus.add(Order.PAY_TO_AGENT);
+		doingStatus.add(Order.IN_REVIEW);
 		
 		return doingStatus;
 	}
@@ -410,6 +411,7 @@ public class Order {
 		List<Integer> doingStatus = new ArrayList<>();
 		doingStatus.add(Order.PAYED_SUCCESS);
 		doingStatus.add(Order.PAY_TO_AGENT);
+		doingStatus.add(Order.IN_REVIEW);
 		
 		return doingStatus;
 	}

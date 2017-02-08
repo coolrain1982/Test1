@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.web.entity.Order;
+import com.web.entity.PayInfo;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -378,6 +379,18 @@ public class OrderDaoImpl implements OrderDao {
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
 		q.setParameter("orderid", orderid);
+
+		return q.getResultList();
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<Order> getWaitAssignmentOrders() {
+		String hql = String.format(
+				"from Order o where o.status = :status");
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setParameter("status", Order.PAYED_SUCCESS);
 
 		return q.getResultList();
 	}

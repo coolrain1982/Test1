@@ -15,10 +15,13 @@ import com.web.common.PageForQuery;
 import com.web.entity.Order;
 import com.web.entity.PayInfo;
 import com.web.entity.User;
+import com.web.order.service.AssignOrderService;
 import com.web.order.service.AuditOrderService;
 import com.web.order.service.GetOrderService;
 import com.web.order.service.PayOrderService;
 import com.web.order.service.SaveNewOrderService;
+import com.web.refund.service.OrderRefundService;
+import com.web.user.UserController;
 import com.web.user.UserService;
 
 @Controller
@@ -39,6 +42,12 @@ public class AdminOrderCtrl {
 	
 	@Resource
 	public PayOrderService paySrv;
+	
+	@Resource
+	public OrderRefundService refundSrv;
+	
+	@Resource
+	public AssignOrderService assignSrv;
 	
 	@RequestMapping("/getAllOrder.do")
 	@ResponseBody
@@ -334,6 +343,44 @@ public class AdminOrderCtrl {
 			rtnMap.put("error", String.format("审核支付信息时出错：%s" , e.getMessage()));
 			return rtnMap;
 		}
+		
+		return rtnMap;
+	}
+	
+	@RequestMapping("searchOrderByID.do")
+	@ResponseBody
+	public Map<String, Object> searchOrderByID(@RequestParam String searchStr) {
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+		
+		try {
+			boolean isAdmin = UserController.checkIsAdmin(userSrv);
+			if (!isAdmin) {
+				rtnMap.put("error", "您没有该操作权限");
+				return rtnMap;
+			}
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+			return rtnMap;
+		}
+		
+		//看看searchStr能否转为long
+		long searchOrderId = 0;
+		try {
+			searchOrderId = Long.parseLong(searchStr.trim());
+		} catch (Exception e) {
+			rtnMap.put("error", "搜索的订单ID必须为数字");
+			return rtnMap;
+		}
+		
+	    try {
+	    	List<Order> orders = refundSrv.getOrderBySearchID(searchOrderId);
+	    	rtnMap.put("status", 1);
+	    	rtnMap.put("list", orders);
+	    } catch (Exception e) {
+	    	rtnMap.put("error", "查询订单记录时出错:" + e.getMessage());
+			return rtnMap;
+	    }
 		
 		return rtnMap;
 	}

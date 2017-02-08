@@ -108,7 +108,7 @@ public class RefundCtrl {
 	    	rtnMap.put("refundInfos", refundInfos);
 	    	
 	    } catch (Exception e) {
-	    	rtnMap.put("error", "增加退款记录出错:" + e.getMessage());
+	    	rtnMap.put("error", "获取退款记录出错:" + e.getMessage());
 			return rtnMap;
 	    }
 		

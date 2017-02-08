@@ -32,4 +32,5 @@ public interface OrderDao {
 	public List<Order> getDoingOrders(int startIdx, int size);
 	public List<Order> getDoingOrders(Integer userId, int startIdx, int size);
     public List<Order> getOrdersForSearchByID(long orderid);
+    public List<Order> getWaitAssignmentOrders();
 }

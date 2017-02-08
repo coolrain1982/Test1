@@ -20,10 +20,29 @@ public class OrderForReview {
 	private long id;
 	//status:0-无效；1-初始值；2-待审核；3-审核不通过；4-完成review；5-已付款给review
     private int status;
-	private String a_No, audit_name, review_remark, audit_remark;
-	private Calendar submit_date, audit_date, finish_date;
+	private String a_No, audit_name, review_remark, audit_remark, review_name;
+	private Calendar submit_date, audit_date, finish_date, create_date;
 	private Reviewer reviewer;
 	private Order order;
+	
+	public OrderForReview() {}
+	
+	public OrderForReview(long id, int status, String a_No, String audit_name, String review_remark,
+			String audit_remark, String review_name, Calendar submit_date, Calendar audit_date, 
+			Calendar finish_date, Calendar create_date) {
+		setId(id);
+		setStatus(status);
+		setA_No(a_No);
+		setAudit_date(audit_date);
+		setAudit_name(audit_name);
+		setReview_remark(review_remark);
+		setAudit_remark(audit_remark);
+		setReview_name(review_name);
+		setSubmit_date(submit_date);
+		setFinish_date(finish_date);
+		setCreate_date(create_date);
+	}
+	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -100,7 +119,7 @@ public class OrderForReview {
 		this.audit_name = audit_name;
 	}
 	
-	@Column
+	@Column(length=3000)
 	public String getReview_remark() {
 		return review_remark;
 	}
@@ -114,6 +133,22 @@ public class OrderForReview {
 	}
 	public void setAudit_remark(String audit_remark) {
 		this.audit_remark = audit_remark;
+	}
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	public Calendar getCreate_date() {
+		return create_date;
+	}
+	public void setCreate_date(Calendar create_date) {
+		this.create_date = create_date;
+	}
+	
+	@Column
+	public String getReview_name() {
+		return review_name;
+	}
+	public void setReview_name(String review_name) {
+		this.review_name = review_name;
 	}
 
 }

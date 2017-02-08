@@ -1,0 +1,98 @@
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" style="left: 0;width:750px">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="$hide()">&times;</button>
+				<h4 class="modal-title">订单[{{commFunc.foo(selectItem.order_id, 8)}}]详细信息</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="widget-container fluid-height">
+							<div class="widget-content padded clearfix">
+								<table class="table table-striped invoice-table">
+									<thead>
+										<tr>
+											<th width="50"></th>
+											<th></th>
+											<th width="50">数量</th>
+											<th width="100">单位价格</th>
+											<th width="180">总价</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>#1</td>
+											<td ng-bind="selectItem.product_descript"></td>
+											<td ng-bind="selectItem.product_quantity"></td>
+											<td ng-bind="'$' + selectItem.product_unit_price"></td>
+											<td ng-bind="'$' + (selectItem.product_unit_price*selectItem.product_quantity).toFixed(2)"></td>
+										</tr>
+										<tr>
+											<td>#2</td>
+											<td>运费</td>
+											<td ng-bind="selectItem.product_quantity"></td>
+											<td ng-bind="'$' + selectItem.product_unit_freight"></td>
+											<td ng-bind="'$' + (selectItem.product_unit_freight*selectItem.product_quantity).toFixed(2)"></td>
+										</tr>
+										<tr>
+											<td>#3</td>
+											<td>服务费</td>
+											<td ng-bind="selectItem.product_quantity"></td>
+											<td ng-bind="'$' + selectItem.product_unit_commission"></td>
+											<td
+												ng-bind="'$' + (selectItem.product_unit_commission*selectItem.product_quantity*selectItem.discount/100).toFixed(2) +'（折扣' + selectItem.discount + '%）'">
+											</td>
+										</tr>
+										<tr>
+                                            <td>#4</td>
+                                            <td>汇率</td>
+                                            <td>-</td>
+                                            <td ng-bind="selectItem.exchange_rate"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr ng-if="selectItem.find_product_mode==1">
+                                            <td>#5</td>
+                                            <td colspan="4" class="underline">商品链接：<a href="{{selectItem.link}}" target="_blank"
+                                            alt="{{selectItem.link}}">{{getShowLink(selectItem.link)}}</a></td>
+                                        </tr>
+										<tr ng-if="selectItem.find_product_mode==2">
+											<td>#5</td>
+											<td colspan="4">搜索关键词：{{selectItem.key_word}}</td>
+										</tr>
+										<tr ng-if="selectItem.find_product_mode==2">
+											<td>#6</td>
+											<td colspan="4">店铺名称[{{selectItem.shop_name}}];商品所在页数[{{selectItem.search_page_idx}}]</td>
+										</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td class="text-right" colspan="4"><strong>小计</strong></td>
+											<td ng-bind="'$' + commFunc.calcProductSum(selectItem).toFixed(2)"></td>
+										</tr>
+										<tr>
+											<td class="text-right" colspan="4"><strong>手续费</strong>
+											</td>
+											<td ng-bind="'$' + (commFunc.calcProductSum(selectItem)*selectItem.paypal_rate/100+selectItem.paypal_fee).toFixed(2)">
+											</td>
+										</tr>
+										<tr>
+											<td class="text-right" colspan="4"><strong> 总计
+											</strong></td>
+											<td class="text-danger"
+												ng-bind="'$' + commFunc.calcSum(selectItem).toFixed(2) + 
+												    '    (￥' + (commFunc.calcSum(selectItem).toFixed(2)*selectItem.exchange_rate).toFixed(2) + ')'">
+
+											</td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
