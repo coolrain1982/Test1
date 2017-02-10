@@ -178,8 +178,13 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal', '$l
 		$scope.confirmTitle = "数据增加后马上生效，确定增加佣金数据吗?";
 		
 		$scope.checkNewData = function() {
-			if (!$scope.newcommision.fee || $scope.newcommision.fee <= 0) {
-				$scope.basedataerror = "请输入正确的佣金值！";
+			if (!$scope.newcommision.fee1 || $scope.newcommision.fee1 <= 0) {
+				$scope.basedataerror = "请输入正确的订单佣金值！";
+				return false;
+			}
+			
+			if (!$scope.newcommision.fee2 || $scope.newcommision.fee2 <= 0) {
+				$scope.basedataerror = "请输入正确的留评佣金值！";
 				return false;
 			}
 			
@@ -189,8 +194,8 @@ basedataModule.controller("baseDataController", ['$state','$scope','$modal', '$l
 		$scope.getFormData = function() {
 			var fd = new FormData();
 			fd.append("srv_mode", $scope.newcommision.srvmode);
-			fd.append("srv_type", $scope.newcommision.srvtype);
-			fd.append("fee", $scope.newcommision.fee);
+			fd.append("fee1", $scope.newcommision.fee1);
+			fd.append("fee2", $scope.newcommision.fee2);
 			
 			return fd;
 		}

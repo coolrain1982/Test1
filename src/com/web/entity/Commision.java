@@ -1,14 +1,17 @@
 package com.web.entity;
 
 import java.util.Calendar;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,24 +20,32 @@ import javax.persistence.TemporalType;
 @Table(name="tbl_commision", schema="meiyabuy")
 public class Commision {
 	
-	private int type; //1-美元
-	private int srv_type; //1-仅购买；2-购买+review；
-	private int srv_mode; //1-链接;2-搜索
-	private int id;
-	private double fee;
+	private Integer type; //1-美元
+	private Integer srv_type; //保留
+	private Integer srv_mode; //1-链接;2-搜索
+	private Integer id;
+	private Double fee; //保留
+	private Double fee1; //购买
+	private Double fee2; //review
 	private Calendar date;
 	private User user;
+	private Set<Order> orders;
 	
-	public Commision(int type, int srv_type, int srv_mode, double fee, Calendar date) {
+	public Commision() {
+	}
+	
+	public Commision(Integer type, Integer srv_type, Integer srv_mode, Double fee,
+			Double fee1, Double fee2, Calendar date) {
 		this.type = type;
 		this.fee = fee;
+		this.fee1 = fee1;
+		this.fee2 = fee2;
 		this.date = date;
 		this.srv_type = srv_type;
 		this.srv_mode = srv_mode;
 		this.setUser(new User());
+		this.orders = null;
 	}
-	
-	public Commision() {}
 	
 	@Column
 	public int getType() {
@@ -46,7 +57,7 @@ public class Commision {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -95,6 +106,33 @@ public class Commision {
 
 	public void setSrv_mode(int srv_mode) {
 		this.srv_mode = srv_mode;
+	}
+
+	@OneToMany(mappedBy="comm", fetch=FetchType.LAZY)
+	public Set<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Set<Order> orders) {
+		this.orders = orders;
+	}
+
+	@Column
+	public Double getFee1() {
+		return fee1;
+	}
+
+	public void setFee1(Double fee1) {
+		this.fee1 = fee1;
+	}
+
+	@Column
+	public Double getFee2() {
+		return fee2;
+	}
+
+	public void setFee2(Double fee2) {
+		this.fee2 = fee2;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.web.basedata.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -49,8 +50,14 @@ public class BaseDataServiceImpl implements BaseDataService {
 				rtnMap.put("paypal_fee_rate", ppFee.getFee_rate());
 			}
 		}
+		
+		List<Commision> rtnCommList = new ArrayList<>();
+		for(Commision comm : commision) {
+			rtnCommList.add(new Commision(comm.getType(), comm.getSrv_type(), comm.getSrv_mode()
+					     , comm.getFee(), comm.getFee1(), comm.getFee2(), comm.getDate()));
+		}
 
-		rtnMap.put("commision", commision);
+		rtnMap.put("commision", rtnCommList);
 		rtnMap.put("exchange", exchange);
 
 		return rtnMap;
@@ -143,8 +150,8 @@ public class BaseDataServiceImpl implements BaseDataService {
 	public Commision addCommision(User user, MultiValueMap<String, Object> reqParams) throws Exception {
 		
 		Map<String, List<Object>> params = reqParams;
-		int srv_type, srv_mode;
-		Double fee;
+		int srv_mode;
+		Double fee1, fee2;
 		
 		if (params.containsKey("srv_mode") && params.get("srv_mode").size() > 0) {
 			try {
@@ -156,34 +163,37 @@ public class BaseDataServiceImpl implements BaseDataService {
 			throw new Exception("请选择正确的商品业务模式！");
 		}
 
-		if (params.containsKey("srv_type") && params.get("srv_type").size() > 0) {
+		if (params.containsKey("fee1") && params.get("fee1").size() > 0
+				&& !params.get("fee1").get(0).toString().trim().equals("")) {
 			try {
-				srv_type = Integer.parseInt(params.get("srv_type").get(0).toString().trim());
+				fee1 = Double.parseDouble(params.get("fee1").get(0).toString().trim());
 			} catch (Exception e) {
-				throw new Exception("请选择正确的佣金类型！");
+				throw new Exception("请输入正确的订单佣金金额！");
 			}
 		} else {
-			throw new Exception("请选择正确的佣金类型！");
+			throw new Exception("订单佣金金额输入不正确！");
 		}
-
-		if (params.containsKey("fee") && params.get("fee").size() > 0
-				&& !params.get("fee").get(0).toString().trim().equals("")) {
+		
+		if (params.containsKey("fee2") && params.get("fee2").size() > 0
+				&& !params.get("fee2").get(0).toString().trim().equals("")) {
 			try {
-				fee = Double.parseDouble(params.get("fee").get(0).toString().trim());
+				fee2 = Double.parseDouble(params.get("fee2").get(0).toString().trim());
 			} catch (Exception e) {
-				throw new Exception("请输入正确的佣金金额！");
+				throw new Exception("请输入正确的留评佣金金额！");
 			}
 		} else {
-			throw new Exception("佣金金额输入不正确！");
+			throw new Exception("留评佣金金额输入不正确！");
 		}
 
 		Commision comm = new Commision();
 		comm.setUser(user);
 		comm.setDate(Calendar.getInstance());
-		comm.setFee(fee);
-		comm.setSrv_type(srv_type);
+		comm.setFee1(fee1);
+		comm.setFee2(fee2);
 		comm.setType(1);
 		comm.setSrv_mode(srv_mode);
+		comm.setSrv_type(0);
+		comm.setFee(0d);
 		
 		comDao.addCommision(comm);
 		return comm;

@@ -124,9 +124,14 @@ neworderModule.controller("newOrderController", ['$state', '$stateParams',
     	$scope.getCommision = function() {
     		for(var temp in $scope.commision) {
     			if ($scope.neworder.exchange == $scope.commision[temp].type &&
-    					$scope.neworder.srvtype == $scope.commision[temp].srv_type &&
     					$scope.neworder.srvmode == $scope.commision[temp].srv_mode) {
-    				$scope.neworder.unit_commision = $scope.commision[temp].fee;
+    				
+    				if ($scope.neworder.srvtype == 1) {
+    					$scope.neworder.unit_commision = $scope.commision[temp].fee1;
+    				} else if ($scope.neworder.srvtype == 2) {
+    					$scope.neworder.unit_commision = $scope.commision[temp].fee1 + $scope.commision[temp].fee2
+    				}
+    				
     				return $scope.neworder.unit_commision;
     			}
     		}

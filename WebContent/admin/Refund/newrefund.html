@@ -18,7 +18,7 @@
 							</label>
 							<div class="col-lg-8 col-md-6">
 								<p class="form-control-static"
-                                        ng-bind="selectItem.product_unit_commission*selectItem.discount/100"></p>
+                                        ng-bind="calcUnitCommisionRefund(selectItem)"></p>
 							</div>
 						</div>
 						<div class="form-group" style="border-bottom-width:0" ng-if="refundtype==2">

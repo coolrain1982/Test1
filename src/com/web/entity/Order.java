@@ -48,11 +48,13 @@ public class Order {
 	private Integer search_page_idx;
 	private Calendar create_date, pay_date, audit_date, finish_date;
 	private User user;
+	private Commision comm;
 	private Set<OrderForReview> ordersForReview;
 	private Set<PayInfo> orderPay;
 	private Set<RefundInfo> orderRefund;
 	private String userName;
 	private Integer hasRefund;
+	private Double fee1, fee2;
 
 	public Order() {
 
@@ -62,7 +64,7 @@ public class Order {
 			String audit_remark, Double product_unit_price, Double product_unit_freight, Double product_unit_commission,
 			Double exchange_rate, Double paypal_fee, Double paypal_rate, int product_quantity, Calendar create_date,
 			int status, int type, Calendar audit_date, String userName, Integer find_product_mode,
-			Integer search_page_idx, String shop_name, String key_word) {
+			Integer search_page_idx, String shop_name, String key_word, Double fee1, Double fee2) {
 		setOrder_id(id);
 		setDiscount(discount);
 		setProduct_descript(product_descript);
@@ -71,7 +73,6 @@ public class Order {
 		setAudit_remark(audit_remark);
 		setProduct_unit_price(product_unit_price);
 		setProduct_unit_freight(product_unit_freight);
-		setProduct_unit_commission(product_unit_commission);
 		setExchange_rate(exchange_rate);
 		setPaypal_fee(paypal_fee);
 		setPaypal_rate(paypal_rate);
@@ -86,6 +87,14 @@ public class Order {
 		setSearch_page_idx(search_page_idx);
 		setShop_name(shop_name);
 		setKey_word(key_word);
+		setFee1(fee1);
+		setFee2(fee2);
+		
+		if (type == 1) {
+			setProduct_unit_commission(fee1);
+		} else {
+			setProduct_unit_commission(fee1 + fee2);
+		}
 	}
 	
 	public Order(long id, int discount, String product_descript, String link, String product_asin, String product_photo_url,
@@ -117,6 +126,14 @@ public class Order {
 		setShop_name(shop_name);
 		setKey_word(key_word);
 		setHasRefund(hasRefund);
+		setFee1(fee1);
+		setFee2(fee2);
+		
+		if (type == 1) {
+			setProduct_unit_commission(fee1);
+		} else {
+			setProduct_unit_commission(fee1 + fee2);
+		}
 	}
 
 	@Id
@@ -468,6 +485,36 @@ public class Order {
 
 	public void setHasRefund(Integer hasRefund) {
 		this.hasRefund = hasRefund;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="comm_id")
+	public Commision getComm() {
+		return comm;
+	}
+
+	public void setComm(Commision comm) {
+		this.comm = comm;
+	}
+
+	@Transient
+	public Double getFee1() {
+		return fee1;
+	}
+
+	
+	public void setFee1(Double fee1) {
+		this.fee1 = fee1;
+	}
+
+	@Transient
+	public Double getFee2() {
+		return fee2;
+	}
+
+	
+	public void setFee2(Double fee2) {
+		this.fee2 = fee2;
 	}
 
  }

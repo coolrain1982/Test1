@@ -19,8 +19,8 @@
 								<th width="9%">序号</th>
 								<th>货币类型</th>
 								<th>商品查找模式</th>
-								<th>服务类型</th>
-								<th>金额</th>
+								<th>订单金额</th>
+								<th>留评金额</th>
 								<th>创建时间</th>
 							</thead>
 							<tbody>
@@ -28,8 +28,8 @@
 									<td>{{(p_current-1)*6 + $index +1}}</td>
 									<td>{{getExchangeTypeName(item)}}</td>
 									<td>{{commFunc.getSrvMode(item.srv_mode)}}</td>
-									<td>{{getSrvType(item)}}</td>
-									<td>{{item.fee}}</td>
+									<td>{{item.fee1}}</td>
+									<td>{{item.fee2}}</td>
 									<td>{{commFunc.formatDate(item.date)}}</td>
 								</tr>
 							</tbody>

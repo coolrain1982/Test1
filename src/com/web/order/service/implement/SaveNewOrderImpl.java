@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scheduletask.OrderSync;
+import com.web.basedata.dao.CommisionDao;
 import com.web.basedata.service.BaseDataService;
 import com.web.entity.Commision;
 import com.web.entity.Order;
@@ -33,9 +34,10 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 	public OrderDao orderDao;
 	@Value("${upload.base}")
 	private String uploadBase;
+	
+	@Resource
+	public CommisionDao commDao;
 
-
-	@SuppressWarnings("unchecked")
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public Order saveNewOrder(String userName, MultiValueMap<String, Object> reqParams, MultipartFile[] files)
@@ -58,7 +60,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		}
 
 		// 取当前汇率、佣金、paypal手续费（固定部分+比例）
-		double exchangeRate = 0.00, commision = 0.00;
+		double exchangeRate = 0.00;
 		int exchangeType = 0, srvtype = 1, srvmode = 1;
 		double paypalFee = 0.3, paypalRate = 3.9;
 
@@ -105,28 +107,22 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 			throw new Exception("请选择正确的商品查找模式！");
 		}
 		
-		if (bsDataMap.containsKey("commision")) {
-			List<Commision> comList = null;
-			boolean comExist = false;
-			try {
-				Object o = bsDataMap.get("commision");
-				comList = (List<Commision>) o;
-			} catch (Exception e) {
-				throw new Exception("系统缺少佣金数据，请尽快联系客服处理！");
-			}
-			
-			for (Commision com : comList) {
-				if (com.getSrv_type() == srvtype && com.getSrv_mode() == srvmode) {
-					commision = com.getFee();
-					comExist = true;
-				}
-			}
-			
-			if (!comExist) {
-				throw new Exception(String.format("系统缺少佣金数据[%s]，请尽快联系客服处理！", srvtype));
-			}
-		} else {
+		//取佣金数据
+		Commision useComm = null;
+		List<Commision> comList = commDao.getCommision(exchangeType);
+		if (comList == null || comList.size() == 0) {
 			throw new Exception("系统缺少佣金数据，请尽快联系客服处理！");
+		}
+			
+		for (Commision com : comList) {
+			if (com.getSrv_mode() == srvmode) {
+				useComm = com;
+				break;
+			}
+		}
+		
+		if (useComm == null) {
+			throw new Exception(String.format("系统缺少佣金数据[%s]，请尽快联系客服处理！", srvtype));
 		}
 		
 		if (bsDataMap.containsKey("paypal_fee")) {
@@ -285,7 +281,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		newOrder.setProduct_photo_url(productPhotoUrl);
 		newOrder.setProduct_descript(productDescript);
 		newOrder.setProduct_quantity(quantity);
-		newOrder.setProduct_unit_commission(commision);
+		newOrder.setComm(useComm);
 		newOrder.setProduct_unit_freight(unitFreight);
 		newOrder.setProduct_unit_price(unitPrice);
 		newOrder.setPaypal_fee(paypalFee);
@@ -316,7 +312,7 @@ public class SaveNewOrderImpl implements SaveNewOrderService {
 		sb.append(String.format("[productPhotoUrl=%s]", productPhotoUrl));
 		sb.append(String.format("[productDescript=%s]", productDescript));
 		sb.append(String.format("[quantity=%s]", quantity));
-		sb.append(String.format("[commision=%s]", commision));
+		sb.append(String.format("[commision=%s]", useComm.getId()));
 		sb.append(String.format("[unitFreight=%s]", unitFreight));
 		sb.append(String.format("[unitPrice=%s]", unitPrice));
 		sb.append(String.format("[paypalFee=%s]", paypalFee));

@@ -178,7 +178,7 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public List<Order> getOrders(int userId, int status, int startIdx, int size) {
 		String hql = String.format(
-            "select new com.web.entity.Order(%s) from Order o join o.user u where o.status=:status and u.id = :userId order by o.create_date desc", 
+            "select new com.web.entity.Order(%s) from Order o join o.user u join o.comm c where o.status=:status and u.id = :userId order by o.create_date desc", 
             getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -194,7 +194,7 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public List<Order> getOrdersForCS(int csId, int status, int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o where o.status=:status and o.csid = :csId ",
+				"select new com.web.entity.Order(%s) from Order o join o.comm c where o.status=:status and o.csid = :csId ",
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -210,7 +210,7 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public List<Order> getOrders(int userId,  int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o join o.user u where u.id = :userId order by o.create_date desc", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u join o.comm c where u.id = :userId order by o.create_date desc", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -225,7 +225,7 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public List<Order> getOrdersForCS(int csId,  int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o where o.csid = :csId order by o.create_date desc", 
+				"select new com.web.entity.Order(%s) from Order o join o.comm c where o.csid = :csId order by o.create_date desc", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -255,7 +255,7 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public Order getOrder(Integer userId, long orderId) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o join o.user u where u.id = :userId and o.order_id = :orderId", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u join o.comm c where u.id = :userId and o.order_id = :orderId", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -273,7 +273,7 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public List<Order> getProcessOrders(Integer userId, int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o join o.user u where o.status in (:status) and u.id = :userId order by o.create_date desc", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u join o.comm c where o.status in (:status) and u.id = :userId order by o.create_date desc", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -289,7 +289,7 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public List<Order> getDoingOrders(Integer userId, int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o join o.user u where o.status in (:status) and u.id = :userId order by o.create_date desc", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u join o.comm c where o.status in (:status) and u.id = :userId order by o.create_date desc", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -305,7 +305,7 @@ public class OrderDaoImpl implements OrderDao {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Order> getOrders(int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o join o.user u  order by o.create_date desc", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u join o.comm c  order by o.create_date desc", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -319,7 +319,7 @@ public class OrderDaoImpl implements OrderDao {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Order> getProcessOrders(int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o join o.user u where o.status in (:status) order by o.create_date desc", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u join o.comm c where o.status in (:status) order by o.create_date desc", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -334,7 +334,7 @@ public class OrderDaoImpl implements OrderDao {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Order> getDoingOrders(int startIdx, int size) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o join o.user u where o.status in (:status) order by o.create_date desc", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u join o.comm c where o.status in (:status) order by o.create_date desc", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
@@ -350,7 +350,7 @@ public class OrderDaoImpl implements OrderDao {
 		sb.append("o.order_id, o.discount,o.product_descript,o.link, o.product_asin,o.product_photo_url,o.audit_remark,o.product_unit_price,");
 		sb.append("o.product_unit_freight,o.product_unit_commission,o.exchange_rate,o.paypal_fee,o.paypal_rate,");
 		sb.append("o.product_quantity,o.create_date,o.status, o.type, o.audit_date, u.name, o.find_product_mode, ");
-		sb.append("o.search_page_idx,o.shop_name,o.key_word ");
+		sb.append("o.search_page_idx,o.shop_name,o.key_word,c.fee1,c.fee2");
 		return sb.toString();
 	}
 
@@ -374,7 +374,7 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public List<Order> getOrdersForSearchByID(long orderid) {
 		String hql = String.format(
-				"select new com.web.entity.Order(%s) from Order o join o.user u where o.order_id =:orderid", 
+				"select new com.web.entity.Order(%s) from Order o join o.user u join o.comm c where o.order_id =:orderid", 
 				getOrderColumnStr());
 
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);

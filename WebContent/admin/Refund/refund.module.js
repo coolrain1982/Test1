@@ -35,9 +35,25 @@ refundmanModule.controller("refundManController", [
 				$scope.postURL = "admin/addNoreviewRefund.do";
 				$scope.calcRefund = function() {
 					return ($scope.selectItem.exchange_rate*
-							$scope.selectItem.product_unit_commission*
+							$scope.selectItem.fee2*
 							$scope.selectItem.discount/100*
 							$scope.newrefund.quanity).toFixed(2);
+				}
+				
+				$scope.calcUnitCommisionRefund = function(item) {
+					return item.fee2*item.discount/100+'(原价'+item.fee2+',折扣'+item.discount+'%)'
+				}
+				
+				$scope.canRefund = function(item) {
+					if (item.status < 5) {
+						return false;
+					}
+					
+					if (item.type == 2) {
+						return true;
+					}
+					
+					return false;
 				}
 
 				break;
@@ -53,6 +69,19 @@ refundmanModule.controller("refundManController", [
 							$scope.selectItem.product_unit_commission*$scope.selectItem.discount/100 +
 							$scope.selectItem.product_unit_freight)*
 							$scope.newrefund.quanity*$scope.selectItem.exchange_rate).toFixed(2);
+				}
+				
+				$scope.canRefund = function(item) {
+					if (item.status < 5) {
+						return false;
+					}
+					
+					return true;
+				}
+				
+				$scope.calcUnitCommisionRefund = function(item) {
+					return item.product_unit_commission*item.discount/100+
+					   '(原价'+item.product_unit_commission+',折扣'+item.discount+'%)'
 				}
 				
 				break;
@@ -282,15 +311,7 @@ refundmanModule.controller("refundManController", [
 				return;
 			}
 			
-			//退款状态判断//////////////////////////////////////////////////////////////////////////
-			$scope.canRefund = function(item) {
-				if (item.status < 5) {
-					return false;
-				}
-				
-				return true;
-			}
-			
+			//退款状态判断//////////////////////////////////////////////////////////////////////////			
 			$scope.toRefundPage = function(item) {
 				$scope.showRefundUI = true;
 				$scope.selectItem = item;
