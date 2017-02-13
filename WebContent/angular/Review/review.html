@@ -1,0 +1,43 @@
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" style="left: 0; width: 900px">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a ng-click="$hide()"
+					style="margin-top: 5px; float: right; margin-left: 10px; color: #688a7e"><i
+					class="fa fa-remove" /></a> <a
+					ng-click="$ctrl.showReview(showreviewitem, true)"
+					style="margin-top: 5px; float: right; color: #688a7e"><i
+					class="fa fa-refresh" /></a>
+				<h4 class="modal-title">Review信息</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="widget-container fluid-height">
+							<div class="widget-content padded clearfix">
+								<table class="table table-hover">
+									<thead>
+										<th width="5%"></th>
+										<th width="20%">亚马逊订单号</th>
+										<th width="15%">评价人账号</th>
+										<th>评价内容</th>
+										<th width="12%">提交时间</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="item in showreview">
+											<td ng-bind="$index +1"></td>
+											<td ng-bind="item.a_No"></td>
+											<td ng-bind="item.review_name"></td>
+											<td ng-bind="item.review_remark"></td>
+											<td ng-bind="$ctrl.commFunc.formatDate(item.create_date)"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

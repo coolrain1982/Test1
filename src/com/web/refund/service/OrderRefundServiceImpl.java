@@ -112,6 +112,13 @@ public class OrderRefundServiceImpl implements OrderRefundService {
 		
 		refundDao.addRefund(refundInfo);
 		
+		//订单数据设置退款标志
+		if (order.getHasRefund() != null && order.getHasRefund() == 1) {	
+		} else {
+			order.setHasRefund(1);
+			orderDao.updateOrder(order);
+		}
+		
 		return refundInfo;
 	}
 

@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.web.entity.OrderForReview;
+import com.web.entity.User;
+import com.web.order.ctrl.UserOrderCtrl;
+import com.web.order.service.CheckUserForOrder;
 import com.web.review.service.OrderReviewService;
 import com.web.user.UserController;
 import com.web.user.UserService;
@@ -26,9 +29,12 @@ public class ReviewInputCtrl {
 	@Resource
 	public OrderReviewService reviewSrv;
 	
+	@Resource
+	public CheckUserForOrder checkSrv;
+	
 	@RequestMapping("reviewinfo/getReviewInfo.do")
 	@ResponseBody
-	public Map<String, Object> getReviewInfo(@RequestParam long orderid) {
+	public Map<String, Object> adminGetReviewInfo(@RequestParam long orderid) {
 		
 		Map<String, Object> rtnMap = new HashMap<>();
 		rtnMap.put("status", 0);
@@ -40,6 +46,49 @@ public class ReviewInputCtrl {
 			}
 		} catch (Exception e) {
 			rtnMap.put("error", "获取登录用户信息时出错：" + e.getMessage());
+			return rtnMap;
+		}
+
+		try {
+			List<OrderForReview> reviewInfos = reviewSrv.getReviews(orderid);
+			rtnMap.put("status", 1);
+			rtnMap.put("reviewInfos", reviewInfos);
+
+		} catch (Exception e) {
+			rtnMap.put("error", "获取review记录出错:" + e.getMessage());
+			return rtnMap;
+		}
+
+		return rtnMap;
+	}
+	
+	@RequestMapping("user/getReviewByOrderid.do")
+	@ResponseBody
+	public Map<String, Object> getReviewInfo(@RequestParam long orderid) {
+		
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+		
+		String userName = "";
+		User user = null;
+		try {
+			userName = UserOrderCtrl.getLoginName();
+			user = userSrv.getUser(userName);
+			if (user == null) {
+				throw new Exception("未知用户：" + userName);
+			}
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+			return rtnMap;
+		}
+		
+		try {
+			if (!checkSrv.canOperateOrder(user, orderid)) {
+				rtnMap.put("error", "您没有此操作权限");
+				return rtnMap;
+			}
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
 			return rtnMap;
 		}
 

@@ -9,7 +9,6 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.web.entity.Order;
-import com.web.entity.PayInfo;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -350,7 +349,7 @@ public class OrderDaoImpl implements OrderDao {
 		sb.append("o.order_id, o.discount,o.product_descript,o.link, o.product_asin,o.product_photo_url,o.audit_remark,o.product_unit_price,");
 		sb.append("o.product_unit_freight,o.product_unit_commission,o.exchange_rate,o.paypal_fee,o.paypal_rate,");
 		sb.append("o.product_quantity,o.create_date,o.status, o.type, o.audit_date, u.name, o.find_product_mode, ");
-		sb.append("o.search_page_idx,o.shop_name,o.key_word,c.fee1,c.fee2");
+		sb.append("o.search_page_idx,o.shop_name,o.key_word,c.fee1,c.fee2,o.hasRefund");
 		return sb.toString();
 	}
 

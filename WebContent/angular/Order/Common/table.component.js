@@ -27,6 +27,8 @@ orderTableModule.component('orderTable',{
 	    
 	    $scope.showuser = {};
 	    $scope.existsuser = [];
+	    $scope.existrefunds = {};
+	    $scope.existreviews = {};
 
 		this.modelDialog = $modal({
 			scope : $scope,
@@ -118,7 +120,7 @@ orderTableModule.component('orderTable',{
 		}
 		
 		this.getCursor = function(item) {
-			if (orderTable.canClick(item)) {
+			if (this.canClick(item)) {
 				return "pointer";
 			} else {
 				return "default";
@@ -161,6 +163,128 @@ orderTableModule.component('orderTable',{
 	    	}).error(function(data){
 		    	
 	    	});	
+		}
+		
+		//显示退款信息///////////////////////////////////////////////
+		this.refundInfoDialog = $modal({
+			scope : $scope,
+			templateUrl : 'angular/Refund/refundInfo.html',
+			show : false,
+			animation: 'am-fade-and-slide-top',
+			keyboard:false,
+		});
+		
+		this.showRefundInfo = function(item, reload) {
+			this.refundInfoDialog.$promise.then(this.refundInfoDialog.show);
+			$scope.showrefunditem = item;
+			$scope.showrefund = {};
+			this.loadRefundInfo(item, reload);
+		}
+		
+		this.loadRefundInfo = function(item, reload) { 
+		    //不重载
+			if (!reload) {
+				//查找已有的数据中是否存在
+				if ($scope.existrefunds[item.order_id]) {
+					$scope.showrefund = $scope.existrefunds[item.order_id];
+					return;
+				}
+			}
+			
+			$http.get("user/getRefundInfoByOrderid.do",
+				    { params:{
+				        orderid: item.order_id,
+				    }
+			}).success(function(res) {
+				if (res && res.status == 1) {
+					$scope.loadRefundInfoError = null;
+					$scope.showrefund = res.refundInfos;
+					$scope.existrefunds[item.order_id] = res.refundInfos;
+				} else if (res && res.status == 0) {
+					$scope.loadRefundInfoError = res.error;
+				} else {
+					window.location="/login.html";
+				}
+		    }).error(function(data) {
+				alert("发生错误，请重新登录！");
+				window.location.href = "logout";
+			});
+		}
+		
+		this.getRefundType = function(type) {
+			switch (type) {
+			case 1:
+				return "未留评退款";
+			case 2:
+				return "未完成退款";
+			default:
+				return "未知";
+			}
+		}
+		
+		//显示review信息////////////////////////////////////////////
+		this.reviewDialog = $modal({
+			scope : $scope,
+			templateUrl : 'angular/Review/review.html',
+			show : false,
+			animation: 'am-fade-and-slide-top',
+			keyboard:false,
+		});
+		
+		this.showReview = function(item, reload) {
+			this.reviewDialog.$promise.then(this.reviewDialog.show);
+			$scope.showreviewitem = item;
+			$scope.showreview = {};
+			this.loadReview(item, reload);
+		}
+		
+		this.canClick = function(item) {
+			switch (item.status) {
+			case 7:
+				return true;
+			default:
+				return this.orderTable.canClick(item);
+			}
+		}
+		
+		this.statusClick = function(item) {
+			switch (item.status) {
+			case 7:
+				this.showReview(item, false);
+				return;
+			default:
+				this.orderTable.statusClick(item);
+			}
+		}
+		
+		this.loadReview = function(item, reload) { 
+		    //不重载
+			if (!reload) {
+				//查找已有的数据中是否存在
+				if ($scope.existreviews[item.order_id]) {
+					$scope.showreview = $scope.existreviews[item.order_id];
+					return;
+				}
+			}
+			
+			$http.get("user/getReviewByOrderid.do",
+				    { params:{
+				        orderid: item.order_id,
+				    }
+			}).success(function(res) {
+				if (res && res.status == 1) {
+					$scope.loadReviewError = null;
+					$scope.showreview = res.reviewInfos;
+					$scope.existreviews[item.order_id] = res.reviewInfos;
+				} else if (res && res.status == 0) {
+					$scope.loadReviewError = res.error;
+				} else {
+					window.location="/login.html";
+				}
+		    }).error(function(data) {
+				alert("发生错误，请重新登录！");
+				window.location.href = "logout";
+			});
 		}
 
 		// 分页////////////////////////////////////////////////////

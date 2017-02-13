@@ -44,11 +44,14 @@
 									<td class="hidden-xs">
 										{{$ctrl.commFunc.getDate($ctrl.commFunc.formatDate(item.create_date))}}&nbsp;&nbsp;
 										{{$ctrl.commFunc.getTime($ctrl.commFunc.formatDate(item.create_date))}}</td>
-									<td class="hidden-xs" style="text-align:center;"><a ng-disabled="$ctrl.orderTable.canClick(item)"
+									<td class="hidden-xs" style="text-align:center;"><a ng-disabled="$ctrl.canClick(item)"
 										style="display: inline-block; line-height: 2; width: 70px;cursor:{{$ctrl.getCursor(item)}}"
 										class="label {{$ctrl.getStatusClass(item.status)}}" 
-										ng-click="$ctrl.orderTable.statusClick(item)">
-											{{$ctrl.getStatus(item.status)}}</a></td>
+										ng-click="$ctrl.statusClick(item)">
+											{{$ctrl.getStatus(item.status)}}</a>
+											<a style="display: inline-block; line-height: 2; width: 70px;cursor:pointer" 
+											ng-if="item.hasRefund>0" class="label label-info" ng-click="$ctrl.showRefundInfo(item, false)">
+                                          有退款</a></td>
 								</tr>
 							</tbody>
 						</table>
