@@ -66,4 +66,40 @@ public class PayInfoCtrl {
 		}
 		return rtnMap;
 	}
+	
+	@RequestMapping("/getAllPayInfo.do")
+	@ResponseBody
+	public Map<String, Object> getAllOrderPayInfo(@RequestParam long orderid) {
+		Map<String, Object> rtnMap = new HashMap<>();
+		rtnMap.put("status", 0);
+		
+		String userName = "";
+		
+		try {
+			userName = UserOrderCtrl.getLoginName();
+		} catch (Exception e) {
+			rtnMap.put("error", e.getMessage());
+			return rtnMap;
+		}
+		
+		//查询用户
+		User user = null;
+		try {
+			user = userSrv.getUser(userName);
+		} catch (Exception e) {
+			rtnMap.put("error", String.format("未知登陆用户[%s]--%s" , userName , e.getMessage()));
+			return rtnMap;
+		}
+		
+		try {
+			List<PayInfo> payInfos = paySrv.getPayInfo(user, orderid);
+			rtnMap.put("payInfo", payInfos);
+			rtnMap.put("status", 1);
+			
+		} catch (Exception e) {
+			rtnMap.put("error", String.format("查询订单支付信息失败：%s!" ,
+					e.getMessage()));
+		}
+		return rtnMap;
+	}
 }

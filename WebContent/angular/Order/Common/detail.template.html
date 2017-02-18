@@ -10,83 +10,136 @@
 					<div class="col-lg-12">
 						<div class="widget-container fluid-height">
 							<div class="widget-content padded clearfix">
-								<table class="table table-striped invoice-table">
-									<thead>
-										<tr>
-											<th width="50"></th>
-											<th></th>
-											<th width="50">数量</th>
-											<th width="100">单位价格</th>
-											<th width="180">总价</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>#1</td>
-											<td ng-bind="selectItem.product_descript"></td>
-											<td ng-bind="selectItem.product_quantity"></td>
-											<td ng-bind="'$' + selectItem.product_unit_price"></td>
-											<td ng-bind="'$' + (selectItem.product_unit_price*selectItem.product_quantity).toFixed(2)"></td>
-										</tr>
-										<tr>
-											<td>#2</td>
-											<td>运费</td>
-											<td ng-bind="selectItem.product_quantity"></td>
-											<td ng-bind="'$' + selectItem.product_unit_freight"></td>
-											<td ng-bind="'$' + (selectItem.product_unit_freight*selectItem.product_quantity).toFixed(2)"></td>
-										</tr>
-										<tr>
-											<td>#3</td>
-											<td>服务费</td>
-											<td ng-bind="selectItem.product_quantity"></td>
-											<td ng-bind="'$' + selectItem.product_unit_commission"></td>
-											<td
-												ng-bind="'$' + (selectItem.product_unit_commission*selectItem.product_quantity*selectItem.discount/100).toFixed(2) +'（折扣' + selectItem.discount + '%）'">
-											</td>
-										</tr>
-										<tr>
-                                            <td>#4</td>
-                                            <td>汇率</td>
-                                            <td>-</td>
-                                            <td ng-bind="selectItem.exchange_rate"></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr ng-if="selectItem.find_product_mode==1">
-                                            <td>#5</td>
-                                            <td colspan="4" class="underline">商品链接：<a href="{{selectItem.link}}" target="_blank"
-                                            alt="{{selectItem.link}}">{{$ctrl.getShowLink(selectItem.link)}}</a></td>
-                                        </tr>
-										<tr ng-if="selectItem.find_product_mode==2">
-											<td>#5</td>
-											<td colspan="4">搜索关键词：{{selectItem.key_word}}</td>
-										</tr>
-										<tr ng-if="selectItem.find_product_mode==2">
-											<td>#6</td>
-											<td colspan="4">店铺名称[{{selectItem.shop_name}}];商品所在页数[{{selectItem.search_page_idx}}]</td>
-										</tr>
-									</tbody>
-									<tfoot>
-										<tr>
-											<td class="text-right" colspan="4"><strong>小计</strong></td>
-											<td ng-bind="'$' + $ctrl.commFunc.calcProductSum(selectItem).toFixed(2)"></td>
-										</tr>
-										<tr>
-											<td class="text-right" colspan="4"><strong>手续费</strong>
-											</td>
-											<td ng-bind="'$' + ($ctrl.commFunc.calcProductSum(selectItem)*selectItem.paypal_rate/100+selectItem.paypal_fee).toFixed(2)">
-											</td>
-										</tr>
-										<tr>
-											<td class="text-right" colspan="4"><strong> 总计
-											</strong></td>
-											<td class="text-danger"
-												ng-bind="'$' + $ctrl.commFunc.calcSum(selectItem).toFixed(2) + 
-												    '    (￥' + ($ctrl.commFunc.calcSum(selectItem).toFixed(2)*selectItem.exchange_rate).toFixed(2) + ')'">
-
-											</td>
-										</tr>
-									</tfoot>
-								</table>
+							    <div class="tabs-container">
+							        <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" ng-click="$ctrl.tabidx=1">订单详情</a>
+                                        </li>
+                                        <li class=""><a data-toggle="tab" ng-if="selectItem.status>1"  
+                                                    ng-click="$ctrl.tabidx=2">订单确认信息</a>
+                                        </li>
+                                        <li class=""><a data-toggle="tab" ng-if="selectItem.status>3"  
+                                                    ng-click="$ctrl.showPayInfoTab(selectItem)">付款信息</a>
+                                        </li>
+                                    </ul>
+                                    <div id="tab-1" class="tab-content" ng-if="$ctrl.tabidx==1">
+										<table class="table table-striped invoice-table">
+											<thead>
+												<tr>
+													<th width="50"></th>
+													<th></th>
+													<th width="50">数量</th>
+													<th width="100">单位价格</th>
+													<th width="180">总价</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>#1</td>
+													<td ng-bind="selectItem.product_descript"></td>
+													<td ng-bind="selectItem.product_quantity"></td>
+													<td ng-bind="'$' + selectItem.product_unit_price"></td>
+													<td ng-bind="'$' + (selectItem.product_unit_price*selectItem.product_quantity).toFixed(2)"></td>
+												</tr>
+												<tr>
+													<td>#2</td>
+													<td>运费</td>
+													<td ng-bind="selectItem.product_quantity"></td>
+													<td ng-bind="'$' + selectItem.product_unit_freight"></td>
+													<td ng-bind="'$' + (selectItem.product_unit_freight*selectItem.product_quantity).toFixed(2)"></td>
+												</tr>
+												<tr>
+													<td>#3</td>
+													<td>服务费</td>
+													<td ng-bind="selectItem.product_quantity"></td>
+													<td ng-bind="'$' + selectItem.product_unit_commission"></td>
+													<td
+														ng-bind="'$' + (selectItem.product_unit_commission*selectItem.product_quantity*selectItem.discount/100).toFixed(2) +'（折扣' + selectItem.discount + '%）'">
+													</td>
+												</tr>
+												<tr>
+		                                            <td>#4</td>
+		                                            <td>汇率</td>
+		                                            <td>-</td>
+		                                            <td ng-bind="selectItem.exchange_rate"></td>
+		                                            <td></td>
+		                                        </tr>
+		                                        <tr ng-if="selectItem.find_product_mode==1">
+		                                            <td>#5</td>
+		                                            <td colspan="4" class="underline">商品链接：<a href="{{selectItem.link}}" target="_blank"
+		                                            alt="{{selectItem.link}}">{{$ctrl.getShowLink(selectItem.link)}}</a></td>
+		                                        </tr>
+												<tr ng-if="selectItem.find_product_mode==2">
+													<td>#5</td>
+													<td colspan="4">搜索关键词：{{selectItem.key_word}}</td>
+												</tr>
+												<tr ng-if="selectItem.find_product_mode==2">
+													<td>#6</td>
+													<td colspan="4">店铺名称[{{selectItem.shop_name}}];商品所在页数[{{selectItem.search_page_idx}}]</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td class="text-right" colspan="4"><strong>小计</strong></td>
+													<td ng-bind="'$' + $ctrl.commFunc.calcProductSum(selectItem).toFixed(2)"></td>
+												</tr>
+												<tr>
+													<td class="text-right" colspan="4"><strong>手续费</strong>
+													</td>
+													<td ng-bind="'$' + ($ctrl.commFunc.calcProductSum(selectItem)*selectItem.paypal_rate/100+selectItem.paypal_fee).toFixed(2)">
+													</td>
+												</tr>
+												<tr>
+													<td class="text-right" colspan="4"><strong> 总计
+													</strong></td>
+													<td class="text-danger"
+														ng-bind="'$' + $ctrl.commFunc.calcSum(selectItem).toFixed(2) + 
+														    '    (￥' + ($ctrl.commFunc.calcSum(selectItem).toFixed(2)*selectItem.exchange_rate).toFixed(2) + ')'">
+		
+													</td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+									<div id="tab-2" class="tab-content" ng-if="$ctrl.tabidx==2">
+									   <div class="col-lg-12">
+					                        <textarea id="auditMark" class="form-control" rows="4" required style="resize:none"
+					                            ng-bind="selectItem.audit_remark" ng-disabled="true" />
+					                   </div>
+									</div>
+									<div id="tab-3" class="tab-content" ng-if="$ctrl.tabidx==3">
+									    <div class="row">
+										    <table class="table table-hover">
+	                                            <thead>
+					                                <th width="5%"></th>
+					                                <th>付款账户</th>
+					                                <th width="15%">流水号后8位</th>
+					                                <th width="24%">提交时间</th>
+					                                <th width="10%">状态</th>
+	                                            </thead>
+					                            <tbody>
+					                                <tr ng-repeat="item in selectItem.payInfos">
+					                                    <td ng-bind="$index +1"></td>
+					                                    <td ng-bind="item.payer"></td>
+					                                    <td ng-bind="item.sn"></td>
+					                                    <td ng-bind="$ctrl.commFunc.formatDate(item.pay_date)"></td>
+					                                    <td ng-bind="$ctrl.getPayStatus(item.status)"></td>
+					                                </tr>
+					                            </tbody>
+	                                        </table>
+	                                     </div>
+	                                     <div class="row">
+                                            <div class="form-group">
+					                            <label 
+					                                class="control-label col-lg-2 col-sm-1 col-md-3">付款金额
+					                            </label>
+					                            <div class="col-lg-10 col-md-9">
+					                                <label class="money">
+					                                     ￥{{$ctrl.calcPayMoney(selectItem)}}</label>
+					                            </div>
+                                            </div>
+                                        </div>
+									</div>
+								</div>
 							</div>
 						</div>
                         <div style="float:right">

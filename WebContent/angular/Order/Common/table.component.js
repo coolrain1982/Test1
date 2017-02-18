@@ -25,6 +25,8 @@ orderTableModule.component('orderTable',{
 	    this.queryOrderid = -1;
 	    this.tableShow = true;
 	    
+	    this.tabidx = 1;
+	    
 	    $scope.showuser = {};
 	    $scope.existsuser = [];
 	    $scope.existrefunds = {};
@@ -55,6 +57,7 @@ orderTableModule.component('orderTable',{
 			$scope.selectItem = item;
 			orderTable.selectItem = item;
 			orderTable.detailDialog = this.modelDialog;
+			this.tabidx = 1;
 			this.modelDialog.$promise.then(this.modelDialog.show);
 		};
 
@@ -285,6 +288,48 @@ orderTableModule.component('orderTable',{
 				alert("发生错误，请重新登录！");
 				window.location.href = "logout";
 			});
+		}
+		
+		//显示付款tab信息////////////////////////////////////////////
+		this.showPayInfoTab = function(item) {
+			this.tabidx = 3;
+			if (item.payInfos) {
+				return;
+			}
+			//获取付款信息
+			$http.get("payinfo/getAllPayInfo.do",
+				    { params:{
+				        orderid: item.order_id,
+				    }
+			}).success(function(res) {
+				if (res && res.status == 1) {
+					item.payInfos = res.payInfo;
+				} else if (res && res.status == 0) {
+					item.loadPayInfoError = res.error;
+				} else {
+					window.location="/login.html";
+				}
+		    }).error(function(data) {
+				alert("发生错误，请重新登录！");
+				window.location.href = "logout";
+			});
+		}
+		
+		this.calcPayMoney = function(item) {
+			return (commFunc.calcTotal(item).toFixed(2) * (1 + 0.001)).toFixed(2);
+		}
+		
+		this.getPayStatus = function(item) {
+			switch(item) {
+			case 1:
+				return "提交";
+			case 2:
+				return "成功";
+			case 3:
+				return "失败";
+			defalut:
+				return "无效";
+			}
 		}
 
 		// 分页////////////////////////////////////////////////////

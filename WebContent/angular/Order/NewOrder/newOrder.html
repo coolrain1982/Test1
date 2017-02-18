@@ -213,9 +213,9 @@
 								    </div>
 								    <div style="float: left;">
 										<span class="glyphicon glyphicon-ok"
-											ng-show="neworder_form.neworder_unit_freight.$dirty && neworder_form.neworder_unit_freight.$valid && neworder.unit_freight>0"></span>
+											ng-show="neworder_form.neworder_unit_freight.$dirty && neworder_form.neworder_unit_freight.$valid && neworder.unit_freight>=0"></span>
 										<span class="glyphicon glyphicon-remove"
-											ng-show="neworder_form.neworder_unit_freight.$dirty && neworder.unit_freight<=0"></span>
+											ng-show="neworder_form.neworder_unit_freight.$dirty && neworder.unit_freight<0"></span>
 									</div>
 								</div>
 							</div>
@@ -321,9 +321,9 @@
 									   style="background-color:#f40;width:182px;height:39px;vertical-align:middle;
 									     font-size:14px; font-weight:700;border-radius:0;color:white"
 										ng-click="neworder_form.$invalid || neworder.quantity<1 || neworder.unit_price<=0 
-                                          || neworder.unit_freight<=0 || neworder_submit(neworder_form.$valid)"
+                                          || neworder.unit_freight<0 || neworder_submit(neworder_form.$valid)"
 										ng-disabled="neworder_form.$invalid || neworder.quantity<1 || neworder.unit_price<=0 
-										  || neworder.unit_freight<=0">提交订单
+										  || neworder.unit_freight<0">提交订单
 									</a>
 								</div>
 							</div>
