@@ -393,5 +393,18 @@ public class OrderDaoImpl implements OrderDao {
 
 		return q.getResultList();
 	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<Order> getOrderFinish() {
+		String hql = String.format(
+				"from Order o where o.status=:status and o.product_quantity = o.ordersForReview.size"
+				);
+		
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setParameter("status", Order.IN_REVIEW);
+		
+		return q.getResultList();
+	}
 
 }

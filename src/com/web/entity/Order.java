@@ -19,6 +19,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Where;
+
 @Entity
 @Table(name = "tbl_order", schema = "meiyabuy")
 public class Order {
@@ -296,6 +298,7 @@ public class Order {
 	}
 
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+	@Where(clause="status=4")
 	public Set<OrderForReview> getOrdersForReview() {
 		return ordersForReview;
 	}
