@@ -89,7 +89,7 @@ orderTableModule.component('orderTable',{
 			case 20:
 				return "label-success";
 			case 21:
-				return "label-warning";
+				return "label-success";
 			default:
 				return "label-default";
 			}
@@ -244,6 +244,7 @@ orderTableModule.component('orderTable',{
 		this.canClick = function(item) {
 			switch (item.status) {
 			case 7:
+			case 21:
 				return true;
 			default:
 				return this.orderTable.canClick(item);
@@ -253,6 +254,7 @@ orderTableModule.component('orderTable',{
 		this.statusClick = function(item) {
 			switch (item.status) {
 			case 7:
+			case 21:
 				this.showReview(item, false);
 				return;
 			default:

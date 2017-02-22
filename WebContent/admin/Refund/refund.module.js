@@ -219,7 +219,7 @@ refundmanModule.controller("refundManController", [
 				case 20:
 					return "label-success";
 				case 21:
-					return "label-warning";
+					return "label-success";
 				default:
 					return "label-default";
 				}
