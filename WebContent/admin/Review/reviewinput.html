@@ -85,6 +85,7 @@
                                 <th width="15%">评价人账号</th>
                                 <th>评价内容</th>
                                 <th width="15%">提交时间</th>
+                                <th width="5%"></th>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="item in selectItem.reviewInfos">
@@ -93,6 +94,9 @@
                                     <td ng-bind="item.review_name"></td>
                                     <td ng-bind="item.review_remark"></td>
                                     <td ng-bind="commFunc.formatDate(item.create_date)"></td>
+                                    <td><a ng-if="item.status<4" data-toggle="tooltip" data-placement="top"
+                                         title="修改" ng-click="updateReview(item, selectItem)" tooltip>
+                                         <i class="icon_pencil-edit"></i></a></td>
                                 </tr>
                             </tbody>
                     </table>

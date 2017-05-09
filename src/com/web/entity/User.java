@@ -1,5 +1,6 @@
 package com.web.entity;
 
+import java.util.Calendar;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="tbl_user", schema="meiyabuy")
@@ -23,6 +26,7 @@ public class User {
 	private String mobile, qq;
 	private Integer flag;
 	private Integer discount;
+	private Calendar create_date;
 	private Set<Order> orders;
 	private Set<Notice> notices;
 	private Set<ExchangeRate> exchangeRates;
@@ -166,5 +170,14 @@ public class User {
 
 	public void setRefundInfos(Set<RefundInfo> refundInfos) {
 		this.refundInfos = refundInfos;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Calendar getCreate_date() {
+		return create_date;
+	}
+
+	public void setCreate_date(Calendar create_date) {
+		this.create_date = create_date;
 	}
 }

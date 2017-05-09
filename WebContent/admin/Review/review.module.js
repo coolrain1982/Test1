@@ -31,6 +31,8 @@ reviewmanModule.controller("reviewManController", [
 				$scope.statetitle="数据录入";
 				$scope.stateicon="fa fa-save";
 				$scope.postURL = "admin/addReviewInfo.do";
+				$scope.saveURL = "admin/saveReviewInfo.do";
+				$scope.submitURL = "admin/submitReviewInfo.do";
 
 				break;
 			default:
@@ -39,10 +41,13 @@ reviewmanModule.controller("reviewManController", [
 			
 			$scope.createFD = function() {
 				var fd = new FormData();
-    			fd.append("orderid", $scope.newreview.orderid);
-    			fd.append("reviewer", $scope.newreview.reviewer);
-    			fd.append("sn", $scope.newreview.sn);
-    			fd.append("remark", $scope.newreview.remark);
+    			fd.append("orderid", $scope.curSubmitReview.orderid);
+    			fd.append("reviewer",$scope.curSubmitReview.reviewer);
+    			fd.append("sn", $scope.curSubmitReview.sn); 
+    			fd.append("remark", $scope.curSubmitReview.remark);
+    			if ($scope.curSubmitReview.id) {
+    				fd.append("reviewid", $scope.curSubmitReview.id);
+    			}
     			
     			return fd;
 			}
@@ -355,32 +360,40 @@ reviewmanModule.controller("reviewManController", [
 				backdrop:'static',
 			});
 			
-			$scope.showReviewConfirm = function() {
-				$scope.newreview.error = null;
+			$scope.showReviewConfirm = function(opReview, currentModal, isNew) {
+				opReview.error = null;
 				//检查信息是否填写完整
-				if (!$scope.newreview.reviewer) {
-					$scope.newreview.error = "请输入留评账号";
+				if (!opReview.reviewer) {
+					opReview.error = "请输入留评账号";
 					return;
 				}
 				
-				if (!$scope.newreview.sn) {
-					$scope.newreview.error = "请输入亚马逊订单号";
+				if (!opReview.sn) {
+					opReview.error = "请输入亚马逊订单号";
 					return;
 				}
 				
-				if (!$scope.newreview.remark) {
-					$scope.newreview.error = "请输入留评内容";
+				if (!opReview.remark) {
+					opReview.error = "请输入留评内容";
 					return;
 				}
 				
+				$scope.curSubmitReview = opReview;
+				$scope.curModal = currentModal;
+				if (isNew == 1) {
+					$scope.postURL = "admin/addReviewInfo.do";
+				} else {
+					$scope.postURL = "admin/submitReviewInfo.do";
+				}
+								
 				$scope.confirmTitle = "确定提交该Review信息吗?";
-				$scope.newreviewModal.hide();
+				currentModal.hide();
 				$scope.newreviewConfirmModal.$promise.then($scope.newreviewConfirmModal.show);
 			}
 			
 			$scope.confirmCancel = function() {
 				$scope.newreviewConfirmModal.hide();
-				$scope.newreviewModal.$promise.then($scope.newreviewModal.show);
+				$scope.curModal.$promise.then($scope.curModal.show);
 			}
 			
 			$scope.confirmOK = function() {
@@ -398,10 +411,17 @@ reviewmanModule.controller("reviewManController", [
     					if (!$scope.selectItem.reviewInfos) {
     						$scope.selectItem.reviewInfos = [];
     					} 
+    					for(idx in $scope.selectItem.reviewInfos) {
+    						if ($scope.selectItem.reviewInfos[idx].id == data.reviewinfo.id) {
+    							$scope.selectItem.reviewInfos[idx] = data.reviewinfo;
+    							return;
+    						}
+    					}
+    					
     					$scope.selectItem.reviewInfos.push(data.reviewinfo);
     				} else if(data.status == 0) {
-    					$scope.newreview.error = data.error;
-    					$scope.newreviewModal.$promise.then($scope.newreviewModal.show);
+    					$scope.curSubmitReview.error = data.error;
+    					$scope.curModal.$promise.then($scope.curModal.show);
     				} else {
     					window.location="/login.html";
     				}	
@@ -411,5 +431,113 @@ reviewmanModule.controller("reviewManController", [
     				window.location.href = "logout";
     			});
 			}
+			
+			//保存review信息------------------------------------------------------
+			$scope.savereviewConfirmModal = $modal({
+				scope : $scope,
+				templateUrl : 'admin/Review/confirmSave.html',
+				show : false,
+				animation: 'am-fade-and-slide-top',
+				keyboard:false,
+				backdrop:'static',
+			});
+			
+			$scope.createSaveReviewFD = function() {  
+				var fd = new FormData();
+    			fd.append("orderid", $scope.currentOpReview.orderid);
+    			fd.append("reviewer", $scope.currentOpReview.reviewer);
+    			fd.append("sn", $scope.currentOpReview.sn); 
+    			if ($scope.currentOpReview.remark) {
+    				fd.append("remark", $scope.currentOpReview.remark);
+    			}
+    			if ($scope.currentOpReview.id) {
+    				fd.append("reviewid", $scope.currentOpReview.id);
+    			}
+    			
+    			return fd;
+			}
+			
+			$scope.saveReview = function(opReview, currentModal, nextModal) {
+				opReview.error = null;
+				$scope.preModal = null;
+				$scope.currentOpReview = null;
+				//检查信息是否填写完整
+				if (!opReview.reviewer) {
+					opReview.error = "请输入留评账号";
+					return;
+				}
+				
+				if (!opReview.sn) {
+					opReview.error = "请输入亚马逊订单号";
+					return;
+				}
+				
+				$scope.confirmSaveTitle = "确定保存该Review信息吗?";
+				currentModal.hide();
+				nextModal.$promise.then(nextModal.show);
+				$scope.preModal = currentModal;
+				$scope.currentOpReview = opReview;
+			}
+			
+			$scope.confirmSaveCancel = function() {
+				$scope.savereviewConfirmModal.hide();
+				$scope.preModal.$promise.then($scope.preModal.show);
+			}
+			
+			$scope.confirmSaveOK = function() {
+				$scope.start();  			
+    			$http({
+    				method:"POST",
+    				url: $scope.saveURL,
+    				data: $scope.createSaveReviewFD(),
+    				headers: {"content-type":undefined},
+    				transformRequest: angular.identity
+    			}).success(function(data) {
+    				$scope.savereviewConfirmModal.hide();
+    				$scope.complete();
+    				if(data.status == 1) {
+    					if (!$scope.selectItem.reviewInfos) {
+    						$scope.selectItem.reviewInfos = [];
+    					} 
+    					for(idx in $scope.selectItem.reviewInfos) {
+    						if ($scope.selectItem.reviewInfos[idx].id == data.reviewinfo.id) {
+    							$scope.selectItem.reviewInfos[idx] = data.reviewinfo;
+    							return;
+    						}
+    					}
+    					
+    					$scope.selectItem.reviewInfos.push(data.reviewinfo);
+    				} else if(data.status == 0) {
+    					$scope.currentOpReview.error = data.error;
+    					$scope.preModal.$promise.then($scope.preModal.show);
+    				} else {
+    					window.location="/login.html";
+    				}	
+    			}).error(function(data){
+    		    	$scope.complete();
+    				alert("发生错误，请重新登录！");
+    				window.location.href = "logout";
+    			});
+			}
+			
+			//更新review////////////////////////////////////////////////////////////////////////
+			$scope.modifyreviewModal = $modal({
+				scope : $scope,
+				templateUrl : 'admin/Review/modifyreview.html',
+				show : false,
+				animation: 'am-fade-and-slide-top',
+				keyboard:false,
+				backdrop:'static',
+			});
+			
+			$scope.updateReview = function(item, orderItem) {
+				item.sn = item.a_No;
+				item.reviewer = item.review_name;
+				item.remark = item.review_remark;
+				item.orderid = orderItem.order_id,
+				$scope.reviewForModify = item;
+				$scope.modifyreviewModal.$promise.then($scope.modifyreviewModal.show);
+			}
+			
 			
 		} ]);

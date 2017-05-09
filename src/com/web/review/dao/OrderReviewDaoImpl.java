@@ -40,4 +40,19 @@ public class OrderReviewDaoImpl implements OrderReviewDao {
 			return q.getResultList();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public OrderForReview getReviewById(long reviewid) {
+
+		String hql = "from OrderForReview r where r.id=:reviewid";
+
+		Query q = sesssionFactory.getCurrentSession().createQuery(hql);
+		q.setParameter("reviewid", reviewid);
+		List<OrderForReview> resultList = q.getResultList();
+		if (resultList.size() == 0) {
+			return null;
+		}
+		return resultList.get(0);
+	}
+
 }

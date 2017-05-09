@@ -1,5 +1,6 @@
 package com.web.user;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -107,6 +108,7 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(email);
 		user.setQq(qq);
 		user.setRole("ROLE_USER");
+		user.setCreate_date(Calendar.getInstance());
 		
 		userDao.addUser(user);	
 	}

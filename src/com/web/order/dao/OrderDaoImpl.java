@@ -398,7 +398,7 @@ public class OrderDaoImpl implements OrderDao {
 	@Override
 	public List<Order> getOrderFinish() {
 		String hql = String.format(
-				"from Order o where o.status=:status and o.product_quantity = o.ordersForReview.size"
+				"from Order o where o.status=:status and o.product_quantity <= o.ordersForReview.size"
 				);
 		
 		Query q = sesssionFactory.getCurrentSession().createQuery(hql);

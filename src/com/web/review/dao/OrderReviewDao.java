@@ -8,4 +8,5 @@ public interface OrderReviewDao {
 	public void newOrderReview(OrderForReview orderReview);
 	public void updateOrderReview(OrderForReview orderReview);
 	public List<OrderForReview> getReviews(long orderid);
+	public OrderForReview getReviewById(long reviewid);
 }

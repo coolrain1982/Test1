@@ -298,7 +298,7 @@ public class Order {
 	}
 
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-	@Where(clause="status=4")
+	@Where(clause="status>=4")
 	public Set<OrderForReview> getOrdersForReview() {
 		return ordersForReview;
 	}
